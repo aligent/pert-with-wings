@@ -4,9 +4,11 @@
   "main": "index.js",
   "license": "MIT",
   "dependencies": {
-    "bookmarklet": "^3.0.0"
+    "bookmarklet": "^3.0.0",
+    "replace-in-file": "^6.3.2"
   },
   "scripts": {
-    "build": "bookmarklet pert-source.js pert-bookmarklet.js",
+    "prebuild": "bookmarklet pert-source.js pert-bookmarklet.js",
+    "build": "node updateIndex"
   }
 }
