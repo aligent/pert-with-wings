@@ -22,9 +22,9 @@ const getTotals = arr => {
 const pertRow = document.createElement('tr');
 const pertRowHTML = `
 	<td><b>Task</b><br><input size="20" type="text" name="task" /></td>
-	<td><b>Optimistic</b><br><input required size="5" type="text" name="best" />h</td>
-	<td><b>Most Likely</b><br><input required size="5" type="text" name="likely" />h</td>
-	<td><b>Pessimistic</b><br><input required size="5" type="text" name="worst" />h</td>
+	<td><b>Optimistic</b><br><input required size="5" type="number" name="best" />h</td>
+	<td><b>Most Likely</b><br><input required size="5" type="number" name="likely" />h</td>
+	<td><b>Pessimistic</b><br><input required size="5" type="number" name="worst" />h</td>
 	<td valign="bottom" style="text-align: right">
 		<button type="button" class="pertAddRow">➕</button>
 		<button type="button" class="pertRemoveRow">➖</button>
