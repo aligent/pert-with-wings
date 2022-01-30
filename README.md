@@ -1,6 +1,6 @@
 # PERT-bookmarklet
 
-Visit [https://thilinaaligent.github.io/PERT-bookmarklet/](https://thilinaaligent.github.io/PERT-bookmarklet/)
+Visit [https://thilinaaligent.github.io/PERT-bookmarklet/](https://thilinaaligent.github.io/PERT-bookmarklet/) and drag the link to bookmarks bar
 
 1. Click on comment box to make it editable
 2. Click on bookmarklet in your bookmarks bar
