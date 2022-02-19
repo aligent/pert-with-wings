@@ -7,4 +7,4 @@ Visit [https://thilinaaligent.github.io/PERT-bookmarklet/](https://thilinaaligen
 3. Fill in the boxes
 4. Click 'Add to Comment' button
 
-![how it works](https://thilinaaligent.github.io/PERT-bookmarklet/walkthrough.gif "how it works")
+![how it works](https://thilinaaligent.github.io/PERT-bookmarklet/walkthrough2.gif "how it works")
