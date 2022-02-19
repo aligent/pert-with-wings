@@ -61,26 +61,24 @@ pertDialogWrapper.innerHTML = `<dialog id="pertDialog">
 		<table>
 			<tbody id="pertTableBody"></tbody>
 			<tbody>
-				<tr><td colspan="5"><hr></td></tr>
 				<tr>
-					<td colspan="3">Solution Design (Scoping)</td>
-					<td colspan="3"><input required type="text" name="scoping" /></td>
+					<td colspan="4">Solution Design (Scoping)</td>
+					<td colspan="1"><input required size="5" type="text" name="scoping" /></td>
 				</tr>
 				<tr>
 					<td colspan="3">Comms, Deploys and QA (20% recommended)</td>
-					<td colspan="3">
+					<td colspan="2">
 						<input required min="0" max="100" value="20" step="5" type="range" name="comms_deploys_qa" oninput="this.nextElementSibling.value = this.value"/>
 						<output>20</output>%
 					</td>
 				</tr>
 				<tr>
 					<td colspan="3">Code review and Fixes (10% recommended)</td>
-					<td colspan="3">
+					<td colspan="2">
 						<input required min="0" max="100" value="10" step="5" type="range" name="code_review" oninput="this.nextElementSibling.value = this.value"/> 
 						<output>10</output>%
 					</td>
 				</tr>
-				<tr><td colspan="5"><hr></td></tr>
 			</tbody>
 			<tfoot>
 				<tr>	
