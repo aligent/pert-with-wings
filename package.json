@@ -10,5 +10,8 @@
   "scripts": {
     "prebuild": "bookmarklet pert-source.js pert-bookmarklet.js",
     "build": "node updateIndex"
+  },
+  "devDependencies": {
+    "prettier": "2.5.1"
   }
 }
