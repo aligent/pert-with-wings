@@ -7,7 +7,7 @@
  */
 const toTimeString = (minutes) => {
     return `${Math.floor(minutes / 60)}h${
-        minutes % 60 ? ` ${Math.floor(minutes % 60)}m` : ''
+        minutes % 60 ? ` ${String(Math.floor(minutes % 60)).padStart(2, '0')}m` : ''
     }`
 }
 
@@ -243,10 +243,10 @@ pertDialog.addEventListener('close', function onClose() {
 	<table>
 		<tbody>
 			<tr>
-				<td rowspan="1" colspan="1"><p>PERT Development Time</p></td>
-				<td rowspan="1" colspan="1"><p>${toTimeString(
+				<td rowspan="1" colspan="1"><p><strong data-renderer-mark="true">PERT Development Time</strong></p></td>
+				<td rowspan="1" colspan="1"><p><strong data-renderer-mark="true">${toTimeString(
                     pertDevelopmentTotalMinutes
-                )}</p></td>
+                )}</strong></p></td>
 			</tr>
 			<tr>
 				<td rowspan="1" colspan="1"><p>Solution Design</p></td>
