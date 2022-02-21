@@ -46,9 +46,9 @@ const getMinutes = (timeValue) => {
 const pertRow = document.createElement('tr')
 const pertRowHTML = `
 	<td><b>Task</b><br><input size="20" type="text" name="task" /></td>
-	<td><b>Optimistic</b><br><input required size="5" type="text" name="best" /></td>
-	<td><b>Most Likely</b><br><input required size="5" type="text" name="likely" /></td>
-	<td><b>Pessimistic</b><br><input required size="5" type="text" name="worst" /></td>
+	<td><b>Best Case</b><br><input required size="5" type="text" name="best" /></td>
+	<td><b>Likely</b><br><input required size="5" type="text" name="likely" /></td>
+	<td><b>Worst Case</b><br><input required size="5" type="text" name="worst" /></td>
 	<td valign="bottom" style="text-align: right">
 		<button type="button" class="pertAddRow">➕</button>
 		<button type="button" class="pertRemoveRow">➖</button>
@@ -232,9 +232,9 @@ pertDialog.addEventListener('close', function onClose() {
                         ? ''
                         : `<th rowspan="1" colspan="1"><p><strong data-renderer-mark="true">Task</strong></p></th>`
                 }
-				<th rowspan="1" colspan="1"><p data-renderer-start-pos="4"><strong data-renderer-mark="true">Optimistic</strong></p></th>
-				<th rowspan="1" colspan="1"><p data-renderer-start-pos="12"><strong data-renderer-mark="true">Most Likely</strong></p></th>
-				<th rowspan="1" colspan="1"><p data-renderer-start-pos="22"><strong data-renderer-mark="true">Pessimistic</strong></p></th>
+				<th rowspan="1" colspan="1"><p data-renderer-start-pos="4"><strong data-renderer-mark="true">Best Case</strong></p></th>
+				<th rowspan="1" colspan="1"><p data-renderer-start-pos="12"><strong data-renderer-mark="true">Likely</strong></p></th>
+				<th rowspan="1" colspan="1"><p data-renderer-start-pos="22"><strong data-renderer-mark="true">Worst Case</strong></p></th>
 				<th rowspan="1" colspan="1"><p data-renderer-start-pos="31"><strong data-renderer-mark="true">PERT</strong></p></th>
 			</tr>
 			${rowHTML.join('')}
