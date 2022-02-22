@@ -7,7 +7,9 @@
  */
 const toTimeString = (minutes) => {
     return `${Math.floor(minutes / 60)}h${
-        minutes % 60 ? ` ${String(Math.floor(minutes % 60)).padStart(2, '0')}m` : ''
+        minutes % 60
+            ? ` ${String(Math.floor(minutes % 60)).padStart(2, '0')}m`
+            : ''
     }`
 }
 
@@ -82,10 +84,11 @@ pertDialogWrapper.innerHTML = `<dialog id="pertDialog">
 			</tbody>
 			<tfoot>
 				<tr>	
-					<td colspan="3">
-						<button id="pertSubmit" type="submit">Add to Comment</button>
+					<td colspan="2">
+						<label><input type="checkbox" name="updateOriginalEstimate" /> Update original esitmate field</label>
 					</td>
-					<td colspan="2" style="text-align: right">
+					<td colspan="3" style="text-align: right">
+						<button id="pertSubmit" type="submit">Add to Comment</button>
 						<button value="cancel" formnovalidate>Cancel</button>
 					</td>
 				</tr>
@@ -184,6 +187,8 @@ pertDialog.addEventListener('close', function onClose() {
         scoping: getMinutes(formData.get('scoping')),
         comms_deploys_qa: parseInt(formData.get('comms_deploys_qa')),
         code_review: parseInt(formData.get('code_review')),
+        update_original_estimate:
+            'on' === formData.get('updateOriginalEstimate'),
     }
 
     const rowHTML = pertData.task.map((_, index) => {
@@ -218,6 +223,13 @@ pertDialog.addEventListener('close', function onClose() {
         (pertDevelopmentTotalMinutes * pertData.code_review) / 100
 
     const commentBox = document.querySelector('[contenteditable="true"]')
+
+    const toalEstimate = toTimeString(
+        pertDevelopmentTotalMinutes +
+            pertData.scoping +
+            commsDeploysQaMinutes +
+            codeReviewMinutes
+    )
 
     // clear the message box if it's just the placeholder
     if (commentBox.innerHTML.includes('Add a comment\u2026')) {
@@ -263,15 +275,44 @@ pertDialog.addEventListener('close', function onClose() {
 			<tr>
 				<td rowspan="1" colspan="1"><p><strong data-renderer-mark="true">Total Estimate</strong></p></td>
 				<td rowspan="1" colspan="1">
-					<p><strong data-renderer-mark="true">${toTimeString(
-                        pertDevelopmentTotalMinutes +
-                            pertData.scoping +
-                            commsDeploysQaMinutes +
-                            codeReviewMinutes
-                    )}</strong></p>
+					<p><strong data-renderer-mark="true">${toalEstimate}</strong></p>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	`
+
+    // Fill Original Esitmate field in JIRA ticket
+    if (pertData.update_original_estimate) {
+        // Click the field to put the input field onto the page
+        document
+            .querySelectorAll(
+                '[data-test-id="issue-field-original-estimate.ui.view"]'
+            )[0]
+            .click()
+
+        // Save the input field for reference
+        const input = document
+            .querySelectorAll(
+                '[data-test-id="issue-field-original-estimate.ui.edit"]'
+            )[0]
+            .querySelector('input')
+
+        // Basically call the "set" method in this weird way
+        Object.getOwnPropertyDescriptor(
+            window.HTMLInputElement.prototype,
+            'value'
+        ).set.call(input, toalEstimate)
+
+        // Fire the input event manually so react actually recognises the change
+        input.dispatchEvent(new Event('input', { bubbles: true }))
+
+        // Click the confirm button
+        document
+            .querySelectorAll(
+                '[data-test-id="issue-view.issue-base.context.original-estimate.timeoriginalestimate"]'
+            )[0]
+            .querySelector('button')
+            .click()
+    }
 })
