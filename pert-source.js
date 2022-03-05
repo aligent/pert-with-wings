@@ -33,8 +33,9 @@ const getTotals = (arr) => {
 const getMinutes = (timeValue) => {
     if (!timeValue) return 0
 
-    const timeValueParts = [...timeValue.matchAll(/(\d+(?:\.\d+)?)+(h|m)/gi)];
-    if (timeValueParts.length) { // we are dealing with a hour minutes string
+    const timeValueParts = [...timeValue.matchAll(/(\d+(?:\.\d+)?)+(h|m)/gi)]
+    if (timeValueParts.length) {
+        // we are dealing with a hour minutes string
         const hours = timeValueParts
             .map((item) =>
                 item.at(-1) === 'h'
@@ -81,7 +82,7 @@ pertDialogWrapper.innerHTML = `<dialog id="pertDialog">
 						<input required min="0" max="100" value="20" step="5" type="range" name="comms_deploys_qa" oninput="this.nextElementSibling.value = this.value"/>
 						<output>20</output>% or 
                         <input size="5" type="text" name="comms_deploys_qa_override" placeholder="override" />
-					</td>
+                    </td>
 				</tr>
 				<tr>
 					<td colspan="2">
@@ -91,7 +92,7 @@ pertDialogWrapper.innerHTML = `<dialog id="pertDialog">
 						<input required min="0" max="100" value="10" step="5" type="range" name="code_review" oninput="this.nextElementSibling.value = this.value"/> 
 						<output>10</output>% or
                         <input size="5" type="text" name="code_review_override" placeholder="override" />
-					</td>
+                    </td>
 				</tr>
 			</tbody>
 			<tfoot>
