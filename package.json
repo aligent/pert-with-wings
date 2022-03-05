@@ -8,6 +8,7 @@
     "replace-in-file": "^6.3.2"
   },
   "scripts": {
+    "prettier:fix": "yarn prettier --write pert-source.js",
     "prebuild": "bookmarklet pert-source.js pert-bookmarklet.js",
     "build": "node updateIndex"
   },
