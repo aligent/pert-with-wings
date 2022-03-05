@@ -70,18 +70,27 @@ pertDialogWrapper.innerHTML = `<dialog id="pertDialog">
 					<td colspan="4">Solution Design (Scoping)</td>
 					<td colspan="1"><input required size="5" type="text" name="scoping" /></td>
 				</tr>
+            </tbody>
+            <tbody>
+                <tr><td colspan="5"><small>Use override fields to switch to non percentage based time</small></td></tr>
 				<tr>
-					<td colspan="3">Comms, Deploys and QA (20% recommended)</td>
 					<td colspan="2">
+                        Comms, Deploys and QA (20% recommended)
+                    </td>
+					<td colspan="3" style="text-align: right">
 						<input required min="0" max="100" value="20" step="5" type="range" name="comms_deploys_qa" oninput="this.nextElementSibling.value = this.value"/>
-						<output>20</output>%
+						<output>20</output>% or 
+                        <input size="5" type="text" name="comms_deploys_qa_override" placeholder="override" />
 					</td>
 				</tr>
 				<tr>
-					<td colspan="3">Code review and Fixes (10% recommended)</td>
 					<td colspan="2">
+                        Code review and Fixes (10% recommended)
+                    </td>
+					<td colspan="3" style="text-align: right">
 						<input required min="0" max="100" value="10" step="5" type="range" name="code_review" oninput="this.nextElementSibling.value = this.value"/> 
-						<output>10</output>%
+						<output>10</output>% or
+                        <input size="5" type="text" name="code_review_override" placeholder="override" />
 					</td>
 				</tr>
 			</tbody>
@@ -189,7 +198,9 @@ pertDialog.addEventListener('close', function onClose() {
         worst: formData.getAll('worst').map((a) => getMinutes(a)),
         scoping: getMinutes(formData.get('scoping')),
         comms_deploys_qa: parseInt(formData.get('comms_deploys_qa')),
+        comms_deploys_qa_override: formData.get('comms_deploys_qa_override'),
         code_review: parseInt(formData.get('code_review')),
+        code_review_override: formData.get('code_review_override'),
         update_original_estimate:
             'on' === formData.get('updateOriginalEstimate'),
     }
@@ -220,10 +231,12 @@ pertDialog.addEventListener('close', function onClose() {
     })
 
     const pertDevelopmentTotalMinutes = getTotals(pertValues)
-    const commsDeploysQaMinutes =
-        (pertDevelopmentTotalMinutes * pertData.comms_deploys_qa) / 100
-    const codeReviewMinutes =
-        (pertDevelopmentTotalMinutes * pertData.code_review) / 100
+    const commsDeploysQaMinutes = pertData.comms_deploys_qa_override
+        ? getMinutes(pertData.comms_deploys_qa_override)
+        : (pertDevelopmentTotalMinutes * pertData.comms_deploys_qa) / 100
+    const codeReviewMinutes = pertData.code_review_override
+        ? getMinutes(pertData.code_review_override)
+        : (pertDevelopmentTotalMinutes * pertData.code_review) / 100
 
     const commentBox = document.querySelector('[contenteditable="true"]')
 
