@@ -98,7 +98,7 @@ pertDialogWrapper.innerHTML = `<dialog id="pertDialog">
 			<tfoot>
 				<tr>	
 					<td colspan="2">
-						<label><input type="checkbox" name="updateOriginalEstimate" /> Update original esitmate field</label>
+						<label><input type="checkbox" name="updateOriginalEstimate" /> Update original estimate field</label>
 					</td>
 					<td colspan="3" style="text-align: right">
 						<button id="pertSubmit" type="submit">Add to Comment</button>
@@ -299,7 +299,7 @@ pertDialog.addEventListener('close', function onClose() {
 	</table>
 	`
 
-    // Fill Original Esitmate field in JIRA ticket
+    // Fill Original Estimate field in JIRA ticket
     if (pertData.update_original_estimate) {
         // Click the field to put the input field onto the page
         document
