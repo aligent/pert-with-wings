@@ -277,18 +277,36 @@ pertDialog.addEventListener('close', function onClose() {
                     pertDevelopmentTotalMinutes
                 )}</strong></p></td>
 			</tr>
+            ${
+                pertData.scoping
+                    ? `
 			<tr>
 				<td rowspan="1" colspan="1"><p>Solution Design</p></td>
 				<td rowspan="1" colspan="1"><p>${toTimeString(pertData.scoping)}</p></td>
 			</tr>
+            `
+                    : ''
+            }
+            ${
+                commsDeploysQaMinutes
+                    ? `
 			<tr>
 				<td rowspan="1" colspan="1"><p>Comms, Deploys and QA</p></td>
 				<td rowspan="1" colspan="1"><p>${toTimeString(commsDeploysQaMinutes)}</p></td>
 			</tr>
+            `
+                    : ''
+            }
+            ${
+                codeReviewMinutes
+                    ? `
 			<tr>
 				<td rowspan="1" colspan="1"><p>Code Review and Fixes</p></td>
 				<td rowspan="1" colspan="1"><p>${toTimeString(codeReviewMinutes)}</p></td>
 			</tr>
+            `
+                    : ''
+            }
 			<tr>
 				<td rowspan="1" colspan="1"><p><strong data-renderer-mark="true">Total Estimate</strong></p></td>
 				<td rowspan="1" colspan="1">
