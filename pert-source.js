@@ -1,3 +1,18 @@
+
+(function init() {
+
+if (document.querySelector('#pertDialog')) {
+    alert('You already have a PERT Dialog in this Window')
+    return
+}
+
+const commentBox = document.querySelector('[contenteditable="true"]')
+
+if (!commentBox) {
+    alert('Please click on comment box before using PERT bookmarklet.')
+    return
+}
+
 /**
  * Convert minute estimate to hours and minutes string
  * eg 130 -> 2h 10m
@@ -239,8 +254,6 @@ pertDialog.addEventListener('close', function onClose() {
         ? getMinutes(pertData.code_review_override)
         : (pertDevelopmentTotalMinutes * pertData.code_review) / 100
 
-    const commentBox = document.querySelector('[contenteditable="true"]')
-
     const toalEstimate = toTimeString(
         pertDevelopmentTotalMinutes +
             pertData.scoping +
@@ -253,7 +266,7 @@ pertDialog.addEventListener('close', function onClose() {
         commentBox.innerHTML = ''
     }
 
-    commentBox.innerHTML += `<table data-number-column="false">
+    const pertHTML = `<table data-number-column="false">
 		<tbody>
 			<tr>
 				${
@@ -317,6 +330,8 @@ pertDialog.addEventListener('close', function onClose() {
 	</table>
 	`
 
+    commentBox.innerHTML += pertHTML
+
     // Fill Original Estimate field in JIRA ticket
     if (pertData.update_original_estimate) {
         // Click the field to put the input field onto the page
@@ -351,3 +366,4 @@ pertDialog.addEventListener('close', function onClose() {
             .click()
     }
 })
+})()
