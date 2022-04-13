@@ -94,8 +94,8 @@ pertDialogWrapper.innerHTML = `<div id="pertDialog">
 			<tbody id="pertTableBody"></tbody>
 			<tbody>
 				<tr>
-					<td colspan="4">Solution Design (Scoping)</td>
-					<td colspan="1"><input required size="5" type="text" name="scoping" /></td>
+					<td colspan="4">Solution Design (Scoping / Investigation)</td>
+					<td colspan="1" style="text-align: right"><input required size="5" type="text" name="scoping" /></td>
 				</tr>
             </tbody>
             <tbody>
