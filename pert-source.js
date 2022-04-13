@@ -64,6 +64,8 @@ const getMinutes = (timeValue) => {
     }
 }
 
+const PERT_DIALOG_SHADOW = '0px 0px 100px 0px'
+const PERT_DIALOG_WRAPPER_INSET = '0'
 const pertRow = document.createElement('tr')
 const pertRowHTML = `
 	<td><b>Task</b><br><input size="20" type="text" name="task" /></td>
@@ -76,9 +78,18 @@ const pertRowHTML = `
 	</td>`
 
 const pertDialogWrapper = document.createElement('div')
-pertDialogWrapper.innerHTML = `<dialog id="pertDialog">
-	<form  id="pertForm" method="dialog">
-		<p>Time values can be either hour value (1.5) or hours and minutes (1h 30m)</p>
+pertDialogWrapper.style.cssText = `--pertDialogWrapperInset: ${PERT_DIALOG_WRAPPER_INSET};
+position: fixed;
+z-index: 9999;
+display: flex;
+justify-content: center;
+align-items: center;
+backdrop-filter: blur(5px);
+inset: var(--pertDialogWrapperInset);`
+pertDialogWrapper.innerHTML = `<div id="pertDialog">
+    <button type="button" id="pertToggle">Minimize PERT Dialog 🗕</button>
+	<form id="pertForm" method="dialog">
+        <p>Time values can be either hour value (1.5) or hours and minutes (1h 30m)</p>
 		<table>
 			<tbody id="pertTableBody"></tbody>
 			<tbody>
@@ -117,7 +128,7 @@ pertDialogWrapper.innerHTML = `<dialog id="pertDialog">
 					</td>
 					<td colspan="3" style="text-align: right">
 						<button id="pertSubmit" type="submit">Add to Comment</button>
-						<button value="cancel" formnovalidate>Cancel</button>
+						<button id="pertCancel" value="cancel" formnovalidate>Cancel</button>
 					</td>
 				</tr>
 			</tfoot>
@@ -127,8 +138,13 @@ pertDialogWrapper.innerHTML = `<dialog id="pertDialog">
 document.body.appendChild(pertDialogWrapper)
 
 const pertDialog = document.getElementById('pertDialog')
+pertDialog.style.cssText = `--pertDialogShadow: ${PERT_DIALOG_SHADOW};
+background: white;
+padding: 20px;
+box-shadow: var(--pertDialogShadow);
+border-radius: 10px;
+}`
 const pertForm = document.getElementById('pertForm')
-const pertSubmit = document.getElementById('pertSubmit')
 const pertTableBody = document.getElementById('pertTableBody')
 const pertValues = []
 
@@ -137,9 +153,7 @@ pertRow.innerHTML = pertRowHTML
 pertTableBody.appendChild(pertRow)
 // remove the remove button since we don't want to remove a single row
 pertTableBody.querySelector('.pertRemoveRow').hidden = true
-// show modal
-pertDialog.showModal()
-
+pertDialog.querySelector('[name="task"]').focus()
 /**
  * Add a new estimate row
  *
@@ -178,6 +192,38 @@ const handlePertRemoveRow = (e) => {
 }
 
 /**
+ * Remove popup when clicked on cancel button
+ *
+ * @param {Event} e click event
+ * @returns {void}
+ */
+ const handlePertCancel = (e) => {
+    e.preventDefault()
+    pertDialogWrapper.remove();
+}
+
+/**
+ * Show / hide pert dialog
+ *
+ * @param {Event} e click event
+ * @returns {void}
+ */
+ const handlePertToggle = (e) => {
+    e.preventDefault()
+    if (pertForm.style.display !== 'none') {
+        e.target.textContent = 'Maximise PERT Dialog 🗖'
+        pertForm.style.display = 'none'
+        pertDialogWrapper.style.setProperty('--pertDialogWrapperInset', 'auto auto 20px 20px')
+        pertDialog.style.setProperty('--pertDialogShadow', 'none')
+    } else {
+        e.target.textContent = 'Minimize PERT Dialog 🗕'
+        pertForm.style.display = 'block'
+        pertDialogWrapper.style.setProperty('--pertDialogWrapperInset', PERT_DIALOG_WRAPPER_INSET)
+        pertDialog.style.setProperty('--pertDialogShadow', PERT_DIALOG_SHADOW)
+    }
+}
+
+/**
  * Attach handlers based on class
  *
  * @param {Event} e click event
@@ -191,19 +237,26 @@ const pertDialogHandlers = (e) => {
     if (e.target && e.target.classList.contains('pertRemoveRow')) {
         handlePertRemoveRow(e)
     }
+
+    if (e.target && e.target.attributes.id?.value === 'pertCancel') {
+        handlePertCancel(e)
+    }
+    
+    if (e.target && e.target.attributes.id?.value === 'pertToggle') {
+        handlePertToggle(e)
+    }
 }
 
 // attach events to document so we can add items dynamically
 document.addEventListener('click', pertDialogHandlers, true)
 
-pertDialog.addEventListener('close', function onClose() {
+pertForm.addEventListener('submit', function(e) {
+    e.preventDefault()
+
     // remove event listeners
     document.removeEventListener('click', pertDialogHandlers, true)
     // remove dialog
-    pertDialog.remove()
-
-    // if its cancrl action, do nothing
-    if (pertDialog.returnValue === 'cancel') return
+    pertDialogWrapper.remove();
 
     const formData = new FormData(pertForm)
 
