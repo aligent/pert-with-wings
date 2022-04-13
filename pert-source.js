@@ -120,6 +120,16 @@ pertDialogWrapper.innerHTML = `<div id="pertDialog">
                         <input size="5" type="text" name="code_review_override" placeholder="override" />
                     </td>
 				</tr>
+                <tr>
+					<td colspan="2">
+                        Automated Tests
+                    </td>
+					<td colspan="3" style="text-align: right">
+						<input required min="0" max="100" value="0" step="5" type="range" name="automated_tests" oninput="this.nextElementSibling.value = this.value"/> 
+						<output>0</output>% or
+                        <input size="5" type="text" name="automated_tests_override" placeholder="override" />
+                    </td>
+				</tr>
 			</tbody>
 			<tfoot>
 				<tr>	
@@ -270,6 +280,8 @@ pertForm.addEventListener('submit', function(e) {
         comms_deploys_qa_override: formData.get('comms_deploys_qa_override'),
         code_review: parseInt(formData.get('code_review')),
         code_review_override: formData.get('code_review_override'),
+        automated_tests: parseInt(formData.get('automated_tests')),
+        automated_tests_override: formData.get('automated_tests_override'),
         update_original_estimate:
             'on' === formData.get('updateOriginalEstimate'),
     }
@@ -306,12 +318,16 @@ pertForm.addEventListener('submit', function(e) {
     const codeReviewMinutes = pertData.code_review_override
         ? getMinutes(pertData.code_review_override)
         : (pertDevelopmentTotalMinutes * pertData.code_review) / 100
+    const automatedTestsMinutes = pertData.automated_tests_override
+        ? getMinutes(pertData.automated_tests_override)
+        : (pertDevelopmentTotalMinutes * pertData.automated_tests) / 100
 
     const toalEstimate = toTimeString(
         pertDevelopmentTotalMinutes +
             pertData.scoping +
             commsDeploysQaMinutes +
-            codeReviewMinutes
+            codeReviewMinutes +
+            automatedTestsMinutes
     )
 
     // clear the message box if it's just the placeholder
@@ -369,6 +385,16 @@ pertForm.addEventListener('submit', function(e) {
 			<tr>
 				<td rowspan="1" colspan="1"><p>Code Review and Fixes</p></td>
 				<td rowspan="1" colspan="1"><p>${toTimeString(codeReviewMinutes)}</p></td>
+			</tr>
+            `
+                    : ''
+            }
+            ${
+                automatedTestsMinutes
+                    ? `
+			<tr>
+				<td rowspan="1" colspan="1"><p>Automated Tests</p></td>
+				<td rowspan="1" colspan="1"><p>${toTimeString(automatedTestsMinutes)}</p></td>
 			</tr>
             `
                     : ''
