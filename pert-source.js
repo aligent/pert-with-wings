@@ -138,9 +138,8 @@ align-items: center;
 ${pertConfig.backdrop_blur === 'true' ? 'backdrop-filter: blur(5px);' : ''}
 inset: var(--pertDialogWrapperInset);`
     const pertFormHtml = `<div id="pertDialog">
-pertDialogWrapper.innerHTML = `<div id="pertDialog">
-    <button type="button" id="pertToggle">Minimize PERT Dialog 🗕</button>
-	<form id="pertForm" method="dialog">
+    <button style="float: right" type="button" id="pertToggle">Minimize PERT Dialog</button>
+    <div id="pertDialogContent">
     ${pertConfigHtml}
 	<form id="pertForm">
         <p>Time values can be either hour value (1.5) or hours and minutes (1h 30m)</p>
@@ -284,16 +283,25 @@ const handlePertRemoveRow = (e) => {
  */
  const handlePertToggle = (e) => {
     e.preventDefault()
-    if (pertForm.style.display !== 'none') {
-        e.target.textContent = 'Maximise PERT Dialog 🗖'
-        pertForm.style.display = 'none'
-        pertDialogWrapper.style.setProperty('--pertDialogWrapperInset', 'auto auto 20px 20px')
+        if (pertDialogContent.style.display !== 'none') {
+            e.target.textContent = 'Maximise PERT Dialog'
+            pertDialogContent.style.display = 'none'
+            pertDialogWrapper.style.setProperty(
+                '--pertDialogWrapperInset',
+                'auto auto 20px 20px'
+            )
         pertDialog.style.setProperty('--pertDialogShadow', 'none')
     } else {
-        e.target.textContent = 'Minimize PERT Dialog 🗕'
-        pertForm.style.display = 'block'
-        pertDialogWrapper.style.setProperty('--pertDialogWrapperInset', PERT_DIALOG_WRAPPER_INSET)
-        pertDialog.style.setProperty('--pertDialogShadow', PERT_DIALOG_SHADOW)
+            e.target.textContent = 'Minimize PERT Dialog'
+            pertDialogContent.style.display = 'block'
+            pertDialogWrapper.style.setProperty(
+                '--pertDialogWrapperInset',
+                PERT_DIALOG_WRAPPER_INSET
+            )
+            pertDialog.style.setProperty(
+                '--pertDialogShadow',
+                PERT_DIALOG_SHADOW
+            )
     }
 }
 
