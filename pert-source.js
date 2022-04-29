@@ -332,10 +332,6 @@ border-radius: 10px;
         if (e.target && e.target.attributes.id?.value === 'pertToggle') {
             handlePertToggle(e)
         }
-
-        // if (e.target && e.target.attributes.id?.value === 'pertConfigSubmit') {
-        //     handlePertConfigSubmit(e)
-        // }
     }
 
     // attach events to document so we can add items dynamically
