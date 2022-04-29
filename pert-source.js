@@ -4,7 +4,13 @@
         return
     }
 
-    const commentBox = document.querySelector('[contenteditable="true"]')
+    // Newer versions of JIRA has a div with attribute contenteditable="true" as the comment box
+    // Older versions of JIRA has an element with id `tinymce` inside an iframe as the comment box (eg. KMD)
+    const commentBox =
+        document
+            .getElementById('mce_0_ifr')
+            .contentWindow.document.getElementById('tinymce') ||
+        document.querySelector('[contenteditable="true"]')
 
     if (!commentBox) {
         alert('Please click on comment box before using PERT bookmarklet.')
