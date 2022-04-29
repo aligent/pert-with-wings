@@ -1,17 +1,15 @@
+;(function init() {
+    if (document.querySelector('#pertDialog')) {
+        alert('You already have a PERT Dialog in this Window')
+        return
+    }
 
-(function init() {
+    const commentBox = document.querySelector('[contenteditable="true"]')
 
-if (document.querySelector('#pertDialog')) {
-    alert('You already have a PERT Dialog in this Window')
-    return
-}
-
-const commentBox = document.querySelector('[contenteditable="true"]')
-
-if (!commentBox) {
-    alert('Please click on comment box before using PERT bookmarklet.')
-    return
-}
+    if (!commentBox) {
+        alert('Please click on comment box before using PERT bookmarklet.')
+        return
+    }
 
     const getSavedPertConfig = function () {
         const savedPertConfig = localStorage.getItem(PERT_STORAGE_KEY)
@@ -34,56 +32,58 @@ if (!commentBox) {
         backdrop_blur: savedPertConfig?.backdrop_blur || true,
     }
 
-/**
- * Convert minute estimate to hours and minutes string
- * eg 130 -> 2h 10m
- *
- * @param {number} minutes estimate in minutes
- * @returns {string} hours and minutes string
- */
-const toTimeString = (minutes) => {
-    return `${Math.floor(minutes / 60)}h${
-        minutes % 60
-            ? ` ${String(Math.floor(minutes % 60)).padStart(2, '0')}m`
-            : ''
-    }`
-}
-
-/**
- * Get total of an array of estimates as a hours and minutes string
- *
- * @param {Array} arr Array containing estimates
- * @returns {string} hours and minutes string
- */
-const getTotals = (arr) => {
-    return arr.reduce((prev, current) => prev + current, 0)
-}
-
-/**
- * Get minutes from time value
- * input can be either hour value (1.5) or hour minutes string (1h 30m)
- *
- * @param {String} timeValue hour value (1.5) or hour minutes string (1h 30m)
- * @returns {number} minutes
- */
-const getMinutes = (timeValue) => {
-    if (!timeValue) return 0
-
-    const timeValueParts = [...timeValue.matchAll(/(\d+(?:\.\d+)?)+(h|m)/gi)]
-    if (timeValueParts.length) {
-        // we are dealing with a hour minutes string
-        const hours = timeValueParts
-            .map((item) =>
-                item.at(-1) === 'h'
-                    ? Number(item[0].replace(/h|m/i, ''))
-                    : Number(item[0].replace(/h|m/i, '')) / 60
-            )
-            .reduce((a, b) => a + b)
-        return Math.floor(hours * 60)
-    } else {
-        return Math.floor(Number(timeValue) * 60)
+    /**
+     * Convert minute estimate to hours and minutes string
+     * eg 130 -> 2h 10m
+     *
+     * @param {number} minutes estimate in minutes
+     * @returns {string} hours and minutes string
+     */
+    const toTimeString = (minutes) => {
+        return `${Math.floor(minutes / 60)}h${
+            minutes % 60
+                ? ` ${String(Math.floor(minutes % 60)).padStart(2, '0')}m`
+                : ''
+        }`
     }
-}
+
+    /**
+     * Get total of an array of estimates as a hours and minutes string
+     *
+     * @param {Array} arr Array containing estimates
+     * @returns {string} hours and minutes string
+     */
+    const getTotals = (arr) => {
+        return arr.reduce((prev, current) => prev + current, 0)
+    }
+
+    /**
+     * Get minutes from time value
+     * input can be either hour value (1.5) or hour minutes string (1h 30m)
+     *
+     * @param {String} timeValue hour value (1.5) or hour minutes string (1h 30m)
+     * @returns {number} minutes
+     */
+    const getMinutes = (timeValue) => {
+        if (!timeValue) return 0
+
+        const timeValueParts = [
+            ...timeValue.matchAll(/(\d+(?:\.\d+)?)+(h|m)/gi),
+        ]
+        if (timeValueParts.length) {
+            // we are dealing with a hour minutes string
+            const hours = timeValueParts
+                .map((item) =>
+                    item.at(-1) === 'h'
+                        ? Number(item[0].replace(/h|m/i, ''))
+                        : Number(item[0].replace(/h|m/i, '')) / 60
+                )
+                .reduce((a, b) => a + b)
+            return Math.floor(hours * 60)
+        } else {
+            return Math.floor(Number(timeValue) * 60)
+        }
+    }
 
     /**
      * Defaults will be saved in localStorage based on project.
@@ -115,10 +115,10 @@ const getMinutes = (timeValue) => {
         </form>
     </details>`
 
-const PERT_DIALOG_SHADOW = '0px 0px 100px 0px'
-const PERT_DIALOG_WRAPPER_INSET = '0'
-const pertRow = document.createElement('tr')
-const pertRowHTML = `
+    const PERT_DIALOG_SHADOW = '0px 0px 100px 0px'
+    const PERT_DIALOG_WRAPPER_INSET = '0'
+    const pertRow = document.createElement('tr')
+    const pertRowHTML = `
 	<td><b>Task</b><br><input size="20" type="text" name="task" /></td>
 	<td><b>Best Case</b><br><input required size="5" type="text" name="best" /></td>
 	<td><b>Likely</b><br><input required size="5" type="text" name="likely" /></td>
@@ -128,8 +128,8 @@ const pertRowHTML = `
 		<button type="button" class="pertRemoveRow">➖</button>
 	</td>`
 
-const pertDialogWrapper = document.createElement('div')
-pertDialogWrapper.style.cssText = `--pertDialogWrapperInset: ${PERT_DIALOG_WRAPPER_INSET};
+    const pertDialogWrapper = document.createElement('div')
+    pertDialogWrapper.style.cssText = `--pertDialogWrapperInset: ${PERT_DIALOG_WRAPPER_INSET};
 position: fixed;
 z-index: 9999;
 display: flex;
@@ -206,83 +206,86 @@ inset: var(--pertDialogWrapperInset);`
     </div>
 	</dialog>`
     pertDialogWrapper.innerHTML = pertFormHtml
-document.body.appendChild(pertDialogWrapper)
+    document.body.appendChild(pertDialogWrapper)
 
-const pertDialog = document.getElementById('pertDialog')
-pertDialog.style.cssText = `--pertDialogShadow: ${PERT_DIALOG_SHADOW};
+    const pertDialog = document.getElementById('pertDialog')
+    pertDialog.style.cssText = `--pertDialogShadow: ${PERT_DIALOG_SHADOW};
 background: white;
 padding: 20px;
 box-shadow: var(--pertDialogShadow);
 border-radius: 10px;
 }`
-const pertForm = document.getElementById('pertForm')
+    const pertForm = document.getElementById('pertForm')
     const pertDialogContent = document.getElementById('pertDialogContent')
-const pertTableBody = document.getElementById('pertTableBody')
-const pertValues = []
+    const pertTableBody = document.getElementById('pertTableBody')
+    const pertValues = []
 
-// clone row
-pertRow.innerHTML = pertRowHTML
-pertTableBody.appendChild(pertRow)
-// remove the remove button since we don't want to remove a single row
-pertTableBody.querySelector('.pertRemoveRow').hidden = true
-pertDialog.querySelector('[name="task"]').focus()
+    // clone row
+    pertRow.innerHTML = pertRowHTML
+    pertTableBody.appendChild(pertRow)
+    // remove the remove button since we don't want to remove a single row
+    pertTableBody.querySelector('.pertRemoveRow').hidden = true
+    pertDialog.querySelector('[name="task"]').focus()
 
-/**
- * Add a new estimate row
- *
- * @param {Event} e click event
- * @returns {void}
- */
-const handlePertAddRow = (e) => {
-    e.preventDefault()
-    const addButton = e.target
-    addButton.hidden = true
-    // clone a new row
-    const newPertRow = document.createElement('tr')
-    newPertRow.innerHTML = pertRowHTML
-    pertTableBody.appendChild(newPertRow)
-    console.log('here')
-    // focus new title field
-    addButton.closest('tr').nextSibling.querySelector('[name="task"]').focus()
-}
-
-/**
- * Remove estimate row
- *
- * @param {Event} e click event
- * @returns {void}
- */
-const handlePertRemoveRow = (e) => {
-    e.preventDefault()
-    const removeButton = e.target
-    const thisRow = removeButton.closest('tr')
-    const previousRow = thisRow.previousElementSibling
-    if (thisRow.nextSibling === null) {
-        // if previous row is the last row, show add row button
-        previousRow.querySelector('.pertAddRow').hidden = false
+    /**
+     * Add a new estimate row
+     *
+     * @param {Event} e click event
+     * @returns {void}
+     */
+    const handlePertAddRow = (e) => {
+        e.preventDefault()
+        const addButton = e.target
+        addButton.hidden = true
+        // clone a new row
+        const newPertRow = document.createElement('tr')
+        newPertRow.innerHTML = pertRowHTML
+        pertTableBody.appendChild(newPertRow)
+        console.log('here')
+        // focus new title field
+        addButton
+            .closest('tr')
+            .nextSibling.querySelector('[name="task"]')
+            .focus()
     }
-    thisRow.remove()
-}
 
-/**
- * Remove popup when clicked on cancel button
- *
- * @param {Event} e click event
- * @returns {void}
- */
- const handlePertCancel = (e) => {
-    e.preventDefault()
-    pertDialogWrapper.remove();
-}
+    /**
+     * Remove estimate row
+     *
+     * @param {Event} e click event
+     * @returns {void}
+     */
+    const handlePertRemoveRow = (e) => {
+        e.preventDefault()
+        const removeButton = e.target
+        const thisRow = removeButton.closest('tr')
+        const previousRow = thisRow.previousElementSibling
+        if (thisRow.nextSibling === null) {
+            // if previous row is the last row, show add row button
+            previousRow.querySelector('.pertAddRow').hidden = false
+        }
+        thisRow.remove()
+    }
 
-/**
- * Show / hide pert dialog
- *
- * @param {Event} e click event
- * @returns {void}
- */
- const handlePertToggle = (e) => {
-    e.preventDefault()
+    /**
+     * Remove popup when clicked on cancel button
+     *
+     * @param {Event} e click event
+     * @returns {void}
+     */
+    const handlePertCancel = (e) => {
+        e.preventDefault()
+        pertDialogWrapper.remove()
+    }
+
+    /**
+     * Show / hide pert dialog
+     *
+     * @param {Event} e click event
+     * @returns {void}
+     */
+    const handlePertToggle = (e) => {
+        e.preventDefault()
         if (pertDialogContent.style.display !== 'none') {
             e.target.textContent = 'Maximise PERT Dialog'
             pertDialogContent.style.display = 'none'
@@ -290,8 +293,8 @@ const handlePertRemoveRow = (e) => {
                 '--pertDialogWrapperInset',
                 'auto auto 20px 20px'
             )
-        pertDialog.style.setProperty('--pertDialogShadow', 'none')
-    } else {
+            pertDialog.style.setProperty('--pertDialogShadow', 'none')
+        } else {
             e.target.textContent = 'Minimize PERT Dialog'
             pertDialogContent.style.display = 'block'
             pertDialogWrapper.style.setProperty(
@@ -302,73 +305,81 @@ const handlePertRemoveRow = (e) => {
                 '--pertDialogShadow',
                 PERT_DIALOG_SHADOW
             )
-    }
-}
-
-/**
- * Attach handlers based on class
- *
- * @param {Event} e click event
- * @returns {void}
- */
-const pertDialogHandlers = (e) => {
-    if (e.target && e.target.classList.contains('pertAddRow')) {
-        handlePertAddRow(e)
+        }
     }
 
-    if (e.target && e.target.classList.contains('pertRemoveRow')) {
-        handlePertRemoveRow(e)
+    const pertConfigForm = document.getElementById('pertConfigForm')
+
+    /**
+     * Attach handlers based on class
+     *
+     * @param {Event} e click event
+     * @returns {void}
+     */
+    const pertDialogHandlers = (e) => {
+        if (e.target && e.target.classList.contains('pertAddRow')) {
+            handlePertAddRow(e)
+        }
+
+        if (e.target && e.target.classList.contains('pertRemoveRow')) {
+            handlePertRemoveRow(e)
+        }
+
+        if (e.target && e.target.attributes.id?.value === 'pertCancel') {
+            handlePertCancel(e)
+        }
+
+        if (e.target && e.target.attributes.id?.value === 'pertToggle') {
+            handlePertToggle(e)
+        }
+
+        // if (e.target && e.target.attributes.id?.value === 'pertConfigSubmit') {
+        //     handlePertConfigSubmit(e)
+        // }
     }
 
-    if (e.target && e.target.attributes.id?.value === 'pertCancel') {
-        handlePertCancel(e)
-    }
-    
-    if (e.target && e.target.attributes.id?.value === 'pertToggle') {
-        handlePertToggle(e)
-    }
-}
+    // attach events to document so we can add items dynamically
+    document.addEventListener('click', pertDialogHandlers, true)
 
-// attach events to document so we can add items dynamically
-document.addEventListener('click', pertDialogHandlers, true)
+    pertForm.addEventListener('submit', function (e) {
+        e.preventDefault()
 
-pertForm.addEventListener('submit', function(e) {
-    e.preventDefault()
+        // remove event listeners
+        document.removeEventListener('click', pertDialogHandlers, true)
+        // remove dialog
+        pertDialogWrapper.remove()
 
-    // remove event listeners
-    document.removeEventListener('click', pertDialogHandlers, true)
-    // remove dialog
-    pertDialogWrapper.remove();
+        const formData = new FormData(pertForm)
 
-    const formData = new FormData(pertForm)
+        const pertData = {
+            task: formData.getAll('task'),
+            best: formData.getAll('best').map((a) => getMinutes(a)),
+            likely: formData.getAll('likely').map((a) => getMinutes(a)),
+            worst: formData.getAll('worst').map((a) => getMinutes(a)),
+            scoping: getMinutes(formData.get('scoping')),
+            comms_deploys_qa: parseInt(formData.get('comms_deploys_qa')),
+            comms_deploys_qa_override: formData.get(
+                'comms_deploys_qa_override'
+            ),
+            code_review: parseInt(formData.get('code_review')),
+            code_review_override: formData.get('code_review_override'),
+            automated_tests: parseInt(formData.get('automated_tests')),
+            automated_tests_override: formData.get('automated_tests_override'),
+            update_original_estimate:
+                'on' === formData.get('updateOriginalEstimate'),
+        }
 
-    const pertData = {
-        task: formData.getAll('task'),
-        best: formData.getAll('best').map((a) => getMinutes(a)),
-        likely: formData.getAll('likely').map((a) => getMinutes(a)),
-        worst: formData.getAll('worst').map((a) => getMinutes(a)),
-        scoping: getMinutes(formData.get('scoping')),
-        comms_deploys_qa: parseInt(formData.get('comms_deploys_qa')),
-        comms_deploys_qa_override: formData.get('comms_deploys_qa_override'),
-        code_review: parseInt(formData.get('code_review')),
-        code_review_override: formData.get('code_review_override'),
-        automated_tests: parseInt(formData.get('automated_tests')),
-        automated_tests_override: formData.get('automated_tests_override'),
-        update_original_estimate:
-            'on' === formData.get('updateOriginalEstimate'),
-    }
-
-    const rowHTML = pertData.task.map((_, index) => {
-        const best = toTimeString(pertData.best[index])
-        const likely = toTimeString(pertData.likely[index])
-        const worst = toTimeString(pertData.worst[index])
-        const pert =
-            (pertData.best[index] +
-                4 * pertData.likely[index] +
-                pertData.worst[index]) /
-            6
-        pertValues.push(pert)
-        return `<tr>
+        const rowHTML = pertData.task.map((_, index) => {
+            const best = toTimeString(pertData.best[index])
+            const likely = toTimeString(pertData.likely[index])
+            const worst = toTimeString(pertData.worst[index])
+            const pert =
+                (pertData.best[index] +
+                    4 * pertData.likely[index] +
+                    pertData.worst[index]) /
+                6
+            pertValues.push(pert)
+            return `<tr>
 			${
                 pertData.task[0] === '' && pertData.task.length === 1
                     ? ''
@@ -381,33 +392,33 @@ pertForm.addEventListener('submit', function(e) {
                 pert
             )}</p></td>
 		</tr>`
-    })
+        })
 
-    const pertDevelopmentTotalMinutes = getTotals(pertValues)
-    const commsDeploysQaMinutes = pertData.comms_deploys_qa_override
-        ? getMinutes(pertData.comms_deploys_qa_override)
-        : (pertDevelopmentTotalMinutes * pertData.comms_deploys_qa) / 100
-    const codeReviewMinutes = pertData.code_review_override
-        ? getMinutes(pertData.code_review_override)
-        : (pertDevelopmentTotalMinutes * pertData.code_review) / 100
-    const automatedTestsMinutes = pertData.automated_tests_override
-        ? getMinutes(pertData.automated_tests_override)
-        : (pertDevelopmentTotalMinutes * pertData.automated_tests) / 100
+        const pertDevelopmentTotalMinutes = getTotals(pertValues)
+        const commsDeploysQaMinutes = pertData.comms_deploys_qa_override
+            ? getMinutes(pertData.comms_deploys_qa_override)
+            : (pertDevelopmentTotalMinutes * pertData.comms_deploys_qa) / 100
+        const codeReviewMinutes = pertData.code_review_override
+            ? getMinutes(pertData.code_review_override)
+            : (pertDevelopmentTotalMinutes * pertData.code_review) / 100
+        const automatedTestsMinutes = pertData.automated_tests_override
+            ? getMinutes(pertData.automated_tests_override)
+            : (pertDevelopmentTotalMinutes * pertData.automated_tests) / 100
 
-    const toalEstimate = toTimeString(
-        pertDevelopmentTotalMinutes +
-            pertData.scoping +
-            commsDeploysQaMinutes +
-            codeReviewMinutes +
-            automatedTestsMinutes
-    )
+        const toalEstimate = toTimeString(
+            pertDevelopmentTotalMinutes +
+                pertData.scoping +
+                commsDeploysQaMinutes +
+                codeReviewMinutes +
+                automatedTestsMinutes
+        )
 
-    // clear the message box if it's just the placeholder
-    if (commentBox.innerHTML.includes('Add a comment\u2026')) {
-        commentBox.innerHTML = ''
-    }
+        // clear the message box if it's just the placeholder
+        if (commentBox.innerHTML.includes('Add a comment\u2026')) {
+            commentBox.innerHTML = ''
+        }
 
-    const pertHTML = `<table data-number-column="false">
+        const pertHTML = `<table data-number-column="false">
 		<tbody>
 			<tr>
 				${
@@ -481,42 +492,42 @@ pertForm.addEventListener('submit', function(e) {
 	</table>
 	`
 
-    commentBox.innerHTML += pertHTML
+        commentBox.innerHTML += pertHTML
 
-    // Fill Original Estimate field in JIRA ticket
-    if (pertData.update_original_estimate) {
-        // Click the field to put the input field onto the page
-        document
-            .querySelectorAll(
-                '[data-test-id="issue-field-original-estimate.ui.view"]'
-            )[0]
-            .click()
+        // Fill Original Estimate field in JIRA ticket
+        if (pertData.update_original_estimate) {
+            // Click the field to put the input field onto the page
+            document
+                .querySelectorAll(
+                    '[data-test-id="issue-field-original-estimate.ui.view"]'
+                )[0]
+                .click()
 
-        // Save the input field for reference
-        const input = document
-            .querySelectorAll(
-                '[data-test-id="issue-field-original-estimate.ui.edit"]'
-            )[0]
-            .querySelector('input')
+            // Save the input field for reference
+            const input = document
+                .querySelectorAll(
+                    '[data-test-id="issue-field-original-estimate.ui.edit"]'
+                )[0]
+                .querySelector('input')
 
-        // Basically call the "set" method in this weird way
-        Object.getOwnPropertyDescriptor(
-            window.HTMLInputElement.prototype,
-            'value'
-        ).set.call(input, toalEstimate)
+            // Basically call the "set" method in this weird way
+            Object.getOwnPropertyDescriptor(
+                window.HTMLInputElement.prototype,
+                'value'
+            ).set.call(input, toalEstimate)
 
-        // Fire the input event manually so react actually recognises the change
-        input.dispatchEvent(new Event('input', { bubbles: true }))
+            // Fire the input event manually so react actually recognises the change
+            input.dispatchEvent(new Event('input', { bubbles: true }))
 
-        // Click the confirm button
-        document
-            .querySelectorAll(
-                '[data-test-id="issue-view.issue-base.context.original-estimate.timeoriginalestimate"]'
-            )[0]
-            .querySelector('button')
-            .click()
-    }
-})
+            // Click the confirm button
+            document
+                .querySelectorAll(
+                    '[data-test-id="issue-view.issue-base.context.original-estimate.timeoriginalestimate"]'
+                )[0]
+                .querySelector('button')
+                .click()
+        }
+    })
 
     pertConfigForm.addEventListener('submit', function (e) {
         e.preventDefault()
