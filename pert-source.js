@@ -29,7 +29,7 @@
             savedPertConfig?.code_review_default_percentage || 10,
         automated_tests_default_percentage:
             savedPertConfig?.automated_tests_default_percentage || 0,
-        backdrop_blur: savedPertConfig?.backdrop_blur || true,
+        backdrop_blur: savedPertConfig?.backdrop_blur || 'true',
     }
 
     /**
