@@ -13,6 +13,27 @@ if (!commentBox) {
     return
 }
 
+    const getSavedPertConfig = function () {
+        const savedPertConfig = localStorage.getItem(PERT_STORAGE_KEY)
+
+        if (!savedPertConfig) return {}
+
+        return JSON.parse(savedPertConfig)
+    }
+
+    const PERT_STORAGE_KEY = 'pertConfig'
+    const savedPertConfig = getSavedPertConfig()
+
+    const pertConfig = {
+        comms_deploys_qa_default_percentage:
+            savedPertConfig?.comms_deploys_qa_default_percentage || 20,
+        code_review_default_percentage:
+            savedPertConfig?.code_review_default_percentage || 10,
+        automated_tests_default_percentage:
+            savedPertConfig?.automated_tests_default_percentage || 0,
+        backdrop_blur: savedPertConfig?.backdrop_blur || true,
+    }
+
 /**
  * Convert minute estimate to hours and minutes string
  * eg 130 -> 2h 10m
@@ -64,6 +85,36 @@ const getMinutes = (timeValue) => {
     }
 }
 
+    /**
+     * Defaults will be saved in localStorage based on project.
+     * Each JIRA board is in a different subdomain.
+     * eg <project-name>.atlassian.net
+     */
+    const pertConfigHtml = `<details>
+        <summary>⚙️ <strong>${
+            window.location.hostname.split('.')?.[0].toUpperCase() || ''
+        }</strong> PERT defaults</summary>
+            <form id="pertConfigForm">
+            <table id="pertConfig">
+            ${Object.entries(pertConfig)
+                .map(
+                    ([key, value]) =>
+                        `<tr>
+                            <td>
+                                <label>${key.split('_').join(' ')}</label>
+                            </td>
+                            <td style="text-align: right">
+                                <input name="${key}" required size="5" value="${value}">
+                            </td>
+                        </tr>`
+                )
+                .join('')}
+            </table>
+            <button id="pertConfigSubmit" type="submit">Save Config</button> 
+            <small>Saved in LocalStorage and only applicable to this JIRA project.</small>
+        </form>
+    </details>`
+
 const PERT_DIALOG_SHADOW = '0px 0px 100px 0px'
 const PERT_DIALOG_WRAPPER_INSET = '0'
 const pertRow = document.createElement('tr')
@@ -84,11 +135,14 @@ z-index: 9999;
 display: flex;
 justify-content: center;
 align-items: center;
-backdrop-filter: blur(5px);
+${pertConfig.backdrop_blur === 'true' ? 'backdrop-filter: blur(5px);' : ''}
 inset: var(--pertDialogWrapperInset);`
+    const pertFormHtml = `<div id="pertDialog">
 pertDialogWrapper.innerHTML = `<div id="pertDialog">
     <button type="button" id="pertToggle">Minimize PERT Dialog 🗕</button>
 	<form id="pertForm" method="dialog">
+    ${pertConfigHtml}
+	<form id="pertForm">
         <p>Time values can be either hour value (1.5) or hours and minutes (1h 30m)</p>
 		<table>
 			<tbody id="pertTableBody"></tbody>
@@ -102,21 +156,25 @@ pertDialogWrapper.innerHTML = `<div id="pertDialog">
                 <tr><td colspan="5"><small>Use override fields to switch to non percentage based time</small></td></tr>
 				<tr>
 					<td colspan="2">
-                        Comms, Deploys and QA (20% recommended)
+                        Comms, Deploys and QA (${pertConfig.comms_deploys_qa_default_percentage}% recommended)
                     </td>
-					<td colspan="3" style="text-align: right">
-						<input required min="0" max="100" value="20" step="5" type="range" name="comms_deploys_qa" oninput="this.nextElementSibling.value = this.value"/>
-						<output>20</output>% or 
+					<td colspan="2" style="text-align: left">
+						<input required min="0" max="100" value="${pertConfig.comms_deploys_qa_default_percentage}" step="5" type="range" name="comms_deploys_qa" oninput="this.nextElementSibling.value = this.value"/>
+						<output>${pertConfig.comms_deploys_qa_default_percentage}</output>% or 
+                    </td>
+                    <td style="text-align: right">
                         <input size="5" type="text" name="comms_deploys_qa_override" placeholder="override" />
                     </td>
 				</tr>
 				<tr>
 					<td colspan="2">
-                        Code review and Fixes (10% recommended)
+                        Code review and Fixes (${pertConfig.code_review_default_percentage}% recommended)
                     </td>
-					<td colspan="3" style="text-align: right">
-						<input required min="0" max="100" value="10" step="5" type="range" name="code_review" oninput="this.nextElementSibling.value = this.value"/> 
-						<output>10</output>% or
+                    <td colspan="2" style="text-align: left">
+						<input required min="0" max="100" value="${pertConfig.code_review_default_percentage}" step="5" type="range" name="code_review" oninput="this.nextElementSibling.value = this.value"/> 
+						<output>${pertConfig.code_review_default_percentage}</output>% or
+                    </td>
+                    <td style="text-align: right">
                         <input size="5" type="text" name="code_review_override" placeholder="override" />
                     </td>
 				</tr>
@@ -124,9 +182,11 @@ pertDialogWrapper.innerHTML = `<div id="pertDialog">
 					<td colspan="2">
                         Automated Tests
                     </td>
-					<td colspan="3" style="text-align: right">
-						<input required min="0" max="100" value="0" step="5" type="range" name="automated_tests" oninput="this.nextElementSibling.value = this.value"/> 
-						<output>0</output>% or
+					<td colspan="2" style="text-align: left">
+						<input required min="0" max="100" value="${pertConfig.automated_tests_default_percentage}" step="5" type="range" name="automated_tests" oninput="this.nextElementSibling.value = this.value"/> 
+						<output>${pertConfig.automated_tests_default_percentage}</output>% or
+                    </td>
+                    <td style="text-align: right">
                         <input size="5" type="text" name="automated_tests_override" placeholder="override" />
                     </td>
 				</tr>
@@ -144,7 +204,9 @@ pertDialogWrapper.innerHTML = `<div id="pertDialog">
 			</tfoot>
 		</table>
 	</form>
+    </div>
 	</dialog>`
+    pertDialogWrapper.innerHTML = pertFormHtml
 document.body.appendChild(pertDialogWrapper)
 
 const pertDialog = document.getElementById('pertDialog')
@@ -155,6 +217,7 @@ box-shadow: var(--pertDialogShadow);
 border-radius: 10px;
 }`
 const pertForm = document.getElementById('pertForm')
+    const pertDialogContent = document.getElementById('pertDialogContent')
 const pertTableBody = document.getElementById('pertTableBody')
 const pertValues = []
 
@@ -164,6 +227,7 @@ pertTableBody.appendChild(pertRow)
 // remove the remove button since we don't want to remove a single row
 pertTableBody.querySelector('.pertRemoveRow').hidden = true
 pertDialog.querySelector('[name="task"]').focus()
+
 /**
  * Add a new estimate row
  *
@@ -445,4 +509,21 @@ pertForm.addEventListener('submit', function(e) {
             .click()
     }
 })
+
+    pertConfigForm.addEventListener('submit', function (e) {
+        e.preventDefault()
+
+        const configFormData = new FormData(pertConfigForm)
+        const configFormDataObject = {}
+        ;[...configFormData.entries()].forEach(([key, value]) => {
+            configFormDataObject[key] = value
+        })
+
+        localStorage.setItem(
+            PERT_STORAGE_KEY,
+            JSON.stringify(configFormDataObject)
+        )
+
+        pertDialogWrapper.remove()
+    })
 })()
