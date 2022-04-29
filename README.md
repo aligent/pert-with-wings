@@ -10,13 +10,5 @@ Visit [https://thilinaaligent.github.io/PERT-bookmarklet/](https://thilinaaligen
 ## Troubleshooting
 To get this working in firefox, go to about:config and set dom.dialog_element.enabled to true
 
-## Changelog
-
-### 2022-04-29
-- Add minifiy modal button
-- Add project based default value content
-- Add automated tests row
-- Add warning if comment box is not in edit mode
-
 
 ![how it works](https://thilinaaligent.github.io/PERT-bookmarklet/walkthrough3.gif "how it works")
