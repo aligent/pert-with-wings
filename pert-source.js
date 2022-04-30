@@ -9,7 +9,7 @@
     const commentBox =
         document
             .getElementById('mce_0_ifr')
-            .contentWindow.document.getElementById('tinymce') ||
+            ?.contentWindow.document.getElementById('tinymce') ||
         document.querySelector('[contenteditable="true"]')
 
     if (!commentBox) {
