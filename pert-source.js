@@ -8,7 +8,7 @@
     // Older versions of JIRA has an element with id `tinymce` inside an iframe as the comment box (eg. KMD)
     const commentBox =
         document
-            .getElementById('mce_0_ifr')
+            .querySelector(`iframe[id^="mce_"]`)
             ?.contentWindow.document.getElementById('tinymce') ||
         document.querySelector('[contenteditable="true"]')
 
