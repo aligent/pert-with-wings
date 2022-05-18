@@ -97,7 +97,7 @@
      * eg <project-name>.atlassian.net
      */
     const pertConfigHtml = `<details>
-        <summary>⚙️ <strong>${
+        <summary style="cursor: pointer;">⚙️ <strong>${
             window.location.hostname.split('.')?.[0].toUpperCase() || ''
         }</strong> PERT defaults</summary>
             <form id="pertConfigForm">
