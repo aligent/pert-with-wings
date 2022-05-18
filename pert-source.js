@@ -27,6 +27,8 @@
 
     const PERT_STORAGE_KEY = 'pertConfig'
     const savedPertConfig = getSavedPertConfig()
+    const VALIDATE_HOUR_MINUTES =
+        'pattern="^((\\d*\\.?\\d+)[Mm]?|((\\d*\\.?\\d+)[Hh] ?((\\d*\\.?\\d+)[Mm])?))$" title="Time values can be either hour value (1.5) or hours and minutes (1h 30m)"'
 
     const pertConfig = {
         comms_deploys_qa_default_percentage:
@@ -126,9 +128,9 @@
     const pertRow = document.createElement('tr')
     const pertRowHTML = `
 	<td><b>Task</b><br><input size="20" type="text" name="task" /></td>
-	<td><b>Best Case</b><br><input required size="5" type="text" name="best" /></td>
-	<td><b>Likely</b><br><input required size="5" type="text" name="likely" /></td>
-	<td><b>Worst Case</b><br><input required size="5" type="text" name="worst" /></td>
+	<td><b>Best Case</b><br><input required size="5" ${VALIDATE_HOUR_MINUTES} type="text" name="best" /></td>
+	<td><b>Likely</b><br><input required size="5" ${VALIDATE_HOUR_MINUTES} type="text" name="likely" /></td>
+	<td><b>Worst Case</b><br><input required size="5" ${VALIDATE_HOUR_MINUTES} type="text" name="worst" /></td>
 	<td valign="bottom" style="text-align: right">
 		<button type="button" class="pertAddRow">➕</button>
 		<button type="button" class="pertRemoveRow">➖</button>
@@ -154,7 +156,7 @@ inset: var(--pertDialogWrapperInset);`
 			<tbody>
 				<tr>
 					<td colspan="4">Solution Design (Scoping / Investigation)</td>
-					<td colspan="1" style="text-align: right"><input required size="5" type="text" name="scoping" /></td>
+					<td colspan="1" style="text-align: right"><input required size="5" ${VALIDATE_HOUR_MINUTES} type="text" name="scoping" /></td>
 				</tr>
             </tbody>
             <tbody>
@@ -168,7 +170,7 @@ inset: var(--pertDialogWrapperInset);`
 						<output>${pertConfig.comms_deploys_qa_default_percentage}</output>% or 
                     </td>
                     <td style="text-align: right">
-                        <input size="5" type="text" name="comms_deploys_qa_override" placeholder="override" />
+                        <input size="5" type="text" ${VALIDATE_HOUR_MINUTES} name="comms_deploys_qa_override" placeholder="override" />
                     </td>
 				</tr>
 				<tr>
@@ -180,7 +182,7 @@ inset: var(--pertDialogWrapperInset);`
 						<output>${pertConfig.code_review_default_percentage}</output>% or
                     </td>
                     <td style="text-align: right">
-                        <input size="5" type="text" name="code_review_override" placeholder="override" />
+                        <input size="5" type="text" ${VALIDATE_HOUR_MINUTES} name="code_review_override" placeholder="override" />
                     </td>
 				</tr>
                 <tr>
@@ -192,7 +194,7 @@ inset: var(--pertDialogWrapperInset);`
 						<output>${pertConfig.automated_tests_default_percentage}</output>% or
                     </td>
                     <td style="text-align: right">
-                        <input size="5" type="text" name="automated_tests_override" placeholder="override" />
+                        <input size="5" type="text" ${VALIDATE_HOUR_MINUTES} name="automated_tests_override" placeholder="override" />
                     </td>
 				</tr>
 			</tbody>
