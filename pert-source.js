@@ -38,8 +38,7 @@
         automated_tests_default_percentage:
             savedPertConfig?.automated_tests_default_percentage || 0,
         backdrop_blur: savedPertConfig?.backdrop_blur || 'true',
-        round_to_closest_minutes:
-            savedPertConfig?.round_to_closest_minutes || 10,
+        round_to_next_minutes: savedPertConfig?.round_to_next_minutes || 10,
     }
 
     /**
@@ -68,24 +67,20 @@
     }
 
     /**
-     * Round to closest minutes defined in config
+     * Round to next closest minutes defined in config
      * if set to 0, don't round
      *
      * @param {number} minutes calculated minutes
-     * @returns {number} minutes rounted to closest minutes defined in config
+     * @returns {number} minutes rounted to next minutes defined in config
      */
     const roundMinutes = (minutes) => {
-        const roundToClosestMinutes = parseInt(
-            pertConfig.round_to_closest_minutes
-        )
+        const roundToNextMinutes = parseInt(pertConfig.round_to_next_minutes)
 
-        if (!roundToClosestMinutes) {
+        if (!roundToNextMinutes) {
             return minutes
         }
 
-        return (
-            Math.ceil(minutes / roundToClosestMinutes) * roundToClosestMinutes
-        )
+        return Math.ceil(minutes / roundToNextMinutes) * roundToNextMinutes
     }
 
     /**
@@ -174,6 +169,7 @@ inset: var(--pertDialogWrapperInset);`
     ${pertConfigHtml}
 	<form id="pertForm">
         <p>Time values can be either hour value (1.5) or hours and minutes (1h 30m)</p>
+        <p>Totals will be rounded to next ${pertConfig.round_to_next_minutes} minutes</p>
 		<table>
 			<tbody id="pertTableBody"></tbody>
 			<tbody>
