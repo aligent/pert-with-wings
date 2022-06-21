@@ -200,10 +200,7 @@ inset: var(--pertDialogWrapperInset);`
 			</tbody>
 			<tfoot>
 				<tr>	
-					<td colspan="2">
-						<label><input type="checkbox" name="updateOriginalEstimate" /> Update original estimate field</label>
-					</td>
-					<td colspan="3" style="text-align: right">
+					<td colspan="5" style="text-align: right">
 						<button id="pertSubmit" type="submit">Add to Comment</button>
 						<button id="pertCancel" value="cancel" formnovalidate>Cancel</button>
 					</td>
@@ -369,8 +366,6 @@ border-radius: 10px;
             code_review_override: formData.get('code_review_override'),
             automated_tests: parseInt(formData.get('automated_tests')),
             automated_tests_override: formData.get('automated_tests_override'),
-            update_original_estimate:
-                'on' === formData.get('updateOriginalEstimate'),
         }
 
         const rowHTML = pertData.task.map((_, index) => {
@@ -497,40 +492,6 @@ border-radius: 10px;
 	`
 
         commentBox.innerHTML += pertHTML
-
-        // Fill Original Estimate field in JIRA ticket
-        if (pertData.update_original_estimate) {
-            // Click the field to put the input field onto the page
-            document
-                .querySelectorAll(
-                    '[data-test-id="issue-field-original-estimate.ui.view"]'
-                )[0]
-                .click()
-
-            // Save the input field for reference
-            const input = document
-                .querySelectorAll(
-                    '[data-test-id="issue-field-original-estimate.ui.edit"]'
-                )[0]
-                .querySelector('input')
-
-            // Basically call the "set" method in this weird way
-            Object.getOwnPropertyDescriptor(
-                window.HTMLInputElement.prototype,
-                'value'
-            ).set.call(input, toalEstimate)
-
-            // Fire the input event manually so react actually recognises the change
-            input.dispatchEvent(new Event('input', { bubbles: true }))
-
-            // Click the confirm button
-            document
-                .querySelectorAll(
-                    '[data-test-id="issue-view.issue-base.context.original-estimate.timeoriginalestimate"]'
-                )[0]
-                .querySelector('button')
-                .click()
-        }
     })
 
     pertConfigForm.addEventListener('submit', function (e) {
