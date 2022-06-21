@@ -38,6 +38,8 @@
         automated_tests_default_percentage:
             savedPertConfig?.automated_tests_default_percentage || 0,
         backdrop_blur: savedPertConfig?.backdrop_blur || 'true',
+        round_to_closest_minutes:
+            savedPertConfig?.round_to_closest_minutes || 10,
     }
 
     /**
@@ -63,6 +65,27 @@
      */
     const getTotals = (arr) => {
         return arr.reduce((prev, current) => prev + current, 0)
+    }
+
+    /**
+     * Round to closest minutes defined in config
+     * if set to 0, don't round
+     *
+     * @param {number} minutes calculated minutes
+     * @returns {number} minutes rounted to closest minutes defined in config
+     */
+    const roundMinutes = (minutes) => {
+        const roundToClosestMinutes = parseInt(
+            pertConfig.round_to_closest_minutes
+        )
+
+        if (!roundToClosestMinutes) {
+            return minutes
+        }
+
+        return (
+            Math.ceil(minutes / roundToClosestMinutes) * roundToClosestMinutes
+        )
     }
 
     /**
@@ -377,7 +400,7 @@ border-radius: 10px;
                     4 * pertData.likely[index] +
                     pertData.worst[index]) /
                 6
-            pertValues.push(pert)
+            pertValues.push(roundMinutes(pert))
             return `<tr>
 			${
                 pertData.task[0] === '' && pertData.task.length === 1
@@ -388,25 +411,34 @@ border-radius: 10px;
 			<td rowspan="1" colspan="1" data-colwidth="115"><p>${likely}</p></td>
 			<td rowspan="1" colspan="1" data-colwidth="115"><p>${worst}</p></td>
 			<td rowspan="1" colspan="1" data-colwidth="115"><p>${toTimeString(
-                pert
+                roundMinutes(pert)
             )}</p></td>
 		</tr>`
         })
 
         const pertDevelopmentTotalMinutes = getTotals(pertValues)
         const commsDeploysQaMinutes = pertData.comms_deploys_qa_override
-            ? getMinutes(pertData.comms_deploys_qa_override)
-            : (pertDevelopmentTotalMinutes * pertData.comms_deploys_qa) / 100
+            ? roundMinutes(getMinutes(pertData.comms_deploys_qa_override))
+            : roundMinutes(
+                  (pertDevelopmentTotalMinutes * pertData.comms_deploys_qa) /
+                      100
+              )
         const codeReviewMinutes = pertData.code_review_override
-            ? getMinutes(pertData.code_review_override)
-            : (pertDevelopmentTotalMinutes * pertData.code_review) / 100
+            ? roundMinutes(getMinutes(pertData.code_review_override))
+            : roundMinutes(
+                  (pertDevelopmentTotalMinutes * pertData.code_review) / 100
+              )
         const automatedTestsMinutes = pertData.automated_tests_override
-            ? getMinutes(pertData.automated_tests_override)
-            : (pertDevelopmentTotalMinutes * pertData.automated_tests) / 100
+            ? roundMinutes(getMinutes(pertData.automated_tests_override))
+            : roundMinutes(
+                  (pertDevelopmentTotalMinutes * pertData.automated_tests) / 100
+              )
+
+        const scopingMinutes = roundMinutes(pertData.scoping)
 
         const toalEstimate = toTimeString(
             pertDevelopmentTotalMinutes +
-                pertData.scoping +
+                scopingMinutes +
                 commsDeploysQaMinutes +
                 codeReviewMinutes +
                 automatedTestsMinutes
@@ -442,11 +474,11 @@ border-radius: 10px;
                 )}</strong></p></td>
 			</tr>
             ${
-                pertData.scoping
+                scopingMinutes
                     ? `
 			<tr>
 				<td rowspan="1" colspan="1"><p>Solution Design</p></td>
-				<td rowspan="1" colspan="1"><p>${toTimeString(pertData.scoping)}</p></td>
+				<td rowspan="1" colspan="1"><p>${toTimeString(scopingMinutes)}</p></td>
 			</tr>
             `
                     : ''
