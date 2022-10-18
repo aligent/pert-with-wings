@@ -9,8 +9,10 @@
     const commentBox =
         document
             .querySelector(`iframe[id^="mce_"]`)
-            ?.contentWindow.document.getElementById('tinymce') ||
-        document.querySelector('[contenteditable="true"]')
+            ?.contentWindow.document.getElementById('tinymce') || // old jira comment
+            document.querySelector('[aria-label="edit-box"]') || // Azupre devops edit mode
+            document.querySelector('[aria-label="Discussion"]') || // Azure devops comment
+        document.querySelector('[contenteditable="true"]') // new jira comment
 
     if (!commentBox) {
         alert('Please click on comment box before using PERT bookmarklet.')
@@ -401,14 +403,14 @@ border-radius: 10px;
 			${
                 pertData.task[0] === '' && pertData.task.length === 1
                     ? ''
-                    : `<td rowspan="1" colspan="1"><p>${pertData.task[index]}</p></td>`
+                    : `<td rowspan="1" colspan="1">${pertData.task[index]}</td>`
             }
-			<td rowspan="1" colspan="1" data-colwidth="115"><p>${best}</p></td>
-			<td rowspan="1" colspan="1" data-colwidth="115"><p>${likely}</p></td>
-			<td rowspan="1" colspan="1" data-colwidth="115"><p>${worst}</p></td>
-			<td rowspan="1" colspan="1" data-colwidth="115"><p>${toTimeString(
+			<td rowspan="1" colspan="1" data-colwidth="115">${best}</td>
+			<td rowspan="1" colspan="1" data-colwidth="115">${likely}</td>
+			<td rowspan="1" colspan="1" data-colwidth="115">${worst}</td>
+			<td rowspan="1" colspan="1" data-colwidth="115">${toTimeString(
                 roundMinutes(pert)
-            )}</p></td>
+            )}</td>
 		</tr>`
         })
 
@@ -451,12 +453,12 @@ border-radius: 10px;
 				${
                     pertData.task[0] === '' && pertData.task.length === 1
                         ? ''
-                        : `<th rowspan="1" colspan="1"><p><strong data-renderer-mark="true">Task</strong></p></th>`
+                        : `<th rowspan="1" colspan="1"><strong>Task</strong></th>`
                 }
-				<th rowspan="1" colspan="1"><p data-renderer-start-pos="4"><strong data-renderer-mark="true">Best Case</strong></p></th>
-				<th rowspan="1" colspan="1"><p data-renderer-start-pos="12"><strong data-renderer-mark="true">Likely</strong></p></th>
-				<th rowspan="1" colspan="1"><p data-renderer-start-pos="22"><strong data-renderer-mark="true">Worst Case</strong></p></th>
-				<th rowspan="1" colspan="1"><p data-renderer-start-pos="31"><strong data-renderer-mark="true">PERT</strong></p></th>
+				<th rowspan="1" colspan="1"><strong>Best Case</strong></th>
+				<th rowspan="1" colspan="1"><strong>Likely</strong></th>
+				<th rowspan="1" colspan="1"><strong>Worst Case</strong></th>
+				<th rowspan="1" colspan="1"><strong>PERT</strong></th>
 			</tr>
 			${rowHTML.join('')}
 		</tbody>
@@ -464,17 +466,17 @@ border-radius: 10px;
 	<table>
 		<tbody>
 			<tr>
-				<td rowspan="1" colspan="1"><p><strong data-renderer-mark="true">PERT Development Time</strong></p></td>
-				<td rowspan="1" colspan="1"><p><strong data-renderer-mark="true">${toTimeString(
+				<td rowspan="1" colspan="1"><strong>PERT Development Time</strong></td>
+				<td rowspan="1" colspan="1"><strong>${toTimeString(
                     pertDevelopmentTotalMinutes
-                )}</strong></p></td>
+                )}</strong></td>
 			</tr>
             ${
                 scopingMinutes
                     ? `
 			<tr>
-				<td rowspan="1" colspan="1"><p>Solution Design</p></td>
-				<td rowspan="1" colspan="1"><p>${toTimeString(scopingMinutes)}</p></td>
+				<td rowspan="1" colspan="1">Solution Design</td>
+				<td rowspan="1" colspan="1">${toTimeString(scopingMinutes)}</td>
 			</tr>
             `
                     : ''
@@ -483,8 +485,8 @@ border-radius: 10px;
                 commsDeploysQaMinutes
                     ? `
 			<tr>
-				<td rowspan="1" colspan="1"><p>Comms, Deploys and QA</p></td>
-				<td rowspan="1" colspan="1"><p>${toTimeString(commsDeploysQaMinutes)}</p></td>
+				<td rowspan="1" colspan="1">Comms, Deploys and QA</td>
+				<td rowspan="1" colspan="1">${toTimeString(commsDeploysQaMinutes)}</td>
 			</tr>
             `
                     : ''
@@ -493,8 +495,8 @@ border-radius: 10px;
                 codeReviewMinutes
                     ? `
 			<tr>
-				<td rowspan="1" colspan="1"><p>Code Review and Fixes</p></td>
-				<td rowspan="1" colspan="1"><p>${toTimeString(codeReviewMinutes)}</p></td>
+				<td rowspan="1" colspan="1">Code Review and Fixes</td>
+				<td rowspan="1" colspan="1">${toTimeString(codeReviewMinutes)}</td>
 			</tr>
             `
                     : ''
@@ -503,16 +505,16 @@ border-radius: 10px;
                 automatedTestsMinutes
                     ? `
 			<tr>
-				<td rowspan="1" colspan="1"><p>Automated Tests</p></td>
-				<td rowspan="1" colspan="1"><p>${toTimeString(automatedTestsMinutes)}</p></td>
+				<td rowspan="1" colspan="1">Automated Tests</td>
+				<td rowspan="1" colspan="1">${toTimeString(automatedTestsMinutes)}</td>
 			</tr>
             `
                     : ''
             }
 			<tr>
-				<td rowspan="1" colspan="1"><p><strong data-renderer-mark="true">Total Estimate</strong></p></td>
+				<td rowspan="1" colspan="1"><strong>Total Estimate</strong></td>
 				<td rowspan="1" colspan="1">
-					<p><strong data-renderer-mark="true">${toalEstimate}</strong></p>
+					<strong>${toalEstimate}</strong>
 				</td>
 			</tr>
 		</tbody>
