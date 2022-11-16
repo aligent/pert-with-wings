@@ -1,14 +1,11 @@
 # PERT-bookmarklet
 
-Visit [https://thilinaaligent.github.io/PERT-bookmarklet/](https://thilinaaligent.github.io/PERT-bookmarklet/) and drag the link to bookmarks bar
+Visit [https://aligent.github.io/PERT-bookmarklet/](https://aligent.github.io/PERT-bookmarklet/) to set up.
 
-1. Click on comment box to make it editable
-2. Click on bookmarklet in your bookmarks bar
-3. Fill in / adjust as necessary
-4. Click 'Add to Comment' button
+## Request a feature
 
-## Troubleshooting
-To get this working in firefox, go to about:config and set dom.dialog_element.enabled to true
+Create a new issue in [https://github.com/aligent/PERT-bookmarklet/issues/new](https://github.com/aligent/PERT-bookmarklet/issues/new) to request a new feature.
 
+## Contribute
 
-![how it works](https://thilinaaligent.github.io/PERT-bookmarklet/walkthrough3.gif "how it works")
+Raise a PR in this repository.
