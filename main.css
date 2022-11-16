@@ -66,6 +66,12 @@ section h2 {
     margin-top: 0;
 }
 
+section hr {
+    border-width: 0 0 1px 0;
+    border-bottom-color: #ccc;
+    margin: 40px 0;
+}
+
 section ol {
     margin-left: 0;
     padding-left: 0;
