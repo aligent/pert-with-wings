@@ -1,9 +1,15 @@
+:root {
+    --border-color: #ccc;
+    --font: 'Lato', sans-serif;
+    --fancy-font: 'Indie Flower', cursive;
+}
+
 html {
     scroll-behavior:  smooth;
 }
 
 body {
-    font-family: 'Lato', sans-serif;
+    font-family: var(--font);
     padding: 20px;
     margin: 0;
 }
@@ -32,18 +38,24 @@ nav ul {
     padding: 40px 0;
 }
 
+.bookmarklet-wrapper a {
+    position: relative;
+    z-index: 2;
+}
+
 h1 {
-    font-family: 'Indie Flower', cursive;
+    font-family: var(--fancy-font);
     margin: 0 0 10px;
     text-align: center;
     font-size: 1.5rem;
 }
 
-.bookmarklet-wrapper svg {
+.bookmarklet-wrapper .arrow {
     width: 40px;
     height: 40px;
     margin-bottom: 30px;
     margin-left: 50px;
+    transition: transform 0.3s ease-in-out;
 }
 
 .bookmarklet-wrapper a {
@@ -60,7 +72,7 @@ section {
     max-width: 700px;
     margin: 0 auto 40px;
     border-radius: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
     padding: 40px;
     line-height: 1.5;
 }
@@ -71,7 +83,7 @@ section h2 {
 
 section hr {
     border-width: 0 0 1px 0;
-    border-bottom-color: #ccc;
+    border-bottom-color: var(--border-color);
     margin: 40px 0;
 }
 
@@ -111,4 +123,22 @@ section dd + dt {
 
 .steps img {
     width: 100%;
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    box-shadow: 0 0 50px #eee;
+}
+
+body:has(.bookmarklet-wrapper a:active) .arrow  {
+    transform: translateX(-12rem) translateY(-8rem) rotate(90deg);
+}
+
+body:has(.bookmarklet-wrapper a:active) nav {
+    visibility: hidden;
+}
+
+code {
+    background-color: #eee;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    padding: 2px 3px 1px;
 }
