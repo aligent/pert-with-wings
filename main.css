@@ -89,3 +89,22 @@ section dd {
 section dd + dt {
     margin-top: 20px;
 }
+
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+}
+
+.steps li::marker {
+    font-size: 2rem;
+}
+
+.steps li p {
+    margin-top: 0;
+}
+
+.steps img {
+    width: 100%;
+}
