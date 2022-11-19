@@ -1,7 +1,19 @@
 :root {
+    --color: #333;
+    --bg: #fff;
     --border-color: #ccc;
     --font: 'Lato', sans-serif;
     --fancy-font: 'Indie Flower', cursive;
+    --link-color: #20518d;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --color: #eee;
+        --bg: #111;
+        --border-color: #333;
+        --link-color: #468ee5;
+    }
 }
 
 html {
@@ -10,12 +22,14 @@ html {
 
 body {
     font-family: var(--font);
+    background: var(--bg);
+    color: var(--color);
     padding: 20px;
     margin: 0;
 }
 
 a {
-    color: #20518d;
+    color: var(--link-color);
 }
 
 a:active {
@@ -38,11 +52,6 @@ nav ul {
     padding: 40px 0;
 }
 
-.bookmarklet-wrapper a {
-    position: relative;
-    z-index: 2;
-}
-
 h1 {
     font-family: var(--fancy-font);
     margin: 0 0 10px;
@@ -60,12 +69,15 @@ h1 {
 
 .bookmarklet-wrapper a {
     display: inline-block;
-    border: .3rem solid;
     padding: 1rem 1.5rem;
     border-radius: 1rem;
     text-decoration: none;
     font-weight: bold;
     font-size: 1.5rem;
+    background: #20518d;
+    color: #fff;
+    position: relative;
+    z-index: 2;
 }
 
 section {
@@ -125,7 +137,12 @@ section dd + dt {
     width: 100%;
     border: 1px solid var(--border-color);
     border-radius: 10px;
-    box-shadow: 0 0 50px #eee;
+}
+
+@media (prefers-color-scheme: light) {
+    .steps img {
+        box-shadow: 0 0 50px #eee;
+    }
 }
 
 body:has(.bookmarklet-wrapper a:active) .arrow  {
@@ -141,4 +158,11 @@ code {
     border: 1px solid #ddd;
     border-radius: 3px;
     padding: 2px 3px 1px;
+}
+
+@media (prefers-color-scheme: dark) {
+    code {
+        background-color: #333;
+        border-color: #444;
+    }
 }
