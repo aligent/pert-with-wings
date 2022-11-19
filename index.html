@@ -45,7 +45,7 @@
         </ol>
         <hr>
         <h2>Configuration</h2>
-        <p>Open configueation panel by clicking on the ⚙️. The config is saved per project in LocalStorage.</p>
+        <p>Open configuration panel by clicking on the ⚙️. The config is saved per project in LocalStorage.</p>
     </section>
     <section id="changelog">
         <h2>Changelog</h2>
@@ -57,7 +57,7 @@
             <dd>Remove fill Original Estimate field in JIRA ticket feature since JIRA doesn't allow you to change this field after its set and in some cases estimate time is not the best time to set the value here.</dd>
             <dd>Add feature to round totals. Also can set the default in configs per project.</dd>
             <dt>2022-04-29</dt>
-            <dd>Add minifiy modal button.</dd>
+            <dd>Add minimize modal button.</dd>
             <dd>Add project based default value content.</dd>
             <dd>Add automated tests row.</dd>
             <dd>Add warning if comment box is not in edit mode.</dd>
@@ -65,7 +65,10 @@
     </section>
     <section>
         <h2>Troubleshooting</h2>
-        <p>In firefox, go to <code>about:config</code> and set <code>dom.dialog_element.enabled</code> to <code>true</code>.</p>
+        <ul>
+            <li>In firefox, go to <code>about:config</code> and set <code>dom.dialog_element.enabled</code> to <code>true</code>.</li>
+            <li>Bookmarklet does not work on JIRA tickets opened as popups. Open the ticket in a new tab instead.</li>
+        </ul>
     </section>
     <section>
         <h2>Contribute</h2>
