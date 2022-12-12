@@ -148,9 +148,9 @@
     const pertRow = document.createElement('tr')
     const pertRowHTML = `
 	<td><b>Task</b><br><input size="20" type="text" name="task" /></td>
-	<td><b>Best Case</b><br><input required size="5" ${VALIDATE_HOUR_MINUTES} type="text" name="best" /></td>
+	<td><b>Optimistic</b><br><input required size="5" ${VALIDATE_HOUR_MINUTES} type="text" name="best" /></td>
 	<td><b>Likely</b><br><input required size="5" ${VALIDATE_HOUR_MINUTES} type="text" name="likely" /></td>
-	<td><b>Worst Case</b><br><input required size="5" ${VALIDATE_HOUR_MINUTES} type="text" name="worst" /></td>
+	<td><b>Pessimistic</b><br><input required size="5" ${VALIDATE_HOUR_MINUTES} type="text" name="worst" /></td>
 	<td valign="bottom" style="text-align: right">
 		<button type="button" class="pertAddRow">➕</button>
 		<button type="button" class="pertRemoveRow">➖</button>
@@ -455,9 +455,9 @@ border-radius: 10px;
                         ? ''
                         : `<th rowspan="1" colspan="1"><strong>Task</strong></th>`
                 }
-				<th rowspan="1" colspan="1"><strong>Best Case</strong></th>
+				<th rowspan="1" colspan="1"><strong>Optimistic</strong></th>
 				<th rowspan="1" colspan="1"><strong>Likely</strong></th>
-				<th rowspan="1" colspan="1"><strong>Worst Case</strong></th>
+				<th rowspan="1" colspan="1"><strong>Pessimistic</strong></th>
 				<th rowspan="1" colspan="1"><strong>PERT</strong></th>
 			</tr>
 			${rowHTML.join('')}
