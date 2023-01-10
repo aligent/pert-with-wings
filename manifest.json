@@ -1,0 +1,20 @@
+{
+  "manifest_version": 3,
+  "name": "PERT Estimator",
+  "version": "1.0.0",
+  "action": {},
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "js": ["src/content.tsx"],
+      "matches": [
+        "http://*.atlassian.net/*",
+        "https://*.atlassian.net/*",
+        "https://dev.azure.com/*"
+      ]
+    }
+  ],
+  "content_security_policy": {
+    "extension_page": "'script-src' 'self'"
+  }
+}
