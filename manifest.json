@@ -1,6 +1,7 @@
 {
   "manifest_version": 3,
   "name": "PERT Estimator",
+  "description": "Easy to use extension to make a PERT estimate table in JIRA / Azure DevOps comments",
   "version": "1.0.0",
   "action": {},
   "content_scripts": [
@@ -16,5 +17,11 @@
   ],
   "content_security_policy": {
     "extension_page": "'script-src' 'self'"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "32": "icon32.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
   }
 }
