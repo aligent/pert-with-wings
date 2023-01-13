@@ -1,0 +1,16 @@
+.message {
+  padding: 0.5rem 1rem;
+  border-radius: 0.25rem;
+  width: 100%;
+  font-size: 0.9rem;
+}
+
+.error {
+  color: rgb(200, 30, 30);
+  background: rgb(253 232 232);
+}
+
+.warning {
+  color: rgb(142 75 16);
+  background: rgb(253 246 178);
+}

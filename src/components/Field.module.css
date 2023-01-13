@@ -1,0 +1,79 @@
+.field {
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.label {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.field input[type='text'] {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 0.25rem !important;
+  border: 2px solid;
+  position: relative;
+  z-index: 1;
+  font-size: 1rem;
+  max-width: 5rem;
+}
+
+.field input[type='checkbox'] {
+  opacity: 0;
+}
+
+.field i {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 52px;
+  height: 23px;
+  border-radius: 2rem;
+  padding: 4px;
+  border: 2px solid;
+  cursor: pointer;
+}
+
+.field i::after {
+  content: '';
+  background: currentColor;
+  height: 15px;
+  width: 15px;
+  border-radius: 50%;
+  transition: all 0.3s;
+  position: absolute;
+  left: 3px;
+  top: 2px;
+}
+
+.field i::before {
+  content: 'No';
+  position: absolute;
+  right: 3px;
+  top: 0;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 0.75rem;
+  width: calc(100% - 15px - 6px);
+  font-style: normal;
+  text-transform: uppercase;
+  transition: all 0.3s;
+}
+
+.field:has(:checked) i::after {
+  left: calc(100% - 15px - 3px);
+}
+
+.field:has(:checked) i::before {
+  content: 'Yes';
+  right: calc(15px + 3px);
+}
+
+.field:has([type='checkbox']:focus) i {
+  box-shadow: 0 0 0 2px var(--ds-border-focused, #4c9aff);
+}
