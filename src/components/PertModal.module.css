@@ -144,9 +144,3 @@
   background: var(--button-color);
   border: 2px solid;
 }
-
-.logo {
-  height: 20px;
-  width: auto;
-  margin-right: auto;
-}
