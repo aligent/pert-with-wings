@@ -2,7 +2,7 @@ import { getRoundMinutes } from './get-round-minutes';
 
 /**
  * Convert minute estimate to hours and minutes string
- * Round the time based on config set value optionally
+ * Round the time based on config set value
  * eg 130 -> 2h 10m
  *
  * @param {number} minutes estimate in minutes
@@ -11,7 +11,7 @@ import { getRoundMinutes } from './get-round-minutes';
  */
 export const getTimeString = (
   minutes: number,
-  round: boolean = false
+  round: boolean = true
 ): string => {
   let calculatedMinutes = round ? getRoundMinutes(minutes) : minutes;
 
