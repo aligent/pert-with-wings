@@ -2,7 +2,7 @@ import classes from './Message.module.css';
 
 interface Props {
   message: string;
-  type?: 'error' | 'warning';
+  type?: 'error' | 'warning' | 'info';
 }
 
 const Message: React.FC<Props> = ({ message, type = 'error' }) => {

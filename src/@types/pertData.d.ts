@@ -4,14 +4,13 @@ export interface IPertRow {
   likely: string;
   pessimistic: string;
   id: string;
+  error: string;
+  warning: string;
 }
 
 export interface IPertData {
   scoping: string;
   pertRows: IPertRow[];
-  // comms: string;
-  // codeReviewAndFixes: string;
-  // qaTesting: string;
   automatedTests: boolean;
 }
 
@@ -26,4 +25,10 @@ export type PertContextType = {
   updateField: (event: React.ChangeEvent<HTMLInputElement>) => void;
   isPertModalOpen: boolean;
   setIsPertModalOpen: (boolean) => void;
+  resetPertData: () => void;
+  updatePertMessage: (
+    id: string,
+    type: 'error' | 'warning',
+    message: string
+  ) => void;
 };

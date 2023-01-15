@@ -66,6 +66,21 @@ const PertRowsProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
+  const updatePertMessage = (
+    id: string,
+    type: 'error' | 'warning',
+    message: string
+  ) => {
+    const rowIdx = pertData.pertRows.findIndex((row) => row.id === id);
+    const _pertRows = [...pertData.pertRows] as any;
+    _pertRows[rowIdx][type] = message;
+
+    setPertData({
+      ...pertData,
+      pertRows: _pertRows,
+    });
+  };
+
   const updateField = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPertData({
       ...pertData,
@@ -89,8 +104,10 @@ const PertRowsProvider: React.FC<Props> = ({ children }) => {
         removePertRow,
         updatePertRow,
         updateField,
+        updatePertMessage,
         isPertModalOpen,
         setIsPertModalOpen,
+        resetPertData,
       }}
     >
       {children}

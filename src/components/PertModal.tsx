@@ -6,10 +6,11 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import ReactModal from 'react-modal';
 import PertRowsForm from './PertRowsForm';
 import classes from './PertModal.module.css';
-import { getConfig } from '../utils/get-config';
 import Field from './Field';
+import Message from './Message';
 import Logo from './Logo';
 import { MdMinimize, MdClose } from 'react-icons/md';
+import { getConfig } from '../utils/get-config';
 
 const IS_JIRA = window.location.hostname.includes('atlassian.net');
 
@@ -24,6 +25,7 @@ const pertModalStyles = {
     padding: 0,
     border: 0,
     background: 'none',
+    overflow: 'inherit',
   },
 };
 
@@ -94,8 +96,12 @@ const PertModal = () => {
           <form onSubmit={handleSubmit} action="" className={classes.pertForm}>
             <header className={classes.header}>
               <Message
-                message="Time values can be either hour value (1.5) or hours and
-                  minutes (1h 30m)"
+                message={`Time values can be either hour value (1.5) or hours and
+                  minutes (1h 30m). ${
+                    round_to_next_minutes
+                      ? `Totals will be rounded to next ${round_to_next_minutes} minutes`
+                      : ''
+                  }`}
                 type="info"
               />
               <button type="button" onClick={handleClosePertModal}>
@@ -112,18 +118,12 @@ const PertModal = () => {
               </button>
             </header>
             <div className={classes.top}>
-              <div>
-                <p>
-                  Time values can be either hour value (1.5) or hours and
-                  minutes (1h 30m)
-                </p>
-              </div>
+              <PertRowsForm />
+
               <Field
                 label="Analysis, solution design and/or scoping"
                 name="scoping"
               />
-
-              <PertRowsForm />
 
               <Field
                 label="Automated Tests"

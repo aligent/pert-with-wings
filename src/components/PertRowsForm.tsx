@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { PertRowsContext } from '../context/pertRowsContext';
 import { PertContextType } from '../@types/pertData';
 
@@ -17,15 +17,18 @@ const VALIDATE_HOUR_MINUTES = {
 };
 
 const PertRowsForm = () => {
-  const [errors, setErrors] = useState({});
-  const [warnings, setWarnings] = useState({});
   const [pertWarning, setPertWarning] = useState('');
 
-  const { pertData, updatePertRow, addPertRow, removePertRow } = useContext(
-    PertRowsContext
-  ) as PertContextType;
+  const {
+    pertData,
+    updatePertRow,
+    addPertRow,
+    removePertRow,
+    updatePertMessage,
+  } = useContext(PertRowsContext) as PertContextType;
 
-  const { likely } = getSums(pertData);
+  const { likely } = useMemo(() => getSums(pertData), [pertData]);
+
   useEffect(() => {
     setPertWarning(
       likely > 5 * 60
@@ -49,27 +52,26 @@ const PertRowsForm = () => {
       Math.abs(likelyMinutes - optimisticMinutes) ===
       Math.abs(pessimisticMinutes - likelyMinutes)
     ) {
-      setWarnings({
-        ...warnings,
-        [id]: `🤔 Is your variance really ${getTimeString(
+      updatePertMessage(
+        id,
+        'warning',
+        `🤔 Is your variance really ${getTimeString(
           Math.abs(pessimisticMinutes - likelyMinutes)
-        )} less or more?`,
-      });
+        )} less or more?`
+      );
       return;
     }
 
     if (likelyMinutes > 5 * 60) {
-      setWarnings({
-        ...warnings,
-        [id]: 'Estimate is more than 5 hours. Consider breaking the task down further into separate smaller sized tickets.',
-      });
+      updatePertMessage(
+        id,
+        'warning',
+        'Estimate is more than 5 hours. Consider breaking the task down further into separate smaller sized tickets.'
+      );
       return;
     }
 
-    setWarnings({
-      ...warnings,
-      [id]: '',
-    });
+    updatePertMessage(id, 'warning', '');
   };
 
   const updateErrors = (rowData: IPertRow, id: string) => {
@@ -77,25 +79,24 @@ const PertRowsForm = () => {
       getRowMinutes(rowData);
 
     if (optimisticMinutes >= likelyMinutes) {
-      setErrors({
-        ...errors,
-        [id]: "Lilkely estimate can't be less than Optimisitc Estimate.",
-      });
+      updatePertMessage(
+        id,
+        'error',
+        "Lilkely estimate can't be less than Optimisitc Estimate."
+      );
       return;
     }
 
     if (likelyMinutes >= pessimisticMinutes) {
-      setErrors({
-        ...errors,
-        [id]: "Pessimistic estimate can't be less than Likely Estimate.",
-      });
+      updatePertMessage(
+        id,
+        'error',
+        "Pessimistic estimate can't be less than Likely Estimate."
+      );
       return;
     }
 
-    setErrors({
-      ...errors,
-      [id]: '',
-    });
+    updatePertMessage(id, 'error', '');
   };
 
   const handleChange = (id: string) => {
@@ -136,7 +137,6 @@ const PertRowsForm = () => {
                   updatePertRow(row.id, e);
                   handleChange(row.id);
                 }}
-                // onBlur={() => handleOnBlur(row.id)}
                 name="optimistic"
                 id="optimistic"
                 type="text"
@@ -156,7 +156,6 @@ const PertRowsForm = () => {
                   updatePertRow(row.id, e);
                   handleChange(row.id);
                 }}
-                // onBlur={() => handleOnBlur(row.id)}
                 name="likely"
                 id="likely"
                 type="text"
@@ -196,12 +195,8 @@ const PertRowsForm = () => {
               </button>
             )}
           </div>
-          {(errors as any)[row.id] && (
-            <Message message={(errors as any)[row.id]} />
-          )}
-          {(warnings as any)[row.id] && (
-            <Message message={(warnings as any)[row.id]} type="warning" />
-          )}
+          {row.error && <Message message={row.error} type="error" />}
+          {row.warning && <Message message={row.warning} type="warning" />}
         </React.Fragment>
       ))}
       <button className={classes.addTask} type="button" onClick={addPertRow}>
