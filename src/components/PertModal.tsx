@@ -8,6 +8,7 @@ import PertRowsForm from './PertRowsForm';
 import classes from './PertModal.module.css';
 import { getConfig } from '../utils/get-config';
 import Field from './Field';
+import { MdMinimize, MdClose } from 'react-icons/md';
 
 const IS_JIRA = window.location.hostname.includes('atlassian.net');
 
@@ -29,7 +30,7 @@ const PertModal = () => {
   const input = useRef<HTMLElement | null>(null);
   const { round_to_next_minutes } = getConfig();
 
-  const { pertData, setIsPertModalOpen, isPertModalOpen, updateField } =
+  const { pertData, setIsPertModalOpen, isPertModalOpen, resetPertData } =
     useContext(PertRowsContext) as PertContextType;
 
   const handleClosePertModal = () => {
@@ -90,6 +91,25 @@ const PertModal = () => {
       >
         <div className={classes.content}>
           <form onSubmit={handleSubmit} action="" className={classes.pertForm}>
+            <header className={classes.header}>
+              <Message
+                message="Time values can be either hour value (1.5) or hours and
+                  minutes (1h 30m)"
+                type="info"
+              />
+              <button type="button" onClick={handleClosePertModal}>
+                <MdMinimize />
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  resetPertData();
+                  handleClosePertModal();
+                }}
+              >
+                <MdClose />
+              </button>
+            </header>
             <div className={classes.top}>
               <div>
                 <p>

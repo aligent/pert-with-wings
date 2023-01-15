@@ -59,6 +59,18 @@
   color: var(--button-color);
 }
 
+.header {
+  padding: 1rem 1rem 0;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.pertForm {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .pertFieldset {
   padding: 0 1rem;
   margin: 1rem 0 0;

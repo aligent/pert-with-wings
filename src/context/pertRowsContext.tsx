@@ -8,30 +8,31 @@ interface Props {
   children: React.ReactNode;
 }
 
+const initialPertRow = {
+  task: '',
+  optimistic: '',
+  likely: '',
+  pessimistic: '',
+  id: uuidv4(),
+  error: '',
+  warning: '',
+};
+
+const intialPertData = {
+  scoping: '',
+  pertRows: [{ ...initialPertRow }],
+  automatedTests: false,
+};
+
 const PertRowsProvider: React.FC<Props> = ({ children }) => {
-  const [pertData, setPertData] = useState<IPertData>({
-    scoping: '',
-    pertRows: [
-      {
-        task: '',
-        optimistic: '',
-        likely: '',
-        pessimistic: '',
-        id: uuidv4(),
-      },
-    ],
-    automatedTests: false,
-  });
+  const [pertData, setPertData] = useState<IPertData>({ ...intialPertData });
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
 
   const addPertRow = () => {
     const _pertRows = [...pertData.pertRows];
     _pertRows.push({
-      task: '',
-      optimistic: '',
-      likely: '',
-      pessimistic: '',
+      ...initialPertRow,
       id: uuidv4(),
     });
     setPertData({
@@ -74,6 +75,10 @@ const PertRowsProvider: React.FC<Props> = ({ children }) => {
           : event.target.value,
     });
     console.log(pertData);
+  };
+
+  const resetPertData = () => {
+    setPertData({ ...intialPertData });
   };
 
   return (
