@@ -4,10 +4,19 @@
   position: relative;
 }
 
+.fieldRange {
+  display: grid;
+  grid-template-columns: 3fr 1fr 3rem;
+  gap: 1rem;
+  align-items: center;
+  accent-color: var(--color);
+}
+
 .label {
   font-weight: bold;
   display: flex;
   align-items: center;
+  font-size: 0.9rem;
 }
 
 .labelCheckbox {
@@ -15,16 +24,23 @@
   justify-content: space-between;
 }
 
+.description {
+  display: block;
+  margin: 0;
+  font-size: 0.8rem;
+}
+
 .field input[type='text'],
 .field select {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 0.25rem !important;
   border: 2px solid;
   position: relative;
   z-index: 1;
-  font-size: 1rem;
+  font-size: 0.9rem;
   max-width: 6rem;
+  align-self: flex-start;
 }
 
 .field input[type='checkbox'] {
@@ -37,7 +53,7 @@
   right: 0;
   top: 0;
   width: 6rem;
-  height: 38px;
+  height: 28px;
   border-radius: 0.25rem;
   padding: 4px;
   border: 2px solid;
@@ -83,4 +99,8 @@
 
 .field:has([type='checkbox']:focus) i {
   box-shadow: 0 0 0 2px var(--ds-border-focused, #4c9aff);
+}
+
+.rangeOutput {
+  text-align: right;
 }

@@ -10,7 +10,7 @@ interface Props {
   label: string;
   description?: string;
   name: string;
-  type?: 'checkbox' | 'text' | 'select';
+  type?: 'checkbox' | 'text' | 'select' | 'range';
   values?: string[];
   required?: boolean;
 }
@@ -26,7 +26,12 @@ const Field: React.FC<Props> = ({
   const { pertData, updateField } = useContext(PertContext) as PertContextType;
 
   return (
-    <div className={classes.field}>
+    <div
+      className={classnames(classes.field, {
+        [classes.fieldCheckbox]: type === 'checkbox',
+        [classes.fieldRange]: type === 'range',
+      })}
+    >
       <label
         htmlFor={name}
         className={classnames(classes.label, {
@@ -63,7 +68,13 @@ const Field: React.FC<Props> = ({
           value={(pertData as any)[name]}
           onChange={updateField}
           required={required}
+          {...(type === 'range' && { step: 5, min: 0, max: 100 })}
         />
+      )}
+      {type === 'range' && (
+        <output className={classes.rangeOutput} htmlFor={name}>
+          {(pertData as any)[name]}%
+        </output>
       )}
     </div>
   );
