@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { MdMinimize, MdClose } from 'react-icons/md';
 
 import { PertContextType } from '@/@types/pertData';
-import { PertRowsContext } from '@/context/pertRowsContext';
+import { PertContext } from '@/context/pertContext';
 import { getConfig } from '@/utils';
 import Message from '@/components/Message';
 
@@ -12,7 +12,7 @@ interface Props {}
 
 const Header: React.FC<Props> = () => {
   const { setIsPertModalOpen, resetPertData } = useContext(
-    PertRowsContext
+    PertContext
   ) as PertContextType;
   const { round_to_next_minutes } = getConfig();
 

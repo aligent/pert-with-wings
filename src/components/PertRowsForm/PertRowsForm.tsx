@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
 
 import { IPertRow, PertContextType } from '@/@types/pertData';
-import { PertRowsContext } from '@/context/pertRowsContext';
+import { PertContext } from '@/context/pertContext';
 import { getMinutes, getSums, getTimeString } from '@/utils';
 import Message from '@/components/Message';
 
@@ -23,7 +23,7 @@ const PertRowsForm = () => {
     addPertRow,
     removePertRow,
     updatePertMessage,
-  } = useContext(PertRowsContext) as PertContextType;
+  } = useContext(PertContext) as PertContextType;
 
   const { likely } = useMemo(() => getSums(pertData), [pertData]);
 

@@ -2,31 +2,45 @@ import { createContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { PertContextType, IPertData, IPertRow } from '@/@types/pertData';
+import { getConfig } from '@/utils';
 
-export const PertRowsContext = createContext<PertContextType | null>(null);
+export const PertContext = createContext<PertContextType | null>(null);
 
 interface Props {
   children: React.ReactNode;
 }
 
-const initialPertRow = {
-  task: '',
-  optimistic: '',
-  likely: '',
-  pessimistic: '',
-  id: uuidv4(),
-  error: '',
-  warning: '',
-};
+const PertContextProvider: React.FC<Props> = ({ children }) => {
+  const {
+    comms_percent,
+    automated_tests_percent,
+    code_reviews_and_fixes_percent,
+    qa_testing_min,
+    qa_testing_percent,
+  } = getConfig();
 
-const intialPertData = {
-  scoping: '',
-  pertRows: [{ ...initialPertRow }],
-  automatedTests: false,
-  risk: '',
-};
+  const initialPertRow = {
+    task: '',
+    optimistic: '',
+    likely: '',
+    pessimistic: '',
+    id: uuidv4(),
+    error: '',
+    warning: '',
+  };
 
-const PertRowsProvider: React.FC<Props> = ({ children }) => {
+  const intialPertData = {
+    scoping: '',
+    pertRows: [{ ...initialPertRow }],
+    automatedTests: false,
+    risk: '',
+    comms_percent,
+    automated_tests_percent,
+    code_reviews_and_fixes_percent,
+    qa_testing_min,
+    qa_testing_percent,
+  };
+
   const [pertData, setPertData] = useState<IPertData>({ ...intialPertData });
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
@@ -91,6 +105,8 @@ const PertRowsProvider: React.FC<Props> = ({ children }) => {
       [event.target.name]:
         event.target.type === 'checkbox'
           ? (event.target as HTMLInputElement).checked
+          : event.target.type === 'range'
+          ? Number(event.target.value)
           : event.target.value,
     });
     console.log(pertData);
@@ -101,7 +117,7 @@ const PertRowsProvider: React.FC<Props> = ({ children }) => {
   };
 
   return (
-    <PertRowsContext.Provider
+    <PertContext.Provider
       value={{
         pertData,
         addPertRow,
@@ -115,8 +131,8 @@ const PertRowsProvider: React.FC<Props> = ({ children }) => {
       }}
     >
       {children}
-    </PertRowsContext.Provider>
+    </PertContext.Provider>
   );
 };
 
-export default PertRowsProvider;
+export default PertContextProvider;

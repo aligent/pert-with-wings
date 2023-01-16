@@ -3,7 +3,7 @@ import { renderToStaticMarkup } from 'react-dom/server';
 import ReactModal from 'react-modal';
 
 import { PertContextType } from '@/@types/pertData';
-import { PertRowsContext } from '@/context/pertRowsContext';
+import { PertContext } from '@/context/pertContext';
 import PertTable from '@/components/PertTable';
 import PertRowsForm from '@/components/PertRowsForm';
 import Field from '@/components/Field';
@@ -32,8 +32,9 @@ const pertModalStyles = {
 const PertModal = () => {
   const input = useRef<HTMLElement | null>(null);
 
-  const { pertData, setIsPertModalOpen, isPertModalOpen, resetPertData } =
-    useContext(PertRowsContext) as PertContextType;
+  const { pertData, setIsPertModalOpen, isPertModalOpen } = useContext(
+    PertContext
+  ) as PertContextType;
 
   const getMarkup = () => {
     return renderToStaticMarkup(<PertTable pertData={pertData} />);

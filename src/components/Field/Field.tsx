@@ -1,7 +1,9 @@
 import { useContext } from 'react';
 import classnames from 'classnames';
+
 import { PertContextType } from '@/@types/pertData';
-import { PertRowsContext } from '@/context/pertRowsContext';
+import { PertContext } from '@/context/pertContext';
+
 import classes from './Field.module.css';
 
 interface Props {
@@ -21,9 +23,7 @@ const Field: React.FC<Props> = ({
   required = true,
   values,
 }) => {
-  const { pertData, updateField } = useContext(
-    PertRowsContext
-  ) as PertContextType;
+  const { pertData, updateField } = useContext(PertContext) as PertContextType;
 
   return (
     <div className={classes.field}>
