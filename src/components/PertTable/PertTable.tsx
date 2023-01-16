@@ -1,5 +1,7 @@
 import { IPertData } from '@/@types/pertData';
-import { getConfig, getMinutes, getTimeString } from '@/utils';
+import { getMinutes, getTimeString } from '@/utils';
+
+import PertTableRow from '@/components/PertTableRow';
 
 interface Props {
   pertData: IPertData;
@@ -7,15 +9,17 @@ interface Props {
 
 const PertTable: React.FC<Props> = ({ pertData }) => {
   const {
+    pertRows,
+    scoping,
     comms_percent,
     code_reviews_and_fixes_percent,
     qa_testing_min,
-    qa_testing_threshold,
     qa_testing_percent,
     automated_tests_percent,
-  } = getConfig();
+    risk,
+  } = pertData;
 
-  const pertMinutes = pertData.pertRows.reduce(
+  const pertMinutes = pertRows.reduce(
     (prevSum, current) => {
       const newSum = {
         optimistic: prevSum.optimistic + getMinutes(current.optimistic),
@@ -32,29 +36,32 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
     }
   );
   const { optimistic, likely, pessimistic } = pertMinutes;
+  const scopingMinutes = getMinutes(scoping);
 
   const getTotal = (segment: number) => {
+    const totalPercent =
+      (comms_percent +
+        code_reviews_and_fixes_percent +
+        (automatedTests ? automated_tests_percent : 0)) /
+      100;
+
     return getTimeString(
       segment +
-        segment *
-          (comms_percent +
-            code_reviews_and_fixes_percent +
-            (automatedTests ? automated_tests_percent : 0)) +
-        scoping +
-        (segment > qa_testing_threshold
-          ? segment * qa_testing_percent
+        segment * totalPercent +
+        scopingMinutes +
+        ((segment * qa_testing_percent) / 100 > qa_testing_min
+          ? (segment * qa_testing_percent) / 100
           : qa_testing_min)
     );
   };
 
   const pert = (optimistic + likely * 4 + pessimistic) / 6;
-  const scoping = getMinutes(pertData.scoping);
   const automatedTests = pertData.automatedTests;
   const isValidPert = optimistic < likely && likely < pessimistic;
 
   return (
     <>
-      {scoping ? (
+      {scopingMinutes ? (
         <table>
           <thead>
             <tr>
@@ -65,7 +72,7 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
           <tbody>
             <tr>
               <td colSpan={3}>Analysis, solution design and/or scoping</td>
-              <td>{getTimeString(scoping)}</td>
+              <td>{getTimeString(scopingMinutes)}</td>
             </tr>
           </tbody>
         </table>
@@ -95,63 +102,28 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
                 </>
               ) : null}
             </tr>
-            <tr>
-              <td colSpan={3}>Ticket specific communications</td>
-              <td>{getTimeString(optimistic * comms_percent)}</td>
-              <td>{getTimeString(likely * comms_percent)}</td>
-              <td>{getTimeString(pessimistic * comms_percent)}</td>
-              <td>{getTimeString(pert * comms_percent)}</td>
-            </tr>
-            <tr>
-              <td colSpan={3}>Code review & fixes</td>
-              <td>
-                {getTimeString(optimistic * code_reviews_and_fixes_percent)}
-              </td>
-              <td>{getTimeString(likely * code_reviews_and_fixes_percent)}</td>
-              <td>
-                {getTimeString(pessimistic * code_reviews_and_fixes_percent)}
-              </td>
-              <td>{getTimeString(pert * code_reviews_and_fixes_percent)}</td>
-            </tr>
-            <tr>
-              <td colSpan={3}>Quality Assurance Testing</td>
-              <td>
-                {getTimeString(
-                  optimistic > qa_testing_threshold
-                    ? optimistic * qa_testing_percent
-                    : qa_testing_min
-                )}
-              </td>
-              <td>
-                {getTimeString(
-                  likely > qa_testing_threshold
-                    ? likely * qa_testing_percent
-                    : qa_testing_min
-                )}
-              </td>
-              <td>
-                {getTimeString(
-                  pessimistic > qa_testing_threshold
-                    ? pessimistic * qa_testing_percent
-                    : qa_testing_min
-                )}
-              </td>
-              <td>
-                {getTimeString(
-                  pert > qa_testing_threshold
-                    ? pert * qa_testing_percent
-                    : qa_testing_min
-                )}
-              </td>
-            </tr>
+            <PertTableRow
+              label="Ticket specific communications"
+              percent={comms_percent}
+              pertMinutes={pertMinutes}
+            />
+            <PertTableRow
+              label="Code review & fixes"
+              percent={code_reviews_and_fixes_percent}
+              pertMinutes={pertMinutes}
+            />
+            <PertTableRow
+              label="Quality Assurance Testing"
+              percent={qa_testing_percent}
+              pertMinutes={pertMinutes}
+              min={qa_testing_min}
+            />
             {automatedTests && (
-              <tr>
-                <td colSpan={3}>Automated Tests</td>
-                <td>{getTimeString(optimistic * automated_tests_percent)}</td>
-                <td>{getTimeString(likely * automated_tests_percent)}</td>
-                <td>{getTimeString(pessimistic * automated_tests_percent)}</td>
-                <td>{getTimeString(pert * automated_tests_percent)}</td>
-              </tr>
+              <PertTableRow
+                label="Automated Tests"
+                percent={automated_tests_percent}
+                pertMinutes={pertMinutes}
+              />
             )}
             <tr>
               <td colSpan={3}>
@@ -173,7 +145,7 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
           </tbody>
         </table>
       ) : null}
-      {pertData.risk ? (
+      {risk ? (
         <table>
           <thead>
             <tr>
@@ -182,7 +154,7 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
           </thead>
           <tbody>
             <tr>
-              <td>{pertData.risk}</td>
+              <td>{risk}</td>
             </tr>
           </tbody>
         </table>
