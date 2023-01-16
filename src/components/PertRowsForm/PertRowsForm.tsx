@@ -1,13 +1,11 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
-import { PertRowsContext } from '../context/pertRowsContext';
-import { PertContextType } from '../@types/pertData';
+
+import { IPertRow, PertContextType } from '@/@types/pertData';
+import { PertRowsContext } from '@/context/pertRowsContext';
+import { getMinutes, getSums, getTimeString } from '@/utils';
+import Message from '@/components/Message';
 
 import classes from './PertRowsForm.module.css';
-import { IPertRow } from '../@types/pertData';
-import { getMinutes } from '../utils/get-minutes';
-import Message from './Message';
-import { getSums } from '../utils/get-sums';
-import { getTimeString } from '../utils/get-time-string';
 
 const VALIDATE_HOUR_MINUTES = {
   pattern:

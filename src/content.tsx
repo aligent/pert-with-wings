@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import styles from './index.css?inline';
+
 import App from './App';
+
+import styles from './index.css?inline';
 
 const root = document.createElement('div');
 root.id = 'crx-root';

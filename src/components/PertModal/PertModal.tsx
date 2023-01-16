@@ -1,16 +1,16 @@
 import { useContext, useRef } from 'react';
-import { PertRowsContext } from '../context/pertRowsContext';
-import { PertContextType } from '../@types/pertData';
-import PertTable from './PertTable';
 import { renderToStaticMarkup } from 'react-dom/server';
 import ReactModal from 'react-modal';
-import PertRowsForm from './PertRowsForm';
+
+import { PertContextType } from '@/@types/pertData';
+import { PertRowsContext } from '@/context/pertRowsContext';
+import PertTable from '@/components/PertTable';
+import PertRowsForm from '@/components/PertRowsForm';
+import Field from '@/components/Field';
+import Logo from '@/components/Logo';
+import Header from '@/components/Header';
+
 import classes from './PertModal.module.css';
-import Field from './Field';
-import Message from './Message';
-import Logo from './Logo';
-import { MdMinimize, MdClose } from 'react-icons/md';
-import { getConfig } from '../utils/get-config';
 
 const IS_JIRA = window.location.hostname.includes('atlassian.net');
 
@@ -31,14 +31,9 @@ const pertModalStyles = {
 
 const PertModal = () => {
   const input = useRef<HTMLElement | null>(null);
-  const { round_to_next_minutes } = getConfig();
 
   const { pertData, setIsPertModalOpen, isPertModalOpen, resetPertData } =
     useContext(PertRowsContext) as PertContextType;
-
-  const handleClosePertModal = () => {
-    setIsPertModalOpen(false);
-  };
 
   const getMarkup = () => {
     return renderToStaticMarkup(<PertTable pertData={pertData} />);
@@ -94,29 +89,7 @@ const PertModal = () => {
       >
         <div className={classes.content}>
           <form onSubmit={handleSubmit} action="" className={classes.pertForm}>
-            <header className={classes.header}>
-              <Message
-                message={`Time values can be either hour value (1.5) or hours and
-                  minutes (1h 30m). ${
-                    round_to_next_minutes
-                      ? `Totals will be rounded to next ${round_to_next_minutes} minutes`
-                      : ''
-                  }`}
-                type="info"
-              />
-              <button type="button" onClick={handleClosePertModal}>
-                <MdMinimize />
-              </button>
-              <button
-                type="button"
-                onClick={() => {
-                  resetPertData();
-                  handleClosePertModal();
-                }}
-              >
-                <MdClose />
-              </button>
-            </header>
+            <Header />
             <div className={classes.top}>
               <PertRowsForm />
 
@@ -147,7 +120,7 @@ const PertModal = () => {
             </section>
 
             <footer className={classes.footer}>
-              <button type="submit">Add comment</button>
+              <button type="submit">Add PERT Estimate</button>
               <Logo />
             </footer>
           </form>

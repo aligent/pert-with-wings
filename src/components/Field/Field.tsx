@@ -1,10 +1,12 @@
 import { useContext } from 'react';
-import { IPertData, PertContextType } from '../@types/pertData';
-import { PertRowsContext } from '../context/pertRowsContext';
+import classnames from 'classnames';
+import { PertContextType } from '@/@types/pertData';
+import { PertRowsContext } from '@/context/pertRowsContext';
 import classes from './Field.module.css';
 
 interface Props {
   label: string;
+  description?: string;
   name: string;
   type?: 'checkbox' | 'text' | 'select';
   values?: string[];
@@ -13,6 +15,7 @@ interface Props {
 
 const Field: React.FC<Props> = ({
   label,
+  description,
   name,
   type = 'text',
   required = true,
@@ -24,8 +27,18 @@ const Field: React.FC<Props> = ({
 
   return (
     <div className={classes.field}>
-      <label htmlFor={name} className={classes.label}>
-        {label}
+      <label
+        htmlFor={name}
+        className={classnames(classes.label, {
+          [classes.labelCheckbox]: type === 'checkbox',
+        })}
+      >
+        <span>
+          {label}
+          {description && (
+            <small className={classes.description}>{description}</small>
+          )}
+        </span>
         {type === 'checkbox' && <i />}
       </label>
       {type === 'select' ? (

@@ -1,6 +1,7 @@
 import { createContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { PertContextType, IPertData, IPertRow } from '../@types/pertData';
+
+import { PertContextType, IPertData, IPertRow } from '@/@types/pertData';
 
 export const PertRowsContext = createContext<PertContextType | null>(null);
 

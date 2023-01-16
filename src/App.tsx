@@ -1,5 +1,6 @@
-import PertRowsProvider from './context/pertRowsContext';
-import PertModal from './components/PertModal';
+import PertRowsProvider from '@/context/pertRowsContext';
+import PertModal from '@/components/PertModal';
+
 import classes from './App.module.css';
 
 function App() {

@@ -1,7 +1,5 @@
-import { IPertData } from '../@types/pertData';
-import { getConfig } from '../utils/get-config';
-import { getMinutes } from '../utils/get-minutes';
-import { getTimeString } from '../utils/get-time-string';
+import { IPertData } from '@/@types/pertData';
+import { getConfig, getMinutes, getTimeString } from '@/utils';
 
 interface Props {
   pertData: IPertData;
