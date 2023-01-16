@@ -41,7 +41,7 @@
   border: 2px solid;
   border-radius: 0.5rem;
   background: #fff;
-  max-height: calc(100vh - 80px); /* 40px gutter around the modal */
+  /* max-height: calc(100vh - 80px); 40px gutter around the modal */
   display: flex;
 }
 
@@ -71,7 +71,7 @@
   padding: 0 1rem;
   margin: 1rem 0 0;
   background: #eee;
-  overflow: auto;
+  /* overflow: auto; */
 }
 
 .pertLegend {

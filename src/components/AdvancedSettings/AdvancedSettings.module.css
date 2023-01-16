@@ -1,0 +1,32 @@
+.advancedSettings {
+  transition: all 0.3s;
+}
+
+.advancedSettings[open] {
+  padding: 1rem;
+  background: #eee;
+  border-radius: 0.5rem;
+}
+
+.summaryLabel {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.close {
+  margin-left: auto;
+  display: none;
+  cursor: pointer;
+}
+
+.advancedSettings[open] .close {
+  display: block;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-top: 1rem;
+}

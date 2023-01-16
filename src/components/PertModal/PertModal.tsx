@@ -9,6 +9,7 @@ import PertRowsForm from '@/components/PertRowsForm';
 import Field from '@/components/Field';
 import Logo from '@/components/Logo';
 import Header from '@/components/Header';
+import AdvancedSettings from '@/components/AdvancedSettings';
 
 import classes from './PertModal.module.css';
 
@@ -25,7 +26,6 @@ const pertModalStyles = {
     padding: 0,
     border: 0,
     background: 'none',
-    overflow: 'inherit',
   },
 };
 
@@ -101,6 +101,7 @@ const PertModal = () => {
 
               <Field
                 label="Automated Tests"
+                description={`${pertData.automated_tests_percent}% of dev task.`}
                 name="automatedTests"
                 type="checkbox"
                 required={false}
@@ -113,6 +114,8 @@ const PertModal = () => {
                 values={['Low', 'Medium', 'High']}
                 required={false}
               />
+
+              <AdvancedSettings />
             </div>
 
             <section className={classes.pertFieldset}>

@@ -13,6 +13,11 @@ export interface IPertData {
   pertRows: IPertRow[];
   automatedTests: boolean;
   risk: string;
+  comms_percent: number;
+  code_reviews_and_fixes_percent: number;
+  qa_testing_min: number;
+  qa_testing_percent: number;
+  automated_tests_percent: number;
 }
 
 export type PertContextType = {
