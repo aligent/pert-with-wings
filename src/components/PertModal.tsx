@@ -131,6 +131,14 @@ const PertModal = () => {
                 type="checkbox"
                 required={false}
               />
+
+              <Field
+                label="Complexity/Risk level"
+                name="risk"
+                type="select"
+                values={['Low', 'Medium', 'High']}
+                required={false}
+              />
             </div>
 
             <section className={classes.pertFieldset}>

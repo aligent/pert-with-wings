@@ -175,6 +175,20 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
           </tbody>
         </table>
       ) : null}
+      {pertData.risk ? (
+        <table>
+          <thead>
+            <tr>
+              <th>Complexity/Risk Level</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{pertData.risk}</td>
+            </tr>
+          </tbody>
+        </table>
+      ) : null}
     </>
   );
 };

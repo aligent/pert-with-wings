@@ -10,7 +10,8 @@
   align-items: center;
 }
 
-.field input[type='text'] {
+.field input[type='text'],
+.field select {
   width: 100%;
   padding: 0.5rem;
   border-radius: 0.25rem !important;
@@ -18,7 +19,7 @@
   position: relative;
   z-index: 1;
   font-size: 1rem;
-  max-width: 5rem;
+  max-width: 6rem;
 }
 
 .field input[type='checkbox'] {

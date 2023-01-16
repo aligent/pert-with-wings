@@ -22,6 +22,7 @@ const intialPertData = {
   scoping: '',
   pertRows: [{ ...initialPertRow }],
   automatedTests: false,
+  risk: '',
 };
 
 const PertRowsProvider: React.FC<Props> = ({ children }) => {
@@ -81,12 +82,14 @@ const PertRowsProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
-  const updateField = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const updateField = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setPertData({
       ...pertData,
       [event.target.name]:
         event.target.type === 'checkbox'
-          ? event.target.checked
+          ? (event.target as HTMLInputElement).checked
           : event.target.value,
     });
     console.log(pertData);

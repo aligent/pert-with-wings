@@ -12,6 +12,7 @@ export interface IPertData {
   scoping: string;
   pertRows: IPertRow[];
   automatedTests: boolean;
+  risk: string;
 }
 
 export type PertContextType = {
@@ -22,7 +23,9 @@ export type PertContextType = {
     id: string,
     event: React.ChangeEvent<HTMLInputElement>
   ) => void;
-  updateField: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  updateField: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => void;
   isPertModalOpen: boolean;
   setIsPertModalOpen: (boolean) => void;
   resetPertData: () => void;
