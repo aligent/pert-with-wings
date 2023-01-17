@@ -100,12 +100,14 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
   const updateField = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
+    const fieldType = typeof (pertData as any)[event.target.name];
+
     setPertData({
       ...pertData,
       [event.target.name]:
         event.target.type === 'checkbox'
           ? (event.target as HTMLInputElement).checked
-          : event.target.type === 'range'
+          : fieldType === 'number'
           ? Number(event.target.value)
           : event.target.value,
     });

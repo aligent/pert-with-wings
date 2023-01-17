@@ -12,6 +12,8 @@
   display: flex;
   gap: 0.5rem;
   align-items: center;
+  font-weight: bold;
+  font-size: 0.9rem;
 }
 
 .close {
