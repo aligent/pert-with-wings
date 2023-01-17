@@ -104,7 +104,7 @@ const PertModal = () => {
 
               <Field
                 label="Automated Tests"
-                description={`${pertData}% of dev task.`}
+                description={`${pertData.automated_tests_percent}% of dev task.`}
                 name="automatedTests"
                 type="checkbox"
                 required={false}
