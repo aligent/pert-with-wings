@@ -130,7 +130,6 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
           ? Number(event.target.value)
           : event.target.value,
     });
-    console.log(pertData);
   };
 
   const resetPertData = () => {
