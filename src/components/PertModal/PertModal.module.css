@@ -59,6 +59,7 @@
   font-weight: bold;
   background: var(--button-bg);
   color: var(--button-color);
+  cursor: pointer;
 }
 
 .pertForm {
