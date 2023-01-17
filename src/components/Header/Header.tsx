@@ -3,7 +3,6 @@ import { MdMinimize, MdClose } from 'react-icons/md';
 
 import { PertContextType } from '@/@types/pertData';
 import { PertContext } from '@/context/pertContext';
-import { getConfig } from '@/utils';
 import Message from '@/components/Message';
 
 import classes from './Header.module.css';
@@ -11,10 +10,10 @@ import classes from './Header.module.css';
 interface Props {}
 
 const Header: React.FC<Props> = () => {
-  const { setIsPertModalOpen, resetPertData } = useContext(
+  const { setIsPertModalOpen, resetPertData, pertData } = useContext(
     PertContext
   ) as PertContextType;
-  const { round_to_next_minutes } = getConfig();
+  const { round_to_next_minutes } = pertData;
 
   return (
     <header className={classes.header}>
@@ -22,7 +21,7 @@ const Header: React.FC<Props> = () => {
         message={`Time values can be either hour value (1.5) or hours and
       minutes (1h 30m). ${
         round_to_next_minutes
-          ? `Totals will be rounded to next ${round_to_next_minutes} minutes`
+          ? `Totals will be rounded to next ${round_to_next_minutes} minutes.`
           : ''
       }`}
         type="info"

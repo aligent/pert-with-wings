@@ -49,7 +49,7 @@ const AdvancedSettings: React.FC<Props> = () => {
           type="range"
         />
         <Field
-          label="Round to nect minutes"
+          label="Round to next minutes"
           description="10 recommended"
           name="round_to_next_minutes"
         />
