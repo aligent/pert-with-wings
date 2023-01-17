@@ -17,9 +17,10 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
     code_reviews_and_fixes_percent,
     qa_testing_min,
     qa_testing_percent,
+    round_to_next_minutes,
   } = getConfig();
 
-  const initialPertRow = {
+  const initialPertRow: IPertRow = {
     task: '',
     optimistic: '',
     likely: '',
@@ -29,7 +30,7 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
     warning: '',
   };
 
-  const intialPertData = {
+  const intialPertData: IPertData = {
     scoping: '',
     pertRows: [{ ...initialPertRow }],
     automatedTests: false,
@@ -39,6 +40,7 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
     code_reviews_and_fixes_percent,
     qa_testing_min,
     qa_testing_percent,
+    round_to_next_minutes,
   };
 
   const [pertData, setPertData] = useState<IPertData>({ ...intialPertData });
@@ -68,12 +70,22 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
+  const isValidPertRowData = (
+    value: string,
+    row: IPertRow
+  ): value is keyof IPertRow => {
+    return value in row;
+  };
+
   const updatePertRow = (
     id: string,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const rowIdx = pertData.pertRows.findIndex((row) => row.id === id);
-    const _pertRows = [...pertData.pertRows] as any;
+    const _pertRows = [...pertData.pertRows];
+
+    if (!isValidPertRowData(event.target.name, _pertRows[rowIdx])) return;
+
     _pertRows[rowIdx][event.target.name] = event.target.value;
 
     setPertData({
@@ -88,7 +100,8 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
     message: string
   ) => {
     const rowIdx = pertData.pertRows.findIndex((row) => row.id === id);
-    const _pertRows = [...pertData.pertRows] as any;
+    const _pertRows = [...pertData.pertRows];
+    if (!isValidPertRowData(type, _pertRows[rowIdx])) return;
     _pertRows[rowIdx][type] = message;
 
     setPertData({
@@ -97,10 +110,16 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
     });
   };
 
+  const isValidPertData = (key: string): key is keyof IPertData => {
+    return key in pertData;
+  };
+
   const updateField = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
-    const fieldType = typeof (pertData as any)[event.target.name];
+    if (!isValidPertData(event.target.name)) return;
+
+    const fieldType = typeof pertData[event.target.name];
 
     setPertData({
       ...pertData,
@@ -130,6 +149,7 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
         isPertModalOpen,
         setIsPertModalOpen,
         resetPertData,
+        isValidPertData,
       }}
     >
       {children}

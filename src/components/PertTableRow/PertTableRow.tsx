@@ -1,4 +1,8 @@
-import { getTimeString, getPercent } from '@/utils';
+import { PertContextType } from '@/@types/pertData';
+import { PertContext } from '@/context/pertContext';
+import { useTimeString } from '@/hooks';
+import { getPercent } from '@/utils';
+import { useContext } from 'react';
 
 interface Props {
   label: string;
@@ -17,6 +21,12 @@ const PertTableRow: React.FC<Props> = ({
   pertMinutes,
   min = 0,
 }) => {
+  const { pertData } = useContext(PertContext) as PertContextType;
+  const { round_to_next_minutes } = pertData;
+  const { timeString } = useTimeString({
+    round_to_next_minutes,
+  });
+
   const { optimistic, likely, pessimistic } = pertMinutes;
   const pert = (optimistic + likely * 4 + pessimistic) / 6;
 
@@ -30,10 +40,10 @@ const PertTableRow: React.FC<Props> = ({
   return (
     <tr>
       <td colSpan={3}>{label}</td>
-      <td>{getTimeString(optimisticPercent)}</td>
-      <td>{getTimeString(likelyPercent)}</td>
-      <td>{getTimeString(pessimisticPercent)}</td>
-      <td>{getTimeString(pertPercent)}</td>
+      <td>{timeString(optimisticPercent)}</td>
+      <td>{timeString(likelyPercent)}</td>
+      <td>{timeString(pessimisticPercent)}</td>
+      <td>{timeString(pertPercent)}</td>
     </tr>
   );
 };

@@ -48,6 +48,11 @@ const AdvancedSettings: React.FC<Props> = () => {
           name="automated_tests_percent"
           type="range"
         />
+        <Field
+          label="Round to nect minutes"
+          description="10 recommended"
+          name="round_to_next_minutes"
+        />
       </section>
     </details>
   );

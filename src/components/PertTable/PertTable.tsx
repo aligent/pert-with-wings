@@ -1,13 +1,17 @@
-import { IPertData } from '@/@types/pertData';
-import { getMinutes, getTimeString } from '@/utils';
+import { PertContextType } from '@/@types/pertData';
+import { getMinutes } from '@/utils';
 
 import PertTableRow from '@/components/PertTableRow';
+import { useTimeString } from '@/hooks';
+import { PertContext } from '@/context/pertContext';
+import { useContext } from 'react';
 
 interface Props {
-  pertData: IPertData;
+  forwardref: React.RefObject<HTMLDivElement>;
 }
 
-const PertTable: React.FC<Props> = ({ pertData }) => {
+const PertTable: React.FC<Props> = ({ forwardref }) => {
+  const { pertData } = useContext(PertContext) as PertContextType;
   const {
     pertRows,
     scoping,
@@ -17,7 +21,12 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
     qa_testing_percent,
     automated_tests_percent,
     risk,
+    round_to_next_minutes,
   } = pertData;
+
+  const { timeString } = useTimeString({
+    round_to_next_minutes,
+  });
 
   const pertMinutes = pertRows.reduce(
     (prevSum, current) => {
@@ -45,7 +54,7 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
         (automatedTests ? automated_tests_percent : 0)) /
       100;
 
-    return getTimeString(
+    return timeString(
       segment +
         segment * totalPercent +
         scopingMinutes +
@@ -60,7 +69,7 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
   const isValidPert = optimistic < likely && likely < pessimistic;
 
   return (
-    <>
+    <div ref={forwardref}>
       {scopingMinutes ? (
         <table>
           <thead>
@@ -72,7 +81,7 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
           <tbody>
             <tr>
               <td colSpan={3}>Analysis, solution design and/or scoping</td>
-              <td>{getTimeString(scopingMinutes)}</td>
+              <td>{timeString(scopingMinutes)}</td>
             </tr>
           </tbody>
         </table>
@@ -95,10 +104,10 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
                   <td colSpan={3}>
                     Development task, including developer testing
                   </td>
-                  <td>{getTimeString(optimistic)}</td>
-                  <td>{getTimeString(likely)}</td>
-                  <td>{getTimeString(pessimistic)}</td>
-                  <td>{getTimeString(pert)}</td>
+                  <td>{timeString(optimistic)}</td>
+                  <td>{timeString(likely)}</td>
+                  <td>{timeString(pessimistic)}</td>
+                  <td>{timeString(pert)}</td>
                 </>
               ) : null}
             </tr>
@@ -159,7 +168,7 @@ const PertTable: React.FC<Props> = ({ pertData }) => {
           </tbody>
         </table>
       ) : null}
-    </>
+    </div>
   );
 };
 

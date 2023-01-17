@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 import classnames from 'classnames';
 
-import { PertContextType } from '@/@types/pertData';
+import { IPertData, PertContextType } from '@/@types/pertData';
 import { PertContext } from '@/context/pertContext';
 
 import classes from './Field.module.css';
@@ -9,7 +9,14 @@ import classes from './Field.module.css';
 interface Props {
   label: string;
   description?: string;
-  name: string;
+  name: keyof Pick<
+    IPertData,
+    {
+      [K in keyof IPertData]: IPertData[K] extends string | number | boolean
+        ? K
+        : never;
+    }[keyof IPertData]
+  >;
   type?: 'checkbox' | 'text' | 'select' | 'range';
   values?: string[];
   required?: boolean;
@@ -23,7 +30,9 @@ const Field: React.FC<Props> = ({
   required = true,
   values,
 }) => {
-  const { pertData, updateField } = useContext(PertContext) as PertContextType;
+  const { pertData, updateField, isValidPertData } = useContext(
+    PertContext
+  ) as PertContextType;
 
   return (
     <div
@@ -65,7 +74,7 @@ const Field: React.FC<Props> = ({
           type={type}
           id={name}
           name={name}
-          value={(pertData as any)[name]}
+          value={pertData[name].toString()}
           onChange={updateField}
           required={required}
           {...(type === 'range' && { step: 5, min: 0, max: 100 })}
@@ -73,7 +82,7 @@ const Field: React.FC<Props> = ({
       )}
       {type === 'range' && (
         <output className={classes.rangeOutput} htmlFor={name}>
-          {(pertData as any)[name]}%
+          {pertData[name]}%
         </output>
       )}
     </div>

@@ -18,6 +18,7 @@ export interface IPertData {
   qa_testing_min: number;
   qa_testing_percent: number;
   automated_tests_percent: number;
+  round_to_next_minutes: number;
 }
 
 export type PertContextType = {
@@ -34,6 +35,7 @@ export type PertContextType = {
   isPertModalOpen: boolean;
   setIsPertModalOpen: (boolean) => void;
   resetPertData: () => void;
+  isValidPertData: (key: string) => boolean;
   updatePertMessage: (
     id: string,
     type: 'error' | 'warning',
