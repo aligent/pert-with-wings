@@ -31,13 +31,16 @@ const pertModalStyles = {
 
 const PertModal = () => {
   const input = useRef<HTMLElement | null>(null);
+  const pertHtmlRef = useRef<HTMLDivElement>(null);
 
   const { pertData, setIsPertModalOpen, isPertModalOpen } = useContext(
     PertContext
   ) as PertContextType;
 
   const getMarkup = () => {
-    return renderToStaticMarkup(<PertTable pertData={pertData} />);
+    if (!pertHtmlRef.current) return;
+
+    return pertHtmlRef.current.innerHTML;
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -101,7 +104,7 @@ const PertModal = () => {
 
               <Field
                 label="Automated Tests"
-                description={`${pertData.automated_tests_percent}% of dev task.`}
+                description={`${pertData}% of dev task.`}
                 name="automatedTests"
                 type="checkbox"
                 required={false}
@@ -120,7 +123,7 @@ const PertModal = () => {
 
             <section className={classes.pertFieldset}>
               <header className={classes.pertLegend}>Preview</header>
-              <PertTable pertData={pertData} />
+              <PertTable forwardref={pertHtmlRef} />
             </section>
 
             <footer className={classes.footer}>
