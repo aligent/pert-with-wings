@@ -6,6 +6,7 @@ export interface IPertRow {
   id: string;
   error: string;
   warning: string;
+  isQATask: boolean;
 }
 
 export interface IPertData {
@@ -23,7 +24,7 @@ export interface IPertData {
 
 export type PertContextType = {
   pertData: IPertData;
-  addPertRow: () => void;
+  addPertRow: (isQATask?: boolean) => void;
   removePertRow: (id: string) => void;
   updatePertRow: (
     id: string,

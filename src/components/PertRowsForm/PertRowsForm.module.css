@@ -100,3 +100,8 @@
 .field:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px #fff inset !important;
 }
+
+.footer {
+  display: flex;
+  gap: 1rem;
+}

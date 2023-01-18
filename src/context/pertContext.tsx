@@ -28,6 +28,7 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
     id: uuidv4(),
     error: '',
     warning: '',
+    isQATask: false,
   };
 
   const intialPertData: IPertData = {
@@ -47,11 +48,13 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
 
-  const addPertRow = () => {
+  const addPertRow = (isQATask = false) => {
     const _pertRows = [...pertData.pertRows];
     _pertRows.push({
       ...initialPertRow,
+      ...(isQATask && { task: 'Quality Assurance Testing' }),
       id: uuidv4(),
+      isQATask,
     });
     setPertData({
       ...pertData,
@@ -73,7 +76,12 @@ const PertContextProvider: React.FC<Props> = ({ children }) => {
   const isValidPertRowData = (
     value: string,
     row: IPertRow
-  ): value is keyof IPertRow => {
+  ): value is keyof Pick<
+    IPertRow,
+    {
+      [K in keyof IPertRow]: IPertRow[K] extends string ? K : never;
+    }[keyof IPertRow]
+  > => {
     return value in row;
   };
 

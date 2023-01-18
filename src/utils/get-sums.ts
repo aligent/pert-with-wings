@@ -14,20 +14,22 @@ export const getSums = (
   likely: number;
   pessimistic: number;
 } => {
-  return pertData.pertRows.reduce(
-    (prevSum, current) => {
-      const newSum = {
-        optimistic: prevSum.optimistic + getMinutes(current.optimistic),
-        likely: prevSum.likely + getMinutes(current.likely),
-        pessimistic: prevSum.pessimistic + getMinutes(current.pessimistic),
-      };
+  return pertData.pertRows
+    .filter((row) => !row.isQATask)
+    .reduce(
+      (prevSum, current) => {
+        const newSum = {
+          optimistic: prevSum.optimistic + getMinutes(current.optimistic),
+          likely: prevSum.likely + getMinutes(current.likely),
+          pessimistic: prevSum.pessimistic + getMinutes(current.pessimistic),
+        };
 
-      return newSum;
-    },
-    {
-      optimistic: 0,
-      likely: 0,
-      pessimistic: 0,
-    }
-  );
+        return newSum;
+      },
+      {
+        optimistic: 0,
+        likely: 0,
+        pessimistic: 0,
+      }
+    );
 };

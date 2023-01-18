@@ -4,7 +4,7 @@ import { getMinutes } from '@/utils';
 import PertTableRow from '@/components/PertTableRow';
 import { useTimeString } from '@/hooks';
 import { PertContext } from '@/context/pertContext';
-import { useContext } from 'react';
+import { useContext, useMemo } from 'react';
 
 interface Props {
   forwardref: React.RefObject<HTMLDivElement>;
@@ -28,24 +28,41 @@ const PertTable: React.FC<Props> = ({ forwardref }) => {
     round_to_next_minutes,
   });
 
-  const pertMinutes = pertRows.reduce(
-    (prevSum, current) => {
-      const newSum = {
-        optimistic: prevSum.optimistic + getMinutes(current.optimistic),
-        likely: prevSum.likely + getMinutes(current.likely),
-        pessimistic: prevSum.pessimistic + getMinutes(current.pessimistic),
-      };
+  const pertMinutes = pertRows
+    .filter((row) => !row.isQATask)
+    .reduce(
+      (prevSum, current) => {
+        const newSum = {
+          optimistic: prevSum.optimistic + getMinutes(current.optimistic),
+          likely: prevSum.likely + getMinutes(current.likely),
+          pessimistic: prevSum.pessimistic + getMinutes(current.pessimistic),
+        };
 
-      return newSum;
-    },
-    {
-      optimistic: 0,
-      likely: 0,
-      pessimistic: 0,
-    }
-  );
+        return newSum;
+      },
+      {
+        optimistic: 0,
+        likely: 0,
+        pessimistic: 0,
+      }
+    );
   const { optimistic, likely, pessimistic } = pertMinutes;
   const scopingMinutes = getMinutes(scoping);
+  const qAMinutes = useMemo(() => {
+    const qAEstimate = pertRows.find((row) => row.isQATask);
+    if (!qAEstimate) return null;
+    const { optimistic, likely, pessimistic } = qAEstimate;
+    return {
+      optimistic: getMinutes(optimistic),
+      likely: getMinutes(likely),
+      pessimistic: getMinutes(pessimistic),
+      pert:
+        (getMinutes(optimistic) +
+          getMinutes(likely) * 4 +
+          getMinutes(pessimistic)) /
+        6,
+    };
+  }, [pertRows]);
 
   const getTotal = (segment: number) => {
     const totalPercent =
@@ -54,19 +71,23 @@ const PertTable: React.FC<Props> = ({ forwardref }) => {
         (automatedTests ? automated_tests_percent : 0)) /
       100;
 
-    return timeString(
-      segment +
-        segment * totalPercent +
-        scopingMinutes +
-        ((segment * qa_testing_percent) / 100 > qa_testing_min
-          ? (segment * qa_testing_percent) / 100
-          : qa_testing_min)
-    );
+    const qAPercent =
+      qAMinutes !== null
+        ? 0
+        : (segment * qa_testing_percent) / 100 > qa_testing_min
+        ? (segment * qa_testing_percent) / 100
+        : qa_testing_min;
+
+    return segment + segment * totalPercent + scopingMinutes + qAPercent;
   };
 
   const pert = (optimistic + likely * 4 + pessimistic) / 6;
   const automatedTests = pertData.automatedTests;
   const isValidPert = optimistic < likely && likely < pessimistic;
+  const isValidQaMinutes =
+    qAMinutes &&
+    qAMinutes.optimistic < qAMinutes.likely &&
+    qAMinutes.likely < qAMinutes.pessimistic;
 
   return (
     <div ref={forwardref}>
@@ -121,12 +142,26 @@ const PertTable: React.FC<Props> = ({ forwardref }) => {
               percent={code_reviews_and_fixes_percent}
               pertMinutes={pertMinutes}
             />
-            <PertTableRow
-              label="Quality Assurance Testing"
-              percent={qa_testing_percent}
-              pertMinutes={pertMinutes}
-              min={qa_testing_min}
-            />
+            {isValidQaMinutes && (
+              <PertTableRow
+                label="Quality Assurance Testing"
+                percent={100}
+                pertMinutes={{
+                  optimistic: qAMinutes.optimistic,
+                  likely: qAMinutes.likely,
+                  pessimistic: qAMinutes.pessimistic,
+                }}
+              />
+            )}
+            {!qAMinutes && (
+              <PertTableRow
+                label="Quality Assurance Testing"
+                percent={qa_testing_percent}
+                pertMinutes={pertMinutes}
+                min={qa_testing_min}
+              />
+            )}
+
             {automatedTests && (
               <PertTableRow
                 label="Automated Tests"
@@ -139,16 +174,28 @@ const PertTable: React.FC<Props> = ({ forwardref }) => {
                 <strong>Total Estimate, including Analysis effort</strong>
               </td>
               <td>
-                <strong>{getTotal(optimistic)}</strong>
+                <strong>
+                  {timeString(
+                    getTotal(optimistic) + (qAMinutes?.optimistic || 0)
+                  )}
+                </strong>
               </td>
               <td>
-                <strong>{getTotal(likely)}</strong>
+                <strong>
+                  {timeString(getTotal(likely) + (qAMinutes?.likely || 0))}
+                </strong>
               </td>
               <td>
-                <strong>{getTotal(pessimistic)}</strong>
+                <strong>
+                  {timeString(
+                    getTotal(pessimistic) + (qAMinutes?.pessimistic || 0)
+                  )}
+                </strong>
               </td>
               <td>
-                <strong>{getTotal(pert)}</strong>
+                <strong>
+                  {timeString(getTotal(pert) + (qAMinutes?.pert || 0))}
+                </strong>
               </td>
             </tr>
           </tbody>

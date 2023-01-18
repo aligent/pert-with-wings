@@ -26,6 +26,7 @@ const PertRowsForm = () => {
   } = useContext(PertContext) as PertContextType;
 
   const { likely } = useMemo(() => getSums(pertData), [pertData]);
+  const hasQaEstimate = pertData.pertRows.find((row) => row.isQATask);
 
   useEffect(() => {
     setPertWarning(
@@ -123,10 +124,10 @@ const PertRowsForm = () => {
                 value={row.task}
                 className={`${classes.field}`}
                 autoFocus
-                placeholder="Task"
+                placeholder={`${row.isQATask ? 'QA' : 'Dev'} Task`}
               />
               <label className={classes.label} htmlFor="task">
-                <span>Task</span>
+                <span>{`${row.isQATask ? 'QA' : 'Dev'} Task`} </span>
               </label>
             </div>
             <div className={classes.control}>
@@ -197,9 +198,24 @@ const PertRowsForm = () => {
           {row.warning && <Message message={row.warning} type="warning" />}
         </React.Fragment>
       ))}
-      <button className={classes.addTask} type="button" onClick={addPertRow}>
-        + Add another task
-      </button>
+      <footer className={classes.footer}>
+        <button
+          className={classes.addTask}
+          type="button"
+          onClick={() => addPertRow()}
+        >
+          + Add dev task
+        </button>
+        {!hasQaEstimate && (
+          <button
+            className={classes.addTask}
+            type="button"
+            onClick={() => addPertRow(true)}
+          >
+            + Add QA task
+          </button>
+        )}
+      </footer>
       {pertData.pertRows.length > 1 && pertWarning && (
         <Message message={pertWarning} type="warning" />
       )}
