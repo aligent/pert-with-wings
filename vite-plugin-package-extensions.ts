@@ -2,6 +2,7 @@ import { PluginOption } from 'vite';
 import fs from 'fs';
 import path from 'path';
 import JSZip from 'jszip';
+import getUuid from 'uuid-by-string';
 
 export default function packageExtensions(): PluginOption {
   const inDir = 'dist';
@@ -53,6 +54,15 @@ export default function packageExtensions(): PluginOption {
     // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/web_accessible_resources
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1713196
     delete jsonData['web_accessible_resources'][0]['use_dynamic_url'];
+
+    // All Manifest V3 extensions need an add-on ID in their manifest.json when submitted to AMO.
+    // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_specific_settings#description
+    jsonData.browser_specific_settings = {
+      gecko: {
+        id: `{${getUuid('pert-with-wings')}}`,
+        strict_min_version: '42.0',
+      },
+    };
 
     fs.writeFileSync(
       path.join(inDir, 'manifest.json'),
