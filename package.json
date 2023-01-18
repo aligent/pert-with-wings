@@ -24,6 +24,8 @@
     "@types/react-modal": "^3.13.1",
     "@types/uuid": "^9.0.0",
     "@vitejs/plugin-react": "^2.2.0",
+    "jszip": "^3.10.1",
+    "puppeteer": "^19.5.2",
     "typescript": "^4.6.4",
     "vite": "^3.2.3"
   }
