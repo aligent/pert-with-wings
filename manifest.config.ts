@@ -4,9 +4,8 @@ const { version } = packageJson;
 
 export default defineManifest(async (env) => ({
   manifest_version: 3,
-  name: 'PERT Estimator',
-  description:
-    'Easy to use extension to make a PERT estimate table in JIRA / Azure DevOps comments',
+  name: 'PERT With Wings',
+  description: 'Helper to make PERT estimates in JIRA / Azure DevOps tickets',
   version,
   action: {},
   content_scripts: [
