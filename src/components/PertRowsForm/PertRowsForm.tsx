@@ -26,7 +26,7 @@ const PertRowsForm = () => {
   } = useContext(PertContext) as PertContextType;
 
   const { likely } = useMemo(() => getSums(pertData), [pertData]);
-  const hasQaEstimate = pertData.pertRows.find((row) => row.isQATask);
+  const hasQaEstimate = pertData.pertRows.some((row) => row.isQATask);
 
   useEffect(() => {
     setPertWarning(

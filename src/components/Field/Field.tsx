@@ -20,6 +20,7 @@ interface Props {
   type?: 'checkbox' | 'text' | 'select' | 'range';
   values?: string[];
   required?: boolean;
+  disabled?: boolean;
 }
 
 const Field: React.FC<Props> = ({
@@ -29,6 +30,7 @@ const Field: React.FC<Props> = ({
   type = 'text',
   required = true,
   values,
+  disabled = false,
 }) => {
   const { pertData, updateField, isValidPertData } = useContext(
     PertContext
@@ -39,6 +41,7 @@ const Field: React.FC<Props> = ({
       className={classnames(classes.field, {
         [classes.fieldCheckbox]: type === 'checkbox',
         [classes.fieldRange]: type === 'range',
+        [classes.fieldDisabled]: disabled,
       })}
     >
       <label

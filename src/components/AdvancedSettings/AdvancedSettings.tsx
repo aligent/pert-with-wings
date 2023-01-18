@@ -3,10 +3,15 @@ import { MdSettings, MdClose } from 'react-icons/md';
 import Field from '@/components/Field';
 
 import classes from './AdvancedSettings.module.css';
+import { PertContextType } from '@/@types/pertData';
+import { PertContext } from '@/context/pertContext';
+import { useContext } from 'react';
 
 interface Props {}
 
 const AdvancedSettings: React.FC<Props> = () => {
+  const { pertData } = useContext(PertContext) as PertContextType;
+  const hasQaEstimate = pertData.pertRows.some((row) => row.isQATask);
   return (
     <details className={classes.advancedSettings}>
       <summary>
@@ -36,11 +41,13 @@ const AdvancedSettings: React.FC<Props> = () => {
           description="10% of dev task recommended."
           name="qa_testing_percent"
           type="range"
+          disabled={hasQaEstimate}
         />
         <Field
           label="Minimum Quality Assurance Estimate (minutes)"
           description="15 minutes recommended."
           name="qa_testing_min"
+          disabled={hasQaEstimate}
         />
         <Field
           label="Automated Tests Percentage"
