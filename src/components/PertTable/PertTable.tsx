@@ -48,7 +48,7 @@ const PertTable: React.FC<Props> = ({ forwardref }) => {
     );
   const { optimistic, likely, pessimistic } = pertMinutes;
   const scopingMinutes = getMinutes(scoping);
-  const qAMinutes = useMemo(() => {
+  const qAExactMinutes = useMemo(() => {
     const qAEstimate = pertRows.find((row) => row.isQATask);
     if (!qAEstimate) return null;
     const { optimistic, likely, pessimistic } = qAEstimate;
@@ -65,29 +65,37 @@ const PertTable: React.FC<Props> = ({ forwardref }) => {
   }, [pertRows]);
 
   const getTotal = (segment: number) => {
-    const totalPercent =
-      (comms_percent +
-        code_reviews_and_fixes_percent +
-        (automatedTests ? automated_tests_percent : 0)) /
-      100;
-
-    const qAPercent =
-      qAMinutes !== null
+    const commsPercentMinutes = Math.floor((segment * comms_percent) / 100);
+    const codeReviewsAndFixesPercentMinutes = Math.floor(
+      (segment * comms_percent) / 100
+    );
+    const qaMinutes =
+      qAExactMinutes !== null
         ? 0
-        : (segment * qa_testing_percent) / 100 > qa_testing_min
-        ? (segment * qa_testing_percent) / 100
+        : Math.floor((segment * qa_testing_percent) / 100) > qa_testing_min
+        ? Math.floor((segment * qa_testing_percent) / 100)
         : qa_testing_min;
+    const automatedTestsPercentMinutes = Math.floor(
+      (segment * (automatedTests ? automated_tests_percent : 0)) / 100
+    );
 
-    return segment + segment * totalPercent + scopingMinutes + qAPercent;
+    return (
+      segment +
+      scopingMinutes +
+      commsPercentMinutes +
+      codeReviewsAndFixesPercentMinutes +
+      qaMinutes +
+      automatedTestsPercentMinutes
+    );
   };
 
   const pert = (optimistic + likely * 4 + pessimistic) / 6;
   const automatedTests = pertData.automatedTests;
   const isValidPert = optimistic < likely && likely < pessimistic;
   const isValidQaMinutes =
-    qAMinutes &&
-    qAMinutes.optimistic < qAMinutes.likely &&
-    qAMinutes.likely < qAMinutes.pessimistic;
+    qAExactMinutes &&
+    qAExactMinutes.optimistic < qAExactMinutes.likely &&
+    qAExactMinutes.likely < qAExactMinutes.pessimistic;
 
   return (
     <div ref={forwardref}>
@@ -147,13 +155,13 @@ const PertTable: React.FC<Props> = ({ forwardref }) => {
                 label="Quality Assurance Testing"
                 percent={100}
                 pertMinutes={{
-                  optimistic: qAMinutes.optimistic,
-                  likely: qAMinutes.likely,
-                  pessimistic: qAMinutes.pessimistic,
+                  optimistic: qAExactMinutes.optimistic,
+                  likely: qAExactMinutes.likely,
+                  pessimistic: qAExactMinutes.pessimistic,
                 }}
               />
             )}
-            {!qAMinutes && (
+            {!qAExactMinutes && (
               <PertTableRow
                 label="Quality Assurance Testing"
                 percent={qa_testing_percent}
@@ -176,25 +184,25 @@ const PertTable: React.FC<Props> = ({ forwardref }) => {
               <td>
                 <strong>
                   {timeString(
-                    getTotal(optimistic) + (qAMinutes?.optimistic || 0)
+                    getTotal(optimistic) + (qAExactMinutes?.optimistic || 0)
                   )}
                 </strong>
               </td>
               <td>
                 <strong>
-                  {timeString(getTotal(likely) + (qAMinutes?.likely || 0))}
+                  {timeString(getTotal(likely) + (qAExactMinutes?.likely || 0))}
                 </strong>
               </td>
               <td>
                 <strong>
                   {timeString(
-                    getTotal(pessimistic) + (qAMinutes?.pessimistic || 0)
+                    getTotal(pessimistic) + (qAExactMinutes?.pessimistic || 0)
                   )}
                 </strong>
               </td>
               <td>
                 <strong>
-                  {timeString(getTotal(pert) + (qAMinutes?.pert || 0))}
+                  {timeString(getTotal(pert) + (qAExactMinutes?.pert || 0))}
                 </strong>
               </td>
             </tr>
