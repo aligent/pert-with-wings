@@ -145,6 +145,7 @@ const PertRowsForm = () => {
                 required
                 className={classes.field}
                 placeholder="Optimistic"
+                title="The fastest time you can complete an activity. This assumes that all the necessary resources have been put in place and nothing unexpected occurs. This estimate is hard to achieve most of the time because projects are expected to face some challenges."
               />
               <label className={classes.label} htmlFor="optimistic">
                 <span>Optimistic</span>
@@ -164,6 +165,7 @@ const PertRowsForm = () => {
                 required
                 className={classes.field}
                 placeholder="Likely"
+                title="The most likely figure if there aren't any significant issues, but also not the best optimistic case. A realistic estimate. If you were asked for a quick time estimate this might be the figure you would come up with."
               />
               <label className={classes.label} htmlFor="likely">
                 <span>Likely</span>
@@ -184,6 +186,7 @@ const PertRowsForm = () => {
                 required
                 className={classes.field}
                 placeholder="Pessimistic"
+                title="This refers to the maximum time needed to complete an activity. It assumes and factors in all the negative things that may affect an activity. Most project teams assume resource unavailability and rework when deriving this estimate."
               />
               <label className={classes.label} htmlFor="pessimistic">
                 <span>Pessimistic</span>
