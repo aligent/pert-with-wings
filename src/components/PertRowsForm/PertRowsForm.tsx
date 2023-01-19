@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { MdAdd } from 'react-icons/md';
 
 import { IPertRow, PertContextType } from '@/@types/pertData';
 import { PertContext } from '@/context/pertContext';
@@ -204,7 +205,7 @@ const PertRowsForm = () => {
           type="button"
           onClick={() => addPertRow()}
         >
-          + Add dev task
+          <MdAdd /> Add dev task
         </button>
         {!hasQaEstimate && (
           <button
@@ -212,7 +213,7 @@ const PertRowsForm = () => {
             type="button"
             onClick={() => addPertRow(true)}
           >
-            + Add QA task
+            <MdAdd /> Add QA task
           </button>
         )}
       </footer>
