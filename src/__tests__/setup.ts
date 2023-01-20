@@ -1,6 +1,6 @@
 import puppeteer from 'puppeteer';
 
-export const bootstrap = async (options: {
+export const setup = async (options: {
   appUrl: string;
   devtools?: boolean;
   slowMo?: number;
