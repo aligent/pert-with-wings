@@ -1,15 +1,13 @@
-import { useContext } from 'react';
-import { MdMinimize, MdClose } from 'react-icons/md';
+import { FC, useContext } from 'react';
+import { MdClose, MdMinimize } from 'react-icons/md';
 
 import { PertContextType } from '@/@types/pertData';
-import { PertContext } from '@/context/pertContext';
 import Message from '@/components/Message';
+import { PertContext } from '@/context/pertContext';
 
 import classes from './Header.module.css';
 
-interface Props {}
-
-const Header: React.FC<Props> = () => {
+const Header: FC = () => {
   const { setIsPertModalOpen, resetPertData, pertData } = useContext(
     PertContext
   ) as PertContextType;

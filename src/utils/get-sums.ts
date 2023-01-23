@@ -1,5 +1,5 @@
-import { IPertData } from '../@types/pertData';
 import { getMinutes } from './get-minutes';
+import { IPertData } from '../@types/pertData';
 
 /**
  * Get the sums of PERT data rows

@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import { FC, Fragment, useContext, useEffect, useMemo, useState } from 'react';
 import { MdAdd } from 'react-icons/md';
 
 import { IPertRow, PertContextType } from '@/@types/pertData';
+import Message from '@/components/Message';
 import { PertContext } from '@/context/pertContext';
 import { getMinutes, getSums, getTimeString } from '@/utils';
-import Message from '@/components/Message';
 
 import classes from './PertRowsForm.module.css';
 
@@ -15,7 +15,7 @@ const VALIDATE_HOUR_MINUTES = {
     'Time values can be either hour value (1.5) or hours and minutes (1h 30m)',
 };
 
-const PertRowsForm = () => {
+const PertRowsForm: FC = () => {
   const [pertWarning, setPertWarning] = useState('');
 
   const {
@@ -44,6 +44,7 @@ const PertRowsForm = () => {
       pessimisticMinutes: getMinutes(rowData.pessimistic),
     };
   };
+
   const updateWarnings = (rowData: IPertRow, id: string) => {
     const { optimisticMinutes, likelyMinutes, pessimisticMinutes } =
       getRowMinutes(rowData);
@@ -114,7 +115,7 @@ const PertRowsForm = () => {
   return (
     <div className={classes.pertRowsForm}>
       {pertData.pertRows.map((row: IPertRow) => (
-        <React.Fragment key={row.id}>
+        <Fragment key={row.id}>
           <div className={classes.row}>
             <div className={classes.control}>
               <input
@@ -200,7 +201,7 @@ const PertRowsForm = () => {
           </div>
           {row.error && <Message message={row.error} type="error" />}
           {row.warning && <Message message={row.warning} type="warning" />}
-        </React.Fragment>
+        </Fragment>
       ))}
       <footer className={classes.footer}>
         <button

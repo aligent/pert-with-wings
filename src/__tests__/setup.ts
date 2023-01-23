@@ -1,4 +1,4 @@
-import puppeteer from 'puppeteer';
+import { launch } from 'puppeteer';
 
 export const setup = async (options: {
   appUrl: string;
@@ -6,7 +6,7 @@ export const setup = async (options: {
   slowMo?: number;
 }) => {
   const { devtools = false, slowMo = false, appUrl } = options;
-  const browser = await puppeteer.launch({
+  const browser = await launch({
     headless: false,
     devtools,
     args: ['--disable-extensions-except=./dist', '--load-extension=./dist'],

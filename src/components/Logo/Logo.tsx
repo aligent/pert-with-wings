@@ -1,6 +1,8 @@
+import { FC } from 'react';
+
 import classes from './Logo.module.css';
 
-const Logo = () => {
+const Logo: FC = () => {
   return (
     <svg
       className={classes.logo}

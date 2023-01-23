@@ -1,8 +1,9 @@
+import { FC, useContext } from 'react';
+
 import { PertContextType } from '@/@types/pertData';
 import { PertContext } from '@/context/pertContext';
 import { useTimeString } from '@/hooks';
 import { getPercent } from '@/utils';
-import { useContext } from 'react';
 
 interface Props {
   label: string;
@@ -15,12 +16,7 @@ interface Props {
   min?: number;
 }
 
-const PertTableRow: React.FC<Props> = ({
-  label,
-  percent,
-  pertMinutes,
-  min = 0,
-}) => {
+const PertTableRow: FC<Props> = ({ label, percent, pertMinutes, min = 0 }) => {
   const { pertData } = useContext(PertContext) as PertContextType;
   const { round_to_next_minutes } = pertData;
   const { timeString } = useTimeString({

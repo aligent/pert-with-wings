@@ -1,5 +1,5 @@
-import { useContext } from 'react';
 import classnames from 'classnames';
+import { FC, useContext } from 'react';
 
 import { IPertData, PertContextType } from '@/@types/pertData';
 import { PertContext } from '@/context/pertContext';
@@ -23,7 +23,7 @@ interface Props {
   disabled?: boolean;
 }
 
-const Field: React.FC<Props> = ({
+const Field: FC<Props> = ({
   label,
   description,
   name,
@@ -32,9 +32,7 @@ const Field: React.FC<Props> = ({
   values,
   disabled = false,
 }) => {
-  const { pertData, updateField, isValidPertData } = useContext(
-    PertContext
-  ) as PertContextType;
+  const { pertData, updateField } = useContext(PertContext) as PertContextType;
 
   return (
     <div

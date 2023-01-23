@@ -1,5 +1,6 @@
-import { setup } from './setup';
 import { Browser, Page } from 'puppeteer';
+
+import { setup } from './setup';
 
 describe('test text replacer extension with react app', () => {
   let browser: Browser, appPage: Page;

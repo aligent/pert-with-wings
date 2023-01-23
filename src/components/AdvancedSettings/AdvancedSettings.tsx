@@ -1,15 +1,13 @@
-import { MdSettings, MdClose } from 'react-icons/md';
+import { FC, useContext } from 'react';
+import { MdClose, MdSettings } from 'react-icons/md';
 
+import { PertContextType } from '@/@types/pertData';
 import Field from '@/components/Field';
+import { PertContext } from '@/context/pertContext';
 
 import classes from './AdvancedSettings.module.css';
-import { PertContextType } from '@/@types/pertData';
-import { PertContext } from '@/context/pertContext';
-import { useContext } from 'react';
 
-interface Props {}
-
-const AdvancedSettings: React.FC<Props> = () => {
+const AdvancedSettings: FC = () => {
   const { pertData } = useContext(PertContext) as PertContextType;
   const hasQaEstimate = pertData.pertRows.some((row) => row.isQATask);
   return (

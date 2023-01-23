@@ -7,8 +7,8 @@
  * @param {number} round round the estimate to closest minutes
  * @returns {string} hours and minutes string
  */
-export const getTimeString = (minutes: number, round: number = 0): string => {
-  let calculatedMinutes =
+export const getTimeString = (minutes: number, round = 0): string => {
+  const calculatedMinutes =
     round === 0 ? minutes : Math.ceil(minutes / round) * round;
 
   return `${Math.floor(calculatedMinutes / 60)}h${

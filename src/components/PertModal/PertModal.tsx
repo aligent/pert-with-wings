@@ -1,15 +1,14 @@
-import { useContext, useRef } from 'react';
-import { renderToStaticMarkup } from 'react-dom/server';
+import { FC, useContext, useRef } from 'react';
 import ReactModal from 'react-modal';
 
 import { PertContextType } from '@/@types/pertData';
-import { PertContext } from '@/context/pertContext';
-import PertTable from '@/components/PertTable';
-import PertRowsForm from '@/components/PertRowsForm';
-import Field from '@/components/Field';
-import Logo from '@/components/Logo';
-import Header from '@/components/Header';
 import AdvancedSettings from '@/components/AdvancedSettings';
+import Field from '@/components/Field';
+import Header from '@/components/Header';
+import Logo from '@/components/Logo';
+import PertRowsForm from '@/components/PertRowsForm';
+import PertTable from '@/components/PertTable';
+import { PertContext } from '@/context/pertContext';
 
 import classes from './PertModal.module.css';
 
@@ -29,7 +28,7 @@ const pertModalStyles = {
   },
 };
 
-const PertModal = () => {
+const PertModal: FC = () => {
   const input = useRef<HTMLElement | null>(null);
   const pertHtmlRef = useRef<HTMLDivElement>(null);
 

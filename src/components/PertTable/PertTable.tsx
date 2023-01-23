@@ -1,16 +1,16 @@
+import { FC, RefObject, useContext, useMemo } from 'react';
+
 import { PertContextType } from '@/@types/pertData';
+import PertTableRow from '@/components/PertTableRow';
+import { PertContext } from '@/context/pertContext';
+import { useTimeString } from '@/hooks';
 import { getMinutes } from '@/utils';
 
-import PertTableRow from '@/components/PertTableRow';
-import { useTimeString } from '@/hooks';
-import { PertContext } from '@/context/pertContext';
-import { useContext, useMemo } from 'react';
-
 interface Props {
-  forwardref: React.RefObject<HTMLDivElement>;
+  forwardref: RefObject<HTMLDivElement>;
 }
 
-const PertTable: React.FC<Props> = ({ forwardref }) => {
+const PertTable: FC<Props> = ({ forwardref }) => {
   const { pertData } = useContext(PertContext) as PertContextType;
   const {
     pertRows,

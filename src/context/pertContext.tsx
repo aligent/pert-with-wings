@@ -1,16 +1,16 @@
-import { createContext, useState } from 'react';
+import { FC, ReactNode, createContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
-import { PertContextType, IPertData, IPertRow } from '@/@types/pertData';
+import { IPertData, IPertRow, PertContextType } from '@/@types/pertData';
 import { getConfig } from '@/utils';
 
 export const PertContext = createContext<PertContextType | null>(null);
 
 interface Props {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
-const PertContextProvider: React.FC<Props> = ({ children }) => {
+const PertContextProvider: FC<Props> = ({ children }) => {
   const {
     comms_percent,
     automated_tests_percent,

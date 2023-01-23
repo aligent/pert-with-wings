@@ -1,9 +1,11 @@
-import PertContextProvider from '@/context/pertContext';
+import { FC } from 'react';
+
 import PertModal from '@/components/PertModal';
+import PertContextProvider from '@/context/pertContext';
 
 import classes from './App.module.css';
 
-function App() {
+const App: FC = () => {
   return (
     <PertContextProvider>
       <div className={classes.App}>
@@ -11,6 +13,6 @@ function App() {
       </div>
     </PertContextProvider>
   );
-}
+};
 
 export default App;
