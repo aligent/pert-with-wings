@@ -42,26 +42,13 @@ const Field: FC<Props> = ({
         [classes.fieldDisabled]: disabled,
       })}
     >
-      <label
-        htmlFor={name}
-        className={classnames(classes.label, {
-          [classes.labelCheckbox]: type === 'checkbox',
-        })}
-      >
-        <span>
-          {label}
-          {description && (
-            <small className={classes.description}>{description}</small>
-          )}
-        </span>
-        {type === 'checkbox' && <i />}
-      </label>
       {type === 'select' ? (
         <select
           id={name}
           name={name}
           onChange={updateField}
           value={pertData.risk}
+          className={classes.input}
         >
           <option value="">Select</option>
           {values?.map((value) => (
@@ -78,6 +65,7 @@ const Field: FC<Props> = ({
           value={pertData[name].toString()}
           onChange={updateField}
           required={required}
+          className={classes.input}
           {...(type === 'range' && { step: 5, min: 0, max: 100 })}
         />
       )}
@@ -86,6 +74,20 @@ const Field: FC<Props> = ({
           {pertData[name]}%
         </output>
       )}
+      <label
+        htmlFor={name}
+        className={classnames(classes.label, {
+          [classes.labelCheckbox]: type === 'checkbox',
+        })}
+      >
+        <span>
+          {label}
+          {description && (
+            <small className={classes.description}>{description}</small>
+          )}
+        </span>
+        {type === 'checkbox' && <i />}
+      </label>
     </div>
   );
 };
