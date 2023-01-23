@@ -9,9 +9,9 @@ interface Props {
   label: string;
   percent: number;
   pertMinutes: {
-    optimistic: number;
-    likely: number;
-    pessimistic: number;
+    optimisticMinutes: number;
+    likelyMinutes: number;
+    pessimisticMinutes: number;
   };
   min?: number;
 }
@@ -23,12 +23,12 @@ const PertTableRow: FC<Props> = ({ label, percent, pertMinutes, min = 0 }) => {
     round_to_next_minutes,
   });
 
-  const { optimistic, likely, pessimistic } = pertMinutes;
-  const pert = (optimistic + likely * 4 + pessimistic) / 6;
+  const { optimisticMinutes, likelyMinutes, pessimisticMinutes } = pertMinutes;
+  const pert = (optimisticMinutes + likelyMinutes * 4 + pessimisticMinutes) / 6;
 
-  const optimisticPercent = getPercent(optimistic, percent, min);
-  const likelyPercent = getPercent(likely, percent, min);
-  const pessimisticPercent = getPercent(pessimistic, percent, min);
+  const optimisticPercent = getPercent(optimisticMinutes, percent, min);
+  const likelyPercent = getPercent(likelyMinutes, percent, min);
+  const pessimisticPercent = getPercent(pessimisticMinutes, percent, min);
   const pertPercent = getPercent(pert, percent, min);
 
   if (percent === 0) return null;

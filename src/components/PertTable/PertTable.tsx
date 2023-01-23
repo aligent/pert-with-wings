@@ -19,6 +19,7 @@ const PertTable: FC<Props> = ({ forwardref }) => {
     code_reviews_and_fixes_percent,
     qa_testing_min,
     qa_testing_percent,
+    automatedTests,
     automated_tests_percent,
     risk,
     round_to_next_minutes,
@@ -33,20 +34,22 @@ const PertTable: FC<Props> = ({ forwardref }) => {
     .reduce(
       (prevSum, current) => {
         const newSum = {
-          optimistic: prevSum.optimistic + getMinutes(current.optimistic),
-          likely: prevSum.likely + getMinutes(current.likely),
-          pessimistic: prevSum.pessimistic + getMinutes(current.pessimistic),
+          optimisticMinutes:
+            prevSum.optimisticMinutes + getMinutes(current.optimistic),
+          likelyMinutes: prevSum.likelyMinutes + getMinutes(current.likely),
+          pessimisticMinutes:
+            prevSum.pessimisticMinutes + getMinutes(current.pessimistic),
         };
 
         return newSum;
       },
       {
-        optimistic: 0,
-        likely: 0,
-        pessimistic: 0,
+        optimisticMinutes: 0,
+        likelyMinutes: 0,
+        pessimisticMinutes: 0,
       }
     );
-  const { optimistic, likely, pessimistic } = pertMinutes;
+  const { optimisticMinutes, likelyMinutes, pessimisticMinutes } = pertMinutes;
   const scopingMinutes = getMinutes(scoping);
   const qAExactMinutes = useMemo(() => {
     const qAEstimate = pertRows.find((row) => row.isQATask);
@@ -89,13 +92,15 @@ const PertTable: FC<Props> = ({ forwardref }) => {
     );
   };
 
-  const pert = (optimistic + likely * 4 + pessimistic) / 6;
-  const automatedTests = pertData.automatedTests;
-  const isValidPert = optimistic < likely && likely < pessimistic;
+  const pert = (optimisticMinutes + likelyMinutes * 4 + pessimisticMinutes) / 6;
+  const isValidPert =
+    optimisticMinutes < likelyMinutes && likelyMinutes < pessimisticMinutes;
   const isValidQaMinutes =
     qAExactMinutes &&
     qAExactMinutes.optimistic < qAExactMinutes.likely &&
     qAExactMinutes.likely < qAExactMinutes.pessimistic;
+
+  const devTasks = pertRows.filter((row) => !row.isQATask);
 
   return (
     <div ref={forwardref}>
@@ -127,19 +132,37 @@ const PertTable: FC<Props> = ({ forwardref }) => {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              {optimistic !== 0 && likely !== 0 && pessimistic !== 0 ? (
-                <>
-                  <td colSpan={3}>
-                    Development task, including developer testing
-                  </td>
-                  <td>{timeString(optimistic)}</td>
-                  <td>{timeString(likely)}</td>
-                  <td>{timeString(pessimistic)}</td>
-                  <td>{timeString(pert)}</td>
-                </>
-              ) : null}
-            </tr>
+            {devTasks.map(
+              ({ task, optimistic, likely, pessimistic }, index) => {
+                const optimisticMinuites = getMinutes(optimistic);
+                const likelyMinuites = getMinutes(likely);
+                const pessimisticMinuites = getMinutes(pessimistic);
+                const pert =
+                  (optimisticMinuites +
+                    likelyMinuites * 4 +
+                    pessimisticMinuites) /
+                  6;
+                return (
+                  <tr>
+                    {optimisticMinuites !== 0 &&
+                    likelyMinuites !== 0 &&
+                    pessimisticMinuites !== 0 ? (
+                      <>
+                        <td colSpan={3}>
+                          <strong>{task}</strong>, <br />
+                          Development task, including developer testing
+                          {index > 0 && ' [optional]'}
+                        </td>
+                        <td>{timeString(optimisticMinuites)}</td>
+                        <td>{timeString(likelyMinuites)}</td>
+                        <td>{timeString(pessimisticMinuites)}</td>
+                        <td>{timeString(pert)}</td>
+                      </>
+                    ) : null}
+                  </tr>
+                );
+              }
+            )}
             <PertTableRow
               label="Ticket specific communications"
               percent={comms_percent}
@@ -155,9 +178,9 @@ const PertTable: FC<Props> = ({ forwardref }) => {
                 label="Quality Assurance Testing"
                 percent={100}
                 pertMinutes={{
-                  optimistic: qAExactMinutes.optimistic,
-                  likely: qAExactMinutes.likely,
-                  pessimistic: qAExactMinutes.pessimistic,
+                  optimisticMinutes: qAExactMinutes.optimistic,
+                  likelyMinutes: qAExactMinutes.likely,
+                  pessimisticMinutes: qAExactMinutes.pessimistic,
                 }}
               />
             )}
@@ -184,19 +207,23 @@ const PertTable: FC<Props> = ({ forwardref }) => {
               <td>
                 <strong>
                   {timeString(
-                    getTotal(optimistic) + (qAExactMinutes?.optimistic || 0)
+                    getTotal(optimisticMinutes) +
+                      (qAExactMinutes?.optimistic || 0)
                   )}
                 </strong>
               </td>
               <td>
                 <strong>
-                  {timeString(getTotal(likely) + (qAExactMinutes?.likely || 0))}
+                  {timeString(
+                    getTotal(likelyMinutes) + (qAExactMinutes?.likely || 0)
+                  )}
                 </strong>
               </td>
               <td>
                 <strong>
                   {timeString(
-                    getTotal(pessimistic) + (qAExactMinutes?.pessimistic || 0)
+                    getTotal(pessimisticMinutes) +
+                      (qAExactMinutes?.pessimistic || 0)
                   )}
                 </strong>
               </td>
