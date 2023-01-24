@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PERT With Wings</title>
+    <link rel="stylesheet" href="./main.css" />
+  </head>
+  <body>
+    <nav>
+      <ul>
+        <li><a href="#changelog">Changelog</a></li>
+        <li><a href="#faq">FAQ</a></li>
+        <li>
+          <a target="_blank" href="https://github.com/pert-with-wings"
+            >Github</a
+          >
+        </li>
+      </ul>
+    </nav>
+    <section>
+      <h1>PERT With Wings</h1>
+      <p>
+        This extension assists you to make consistent PERT estimates table in
+        JIRA / Azure DevOps comments across projects.
+      </p>
+      <div class="extensions">
+        <a
+          target="_blank"
+          href="https://chrome.google.com/webstore/detail/pert-with-wings/ifbamclfijpnbdnajeobljnjglpmmigj"
+        >
+          <img src="./logo-chrome.svg" alt="" />
+          Install on Chrome
+        </a>
+        <a
+          target="_blank"
+          href="https://addons.mozilla.org/en-US/firefox/addon/pert-with-wings/"
+        >
+          <img src="./logo-firefox.svg" alt="" />
+          Install on Firefox
+        </a>
+      </div>
+    </section>
+    <section>
+      <h2>How to use</h2>
+      <ol class="steps">
+        <li>
+          <p>
+            Navigate to your JIRA / Azure DevOps ticket and click on comment box
+            to make it editable.
+          </p>
+          <img src="step1.gif" alt="" />
+        </li>
+        <li>
+          <p>Click on the PERT button in bottom right in your window.</p>
+          <img src="step2.gif" alt="" />
+        </li>
+        <li>
+          <p>Fill in the boxes and click 'Add PERT Estimate' button.</p>
+          <img src="step3.gif" alt="" />
+        </li>
+      </ol>
+    </section>
+    <section id="faq">
+      <h2>FAQ</h2>
+      <details>
+        <summary>What is PERT?</summary>
+        <p>
+          PERT (Program Evaluation and Review Technique) calculates a weighted
+          average as the PERT estimate by using the formula
+        </p>
+        <figure>
+          <p>Pert Estimate = (Optimistic + (4 X Likely) + Pessimistic)/6</p>
+        </figure>
+        <h3>Optimistic Estimate</h3>
+        <p>Estimate for all favourable conditions with no risks or changes.</p>
+        <p>
+          The Optimistic Estimate is the “best-case” and thus shortest duration,
+          or lowest cost, to complete the work.
+        </p>
+        <figure>
+          <blockquote>
+            <p>
+              The fastest time you can complete an activity. This assumes that
+              all the necessary resources have been put in place and nothing
+              unexpected occurs. This estimate is hard to achieve most of the
+              time because projects are expected to face some challenges.
+            </p>
+          </blockquote>
+          <figcaption>—Kelly Birch</figcaption>
+        </figure>
+        <h3>Likely Estimate</h3>
+        <p>
+          Estimate for both favourable and unfavourable conditions, with some
+          risks occurring.
+        </p>
+        <p>
+          The name is accurate in the estimate is based on changes, but ones
+          that have been planned for and can be mitigated. The Most Likely
+          estimate captures the highest likelihood of completing the work in the
+          given duration or cost.
+        </p>
+        <figure>
+          <blockquote>
+            <p>
+              The most likely figure if there aren't any significant issues, but
+              also not the best optimistic case. A realistic estimate. If you
+              were asked for a quick time estimate this might be the figure you
+              would come up with.
+            </p>
+          </blockquote>
+          <figcaption>—Kelly Birch</figcaption>
+        </figure>
+        <h3>Pessimistic Estimate</h3>
+        <p>
+          Estimate for all unfavourable conditions with all negative risks
+          occurring and no mitigation of negative risks
+        </p>
+        <p>
+          It is the opposite of the Optimistic estimate in concept. The
+          Pessimistic Estimate is the “worst-case” and thus longest duration, or
+          highest cost, to complete the work.
+        </p>
+        <figure>
+          <blockquote>
+            <p>
+              This refers to the maximum time needed to complete an activity. It
+              assumes and factors in all the negative things that may affect an
+              activity. Most project teams assume resource unavailability and
+              rework when deriving this estimate.
+            </p>
+          </blockquote>
+          <figcaption>—Kelly Birch</figcaption>
+        </figure>
+      </details>
+    </section>
+    <section id="changelog">
+      <h2>Changelog</h2>
+      <dl>
+        <dt>2023-01-16</dt>
+        <dd>PERT bookmarklet is a browser extension now!</dd>
+        <dd>
+          If you have more than one dev task, additional dev tasks are considers
+          as optional tasks by default.
+        </dd>
+        <dd>
+          We have the ability to add a QA PERT estimate received from QA team.
+        </dd>
+        <dd>We have the ability to add a Complexity/Risk level.</dd>
+        <dd>
+          We are not rounding the time amount to closest 10 minutes by default
+          anymore.
+        </dd>
+
+        <dt>2022-10-18</dt>
+        <dd>Add Azure devops support</dd>
+        <dt>2022-06-21</dt>
+        <dd>
+          Add better validation to input fields to avoid erroneous calculations.
+        </dd>
+        <dd>
+          Remove fill Original Estimate field in JIRA ticket feature since JIRA
+          doesn't allow you to change this field after its set and in some cases
+          estimate time is not the best time to set the value here.
+        </dd>
+        <dd>
+          Add feature to round totals. Also can set the default in configs per
+          project.
+        </dd>
+        <dt>2022-04-29</dt>
+        <dd>Add minimize modal button.</dd>
+        <dd>Add project based default value content.</dd>
+        <dd>Add automated tests row.</dd>
+        <dd>Add warning if comment box is not in edit mode.</dd>
+      </dl>
+    </section>
+    <section>
+      <h2>Contribute</h2>
+      <p>
+        <a
+          target="_blank"
+          href="https://github.com/aligent/pert-with-wings#pert-with-wings"
+          >https://github.com/aligent/pert-with-wings</a
+        >.
+      </p>
+    </section>
+  </body>
+</html>
