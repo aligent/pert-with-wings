@@ -114,7 +114,7 @@ const PertRowsForm: FC = () => {
 
   return (
     <div className={classes.pertRowsForm}>
-      {pertData.pertRows.map((row: IPertRow) => (
+      {pertData.pertRows.map((row: IPertRow, index) => (
         <Fragment key={row.id}>
           <div className={classes.row}>
             <div className={classes.control}>
@@ -126,10 +126,17 @@ const PertRowsForm: FC = () => {
                 value={row.task}
                 className={`${classes.field}`}
                 autoFocus
-                placeholder={`${row.isQATask ? 'QA' : 'Dev'} Task`}
+                required
+                placeholder={`${
+                  row.isQATask ? 'QA' : `${index > 0 ? 'Optional' : ''} Dev`
+                } Task`}
               />
               <label className={classes.label} htmlFor="task">
-                <span>{`${row.isQATask ? 'QA' : 'Dev'} Task`} </span>
+                <span>
+                  {`${
+                    row.isQATask ? 'QA' : `${index > 0 ? 'Optional' : ''} Dev`
+                  } Task`}{' '}
+                </span>
               </label>
             </div>
             <div className={classes.control}>
@@ -209,7 +216,7 @@ const PertRowsForm: FC = () => {
           type="button"
           onClick={() => addPertRow()}
         >
-          <MdAdd /> Add dev task
+          <MdAdd /> Add optional dev task
         </button>
         {!hasQaEstimate && (
           <button

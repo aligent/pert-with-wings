@@ -1,4 +1,4 @@
-import { FC, RefObject, useContext, useMemo } from 'react';
+import { FC, Fragment, RefObject, useContext, useMemo } from 'react';
 
 import { PertContextType } from '@/@types/pertData';
 import PertTableRow from '@/components/PertTableRow';
@@ -29,26 +29,32 @@ const PertTable: FC<Props> = ({ forwardref }) => {
     round_to_next_minutes,
   });
 
-  const pertMinutes = pertRows
-    .filter((row) => !row.isQATask)
-    .reduce(
-      (prevSum, current) => {
-        const newSum = {
-          optimisticMinutes:
-            prevSum.optimisticMinutes + getMinutes(current.optimistic),
-          likelyMinutes: prevSum.likelyMinutes + getMinutes(current.likely),
-          pessimisticMinutes:
-            prevSum.pessimisticMinutes + getMinutes(current.pessimistic),
-        };
-
-        return newSum;
-      },
-      {
-        optimisticMinutes: 0,
-        likelyMinutes: 0,
-        pessimisticMinutes: 0,
-      }
-    );
+  const pertMinutes = useMemo(
+    () =>
+      pertRows
+        .filter(
+          ({ isQATask, optimistic, likely, pessimistic }) =>
+            !isQATask &&
+            optimistic !== '' &&
+            likely !== '' &&
+            pessimistic !== ''
+        )
+        .reduce(
+          (prevSum, current) => ({
+            optimisticMinutes:
+              prevSum.optimisticMinutes + getMinutes(current.optimistic),
+            likelyMinutes: prevSum.likelyMinutes + getMinutes(current.likely),
+            pessimisticMinutes:
+              prevSum.pessimisticMinutes + getMinutes(current.pessimistic),
+          }),
+          {
+            optimisticMinutes: 0,
+            likelyMinutes: 0,
+            pessimisticMinutes: 0,
+          }
+        ),
+    [pertRows]
+  );
   const { optimisticMinutes, likelyMinutes, pessimisticMinutes } = pertMinutes;
   const scopingMinutes = getMinutes(scoping);
   const qAExactMinutes = useMemo(() => {
@@ -92,7 +98,15 @@ const PertTable: FC<Props> = ({ forwardref }) => {
     );
   };
 
-  const pert = (optimisticMinutes + likelyMinutes * 4 + pessimisticMinutes) / 6;
+  const pert = useMemo(
+    () =>
+      (pertMinutes.optimisticMinutes +
+        pertMinutes.likelyMinutes * 4 +
+        pertMinutes.pessimisticMinutes) /
+      6,
+    [pertMinutes]
+  );
+
   const isValidPert =
     optimisticMinutes < likelyMinutes && likelyMinutes < pessimisticMinutes;
   const isValidQaMinutes =
@@ -132,37 +146,31 @@ const PertTable: FC<Props> = ({ forwardref }) => {
             </tr>
           </thead>
           <tbody>
-            {devTasks.map(
-              ({ task, optimistic, likely, pessimistic }, index) => {
-                const optimisticMinuites = getMinutes(optimistic);
-                const likelyMinuites = getMinutes(likely);
-                const pessimisticMinuites = getMinutes(pessimistic);
-                const pert =
-                  (optimisticMinuites +
-                    likelyMinuites * 4 +
-                    pessimisticMinuites) /
-                  6;
-                return (
-                  <tr>
-                    {optimisticMinuites !== 0 &&
-                    likelyMinuites !== 0 &&
-                    pessimisticMinuites !== 0 ? (
-                      <>
-                        <td colSpan={3}>
-                          <strong>{task}</strong>, <br />
-                          Development task, including developer testing
-                          {index > 0 && ' [optional]'}
-                        </td>
-                        <td>{timeString(optimisticMinuites)}</td>
-                        <td>{timeString(likelyMinuites)}</td>
-                        <td>{timeString(pessimisticMinuites)}</td>
-                        <td>{timeString(pert)}</td>
-                      </>
-                    ) : null}
-                  </tr>
-                );
-              }
-            )}
+            {devTasks.map(({ task, optimistic, likely, pessimistic }) => {
+              const optimisticMinuites = getMinutes(optimistic);
+              const likelyMinuites = getMinutes(likely);
+              const pessimisticMinuites = getMinutes(pessimistic);
+              const pert =
+                (optimisticMinuites +
+                  likelyMinuites * 4 +
+                  pessimisticMinuites) /
+                6;
+              return (
+                <tr>
+                  {optimisticMinuites !== 0 &&
+                  likelyMinuites !== 0 &&
+                  pessimisticMinuites !== 0 ? (
+                    <Fragment>
+                      <td colSpan={3}>{task}</td>
+                      <td>{timeString(optimisticMinuites)}</td>
+                      <td>{timeString(likelyMinuites)}</td>
+                      <td>{timeString(pessimisticMinuites)}</td>
+                      <td>{timeString(pert)}</td>
+                    </Fragment>
+                  ) : null}
+                </tr>
+              );
+            })}
             <PertTableRow
               label="Ticket specific communications"
               percent={comms_percent}
