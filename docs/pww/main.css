@@ -51,6 +51,16 @@ h1 {
   font-size: 1.5rem;
 }
 
+.logo {
+  display: flex;
+  justify-content: center;
+}
+
+.logo svg {
+  height: 60px;
+  margin-bottom: 20px;
+}
+
 section {
   max-width: 700px;
   margin: 0 auto 40px;
