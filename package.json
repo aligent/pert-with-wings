@@ -5,11 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "npm run clean:extensions && tsc && vite build",
     "preview": "vite preview",
     "test": "jest",
     "lint": "eslint --ext .ts,.tsx ./src",
-    "lint:fix": "npm run lint -- --fix"
+    "lint:fix": "npm run lint -- --fix",
+    "clean:extensions": "rimraf extensions"
   },
   "dependencies": {
     "classnames": "^2.3.2",
@@ -40,6 +41,7 @@
     "jszip": "^3.10.1",
     "prettier": "^2.8.3",
     "puppeteer": "^19.5.2",
+    "rimraf": "^4.1.1",
     "ts-jest": "^29.0.5",
     "typescript": "^4.6.4",
     "uuid-by-string": "^4.0.0",

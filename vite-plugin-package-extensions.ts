@@ -3,10 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import JSZip from 'jszip';
 import getUuid from 'uuid-by-string';
+import packageJson from './package.json';
 
 export default function packageExtensions(): PluginOption {
   const inDir = 'dist';
   const outDir = 'extensions';
+  const { version } = packageJson;
 
   function addFilesToZipArchive(zip: JSZip | null, inDir: string) {
     const listOfFiles = fs.readdirSync(inDir);
@@ -93,7 +95,10 @@ export default function packageExtensions(): PluginOption {
             '\x1b[32m%s\x1b[0m',
             '  - Creating Chrome extension package.'
           );
-          createZipArchive(chromeZip, 'chrome-PERT-with-wings-package.zip');
+          createZipArchive(
+            chromeZip,
+            `chrome-PERT-with-wings-package-${version}.zip`
+          );
 
           console.log('\x1b[32m%s\x1b[0m', '  - Chrome extension packaged.');
 
@@ -110,7 +115,10 @@ export default function packageExtensions(): PluginOption {
             '\x1b[32m%s\x1b[0m',
             '  - Creating Firefox extension package.'
           );
-          createZipArchive(firefoxZip, 'firefox-PERT-with-wings-package.zip');
+          createZipArchive(
+            firefoxZip,
+            `firefox-PERT-with-wings-package-${version}.zip`
+          );
           console.log('\x1b[32m%s\x1b[0m', '  - Firefox extension packaged.');
         } else {
           console.log(
