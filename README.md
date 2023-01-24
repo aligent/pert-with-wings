@@ -18,13 +18,11 @@ in chrome://extensions enable Developer mode and point to /dist folder by clicki
 
 # Creating chrome / firefox extension packages.
 
-**Important:** Increase the version number of the extension by updating version in `package.json`. (This will be the version of the extension as well.)
-
-Then,
+**Important:** Increment the version number of the extension by updating version in `package.json`. (This will be the version of the extension as well.)
 
 `npm run build`
 
-Above creates two zip files inside /extensions folder for chrome web store and Firefox Add-ons.
+Creates two zip files inside /extensions folder for chrome web store and Firefox Add-ons.
 
 # Report a bug / Request a feature
 

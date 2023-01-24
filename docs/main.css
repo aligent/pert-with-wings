@@ -169,3 +169,14 @@ code {
 .extensions img {
   max-height: 2rem;
 }
+
+figure {
+  margin: 0;
+  padding: 10px 20px;
+  background: #eee;
+  border-radius: 10px;
+}
+
+blockquote {
+  margin: 0;
+}
