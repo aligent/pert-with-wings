@@ -146,7 +146,7 @@ const PertTable: FC<Props> = ({ forwardref }) => {
             </tr>
           </thead>
           <tbody>
-            {devTasks.map(({ task, optimistic, likely, pessimistic }) => {
+            {devTasks.map(({ id, task, optimistic, likely, pessimistic }) => {
               const optimisticMinuites = getMinutes(optimistic);
               const likelyMinuites = getMinutes(likely);
               const pessimisticMinuites = getMinutes(pessimistic);
@@ -156,7 +156,7 @@ const PertTable: FC<Props> = ({ forwardref }) => {
                   pessimisticMinuites) /
                 6;
               return (
-                <tr>
+                <tr key={id}>
                   {optimisticMinuites !== 0 &&
                   likelyMinuites !== 0 &&
                   pessimisticMinuites !== 0 ? (
