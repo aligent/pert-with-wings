@@ -8,11 +8,11 @@ Uses https://crxjs.dev/vite-plugin to build the react typescript bases applicati
 
 # Installation
 
-`npm install`
+`yarn`
 
 # Development
 
-`npm run dev`
+`yarn dev`
 
 in chrome://extensions enable Developer mode and point to /dist folder by clicking on **Load unpacked** button.
 
@@ -20,13 +20,13 @@ in chrome://extensions enable Developer mode and point to /dist folder by clicki
 
 **Important:** Increment the version number of the extension by updating version in `package.json`. (This will be the version of the extension as well.)
 
-`npm run build`
+`yarn build`
 
 Creates two zip files inside /extensions folder for chrome web store and Firefox Add-ons.
 
 # Report a bug / Request a feature
 
-Create a new issue in https://github.com/aligent/pert-with-wings/issues/new.
+Create an issue in https://aligent.atlassian.net/jira/software/c/projects/PERT/issues/.
 
 # Contribute
 
@@ -39,12 +39,12 @@ Please send a PR to this repo with a clear list of what you've done. However bef
 - Get yoursef added to `aligent-extensions` Publisher group by contacting a Principal Software Engineer / General Manager IT.
 - In https://chrome.google.com/webstore/devconsole/, select publisher **aligent-extensions**, go to **Items** and select **PERT With Wings**.
 - Go to **Package** tab and select **Upload new package**.
-- Upload `chrome-PERT-with-wings-package-<version>.zip`.
+- Upload `chrome-PERT-with-wings-package-<version>.zip`. (Generate this zip file by following https://github.com/aligent/pert-with-wings#creating-chrome--firefox-extension-packages)
 - Go to **Store listing** tab, update description if necessary, and click **Submit for review**.
 
 ## Firefox Add-ons
 
 - Create an account at https://addons.mozilla.org/en-US/firefox/
 - Get yoursef added to `aligent-extensions@aligent.com.au` mozilla addon account as a developer by contacting a Principal Software Engineer / General Manager IT.
-- Go to https://addons.mozilla.org/en-GB/developers/addon/pert-with-wings/versions/submit/ and upload `firefox-PERT-with-wings-package-<version>.zip`.
+- Go to https://addons.mozilla.org/en-GB/developers/addon/pert-with-wings/versions/submit/ and upload `firefox-PERT-with-wings-package-<version>.zip`. (Generate this zip file by following https://github.com/aligent/pert-with-wings#creating-chrome--firefox-extension-packages)
 - When prompted also upload a zip file of source code. You can generate a zip file by doing `git archive --format zip --output pert-extension.zip main`

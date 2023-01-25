@@ -5,11 +5,11 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run clean:extensions && tsc && vite build",
+    "build": "yarn run clean:extensions && tsc && vite build",
     "preview": "vite preview",
     "test": "jest",
     "lint": "eslint --ext .ts,.tsx ./src",
-    "lint:fix": "npm run lint -- --fix",
+    "lint:fix": "yarn run lint -- --fix",
     "clean:extensions": "rimraf extensions"
   },
   "dependencies": {
