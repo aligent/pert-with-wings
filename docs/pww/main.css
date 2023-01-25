@@ -187,6 +187,17 @@ figure {
   border-radius: 10px;
 }
 
+@media (prefers-color-scheme: dark) {
+  figure {
+    background-color: #333;
+    border-color: #444;
+  }
+}
+
 blockquote {
   margin: 0;
+}
+
+#faq details {
+  margin-bottom: 10px;
 }

@@ -13,7 +13,7 @@
         <li><a href="#changelog">Changelog</a></li>
         <li><a href="#faq">FAQ</a></li>
         <li>
-          <a target="_blank" href="https://github.com/pert-with-wings"
+          <a target="_blank" href="https://github.com/aligent/pert-with-wings"
             >Github</a
           >
         </li>
@@ -106,7 +106,7 @@
           average as the PERT estimate by using the formula
         </p>
         <figure>
-          <p>Pert Estimate = (Optimistic + (4 X Likely) + Pessimistic)/6</p>
+          <p>PERT Estimate = (Optimistic + (4 X Likely) + Pessimistic)/6</p>
         </figure>
         <h3>Optimistic Estimate</h3>
         <p>Estimate for all favourable conditions with no risks or changes.</p>
@@ -169,6 +169,20 @@
           <figcaption>—Kelly Birch</figcaption>
         </figure>
       </details>
+      <details>
+        <summary>Why can't I see the PERT button?</summary>
+        <p>Try reloading the JIRA / Azure DevOps ticket</p>
+      </details>
+      <details>
+        <summary>Why is the calculation wrong?</summary>
+        <p>
+          It's probably a bug. Report here
+          <a
+            href="https://aligent.atlassian.net/jira/software/c/projects/PERT/issues/"
+            >https://aligent.atlassian.net/jira/software/c/projects/PERT/issues/</a
+          >.
+        </p>
+      </details>
     </section>
     <section id="changelog">
       <h2>Changelog</h2>
@@ -187,9 +201,14 @@
           We are not rounding the time amount to closest 10 minutes by default
           anymore.
         </dd>
-
+      </dl>
+      <hr />
+      <dl>
         <dt>2022-10-18</dt>
         <dd>Add Azure devops support</dd>
+      </dl>
+      <hr />
+      <dl>
         <dt>2022-06-21</dt>
         <dd>
           Add better validation to input fields to avoid erroneous calculations.
@@ -203,6 +222,9 @@
           Add feature to round totals. Also can set the default in configs per
           project.
         </dd>
+      </dl>
+      <hr />
+      <dl>
         <dt>2022-04-29</dt>
         <dd>Add minimize modal button.</dd>
         <dd>Add project based default value content.</dd>
