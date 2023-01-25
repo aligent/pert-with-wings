@@ -121,7 +121,7 @@ const PertRowsForm: FC = () => {
               <input
                 onChange={(e) => updatePertRow(row.id, e)}
                 name="task"
-                id="task"
+                id={`task-${row.id}`}
                 type="text"
                 value={row.task}
                 className={`${classes.field}`}
@@ -146,7 +146,7 @@ const PertRowsForm: FC = () => {
                   handleChange(row.id);
                 }}
                 name="optimistic"
-                id="optimistic"
+                id={`optimistic-${row.id}`}
                 type="text"
                 value={row.optimistic}
                 {...VALIDATE_HOUR_MINUTES}
@@ -166,7 +166,7 @@ const PertRowsForm: FC = () => {
                   handleChange(row.id);
                 }}
                 name="likely"
-                id="likely"
+                id={`likely-${row.id}`}
                 type="text"
                 value={row.likely}
                 {...VALIDATE_HOUR_MINUTES}
@@ -187,7 +187,7 @@ const PertRowsForm: FC = () => {
                 }}
                 // onBlur={() => handleOnBlur(row.id)}
                 name="pessimistic"
-                id="pessimistic"
+                id={`pessimistic-${row.id}`}
                 type="text"
                 value={row.pessimistic}
                 {...VALIDATE_HOUR_MINUTES}

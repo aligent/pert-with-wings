@@ -126,7 +126,9 @@ const PertModal: FC = () => {
             </section>
 
             <footer className={classes.footer}>
-              <button type="submit">Add PERT Estimate</button>
+              <button type="submit" id="add-pert-estimate">
+                Add PERT Estimate
+              </button>
               <Logo />
             </footer>
           </form>

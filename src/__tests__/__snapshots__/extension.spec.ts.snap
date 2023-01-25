@@ -1,0 +1,144 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`test PERT with wings extension should post an accurate PERT estimate table. 1`] = `
+"Task
+
+	
+
+Estimate
+
+
+
+
+Analysis, solution design and/or scoping
+
+	
+
+1h
+
+Task
+
+	
+
+Optimistic Estimate
+
+	
+
+Likely Estimate
+
+	
+
+Pessimistic Estimate
+
+	
+
+PERT Estimate
+
+
+
+
+My task
+
+	
+
+1h
+
+	
+
+2h
+
+	
+
+6h
+
+	
+
+2h 30m
+
+
+
+
+Ticket specific communications
+
+	
+
+0h 06m
+
+	
+
+0h 12m
+
+	
+
+0h 36m
+
+	
+
+0h 15m
+
+
+
+
+Code review & fixes
+
+	
+
+0h 06m
+
+	
+
+0h 12m
+
+	
+
+0h 36m
+
+	
+
+0h 15m
+
+
+
+
+Quality Assurance Testing
+
+	
+
+0h 15m
+
+	
+
+0h 15m
+
+	
+
+0h 36m
+
+	
+
+0h 15m
+
+
+
+
+Total Estimate, including Analysis effort
+
+	
+
+2h 27m
+
+	
+
+3h 39m
+
+	
+
+8h 48m
+
+	
+
+4h 15m
+
+
+"
+`;
