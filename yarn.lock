@@ -827,6 +827,13 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.5.tgz#5f19d2b85a98e9558036f6a3cacc8819420f05cf"
   integrity sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==
 
+"@types/puppeteer@^7.0.4":
+  version "7.0.4"
+  resolved "https://registry.yarnpkg.com/@types/puppeteer/-/puppeteer-7.0.4.tgz#6eb4081323e9075c1f4c353f93ee2ed6eed99487"
+  integrity sha512-ja78vquZc8y+GM2al07GZqWDKQskQXygCDiu0e3uO0DMRKqE0MjrFBFmTulfPYzLB6WnL7Kl2tFPy0WXSpPomg==
+  dependencies:
+    puppeteer "*"
+
 "@types/react-dom@^18.0.8":
   version "18.0.10"
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-18.0.10.tgz#3b66dec56aa0f16a6cc26da9e9ca96c35c0b4352"
@@ -1584,6 +1591,11 @@ domutils@^3.0.1:
     dom-serializer "^2.0.0"
     domelementtype "^2.3.0"
     domhandler "^5.0.1"
+
+dotenv@^16.0.3:
+  version "16.0.3"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.3.tgz#115aec42bac5053db3c456db30cc243a5a836a07"
+  integrity sha512-7GO6HghkA5fYG9TYnNxi14/7K9f5occMlp3zXAuSxn7CKCxt9xbNWG7yF8hTCSUchlfWSe3uLmlPfigevRItzQ==
 
 electron-to-chromium@^1.4.251:
   version "1.4.284"
@@ -3656,7 +3668,7 @@ puppeteer-core@19.6.0:
     unbzip2-stream "1.4.3"
     ws "8.11.0"
 
-puppeteer@^19.5.2:
+puppeteer@*, puppeteer@^19.5.2:
   version "19.6.0"
   resolved "https://registry.yarnpkg.com/puppeteer/-/puppeteer-19.6.0.tgz#89a0bfa7da3db12b40ff9fe6c48cbc0eb149e03b"
   integrity sha512-KpRjn/bosTWe8xOQ/F5J1UmQ4inR77ADddn8G6MqMPp/y9Tl+7EycXgrjO0/3i/OQfHi5bsvkTKXRkm0ieo/ew==

@@ -2,8 +2,8 @@ import { Browser, Page } from 'puppeteer';
 
 import { setup } from './setup';
 
-describe('test text replacer extension with react app', () => {
-  let browser: Browser, appPage: Page;
+const JIRA_USER = process.env.JIRA_USER!;
+const JIRA_PASSWORD = process.env.JIRA_PASSWORD!;
 
   beforeAll(async () => {
     const context = await setup({
