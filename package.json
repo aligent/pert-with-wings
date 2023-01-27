@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "yarn run clean:extensions && tsc && vite build",
+    "build": "yarn run test && yarn run clean:extensions && tsc && vite build",
     "preview": "vite preview",
     "test": "jest",
     "lint": "eslint --ext .ts,.tsx ./src",
