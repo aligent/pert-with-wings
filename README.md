@@ -18,11 +18,13 @@ in chrome://extensions enable Developer mode and point to /dist folder by clicki
 
 # Creating chrome / firefox extension packages.
 
+Find `PERT with wings testing` secure note in LastPass containing testing credentials and create `.env` in project root.
+
 **Important:** Increment the version number of the extension by updating version in `package.json`. (This will be the version of the extension as well.)
 
 `yarn build`
 
-Creates two zip files inside /extensions folder for chrome web store and Firefox Add-ons.
+This will run tests and create two zip files inside /extensions folder for chrome web store and Firefox Add-ons.
 
 # Report a bug / Request a feature
 
