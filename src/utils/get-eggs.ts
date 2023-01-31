@@ -9,7 +9,7 @@ const styles = [
 const APRILFOOLS_STORAGE_KEY = `PWWAprilFools${new Date().getFullYear()}`;
 
 export const handleMouseOver = (e: MouseEvent<HTMLButtonElement>) => {
-  if (!isItAprilFoolDay()) return;
+  if (!isAprilFoolsDay()) return;
 
   const fooledCount = parseInt(
     localStorage.getItem(APRILFOOLS_STORAGE_KEY) ?? '0'
@@ -22,7 +22,7 @@ export const handleMouseOver = (e: MouseEvent<HTMLButtonElement>) => {
   localStorage.setItem(APRILFOOLS_STORAGE_KEY, (fooledCount + 1).toString());
 };
 
-const isItAprilFoolDay = () => {
+const isAprilFoolsDay = () => {
   const now = new Date();
-  return now.getMonth() == 0 && now.getDate() == 31;
+  return now.getMonth() == 3 && now.getDate() == 1;
 };
