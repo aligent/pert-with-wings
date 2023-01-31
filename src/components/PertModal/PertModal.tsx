@@ -17,7 +17,7 @@ const IS_JIRA = window.location.hostname.includes('atlassian.net');
 
 const pertModalStyles = {
   overlay: {
-    zIndex: 9999,
+    zIndex: 401287331 + 1,
     backdropFilter: 'blur(5px)',
   },
   content: {
