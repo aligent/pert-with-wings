@@ -24,5 +24,5 @@ export const handleMouseOver = (e: MouseEvent<HTMLButtonElement>) => {
 
 const isItAprilFoolDay = () => {
   const now = new Date();
-  return now.getMonth() == 0 && now.getDate() == 31;
+  return now.getMonth() == 3 && now.getDate() == 1;
 };
