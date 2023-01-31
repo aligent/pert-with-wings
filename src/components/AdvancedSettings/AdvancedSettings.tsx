@@ -12,7 +12,7 @@ const AdvancedSettings: FC = () => {
   const hasQaEstimate = pertData.pertRows.some((row) => row.isQATask);
   return (
     <details className={classes.advancedSettings}>
-      <summary>
+      <summary className={classes.summary}>
         <div className={classes.summaryLabel}>
           <MdSettings />
           Advanced Settings

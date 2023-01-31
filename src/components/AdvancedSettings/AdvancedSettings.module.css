@@ -8,6 +8,10 @@
   border-radius: 0.5rem;
 }
 
+.summary {
+  display: flex;
+}
+
 .summaryLabel {
   display: flex;
   gap: 0.5rem;
@@ -15,6 +19,7 @@
   font-weight: bold;
   font-size: 0.9rem;
   cursor: pointer;
+  width: 100%;
 }
 
 .close {

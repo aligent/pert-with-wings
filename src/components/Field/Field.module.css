@@ -18,6 +18,7 @@
   align-items: center;
   font-size: 0.9rem;
   order: -1;
+  color: var(--color);
 }
 
 .labelCheckbox {
@@ -29,6 +30,8 @@
   display: block;
   margin: 0;
   font-size: 0.8rem;
+  font-weight: normal;
+  color: var(--color);
 }
 
 .field input[type='text'],
