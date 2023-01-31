@@ -3,8 +3,8 @@ import { Browser, Page } from 'puppeteer';
 import { setup } from './setup';
 import { delay } from './utils';
 
-const AZUREDEVOPS_USER = process.env.AZUREDEVOPS_USER!;
-const AZUREDEVOPS_PASSWORD = process.env.AZUREDEVOPS_PASSWORD!;
+const AZUREDEVOPS_USER = process.env.AZUREDEVOPS_USER || '';
+const AZUREDEVOPS_PASSWORD = process.env.AZUREDEVOPS_PASSWORD || '';
 
 describe('test PERT with wings extension in Azure DevOps.', () => {
   let browser: Browser, page: Page;

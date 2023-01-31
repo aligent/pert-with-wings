@@ -2,8 +2,8 @@ import { Browser, Page } from 'puppeteer';
 
 import { setup } from './setup';
 
-const JIRA_USER = process.env.JIRA_USER!;
-const JIRA_PASSWORD = process.env.JIRA_PASSWORD!;
+const JIRA_USER = process.env.JIRA_USER || '';
+const JIRA_PASSWORD = process.env.JIRA_PASSWORD || '';
 
 describe('test PERT with wings extension in JIRA', () => {
   let browser: Browser, page: Page;
