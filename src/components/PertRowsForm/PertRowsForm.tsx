@@ -14,6 +14,7 @@ const VALIDATE_HOUR_MINUTES = {
   title:
     'Time values can be either hour value (1.5) or hours and minutes (1h 30m)',
 };
+const LARGE_ESTIMATE_HOURS = 10;
 
 const PertRowsForm: FC = () => {
   const [pertWarning, setPertWarning] = useState('');
@@ -31,8 +32,8 @@ const PertRowsForm: FC = () => {
 
   useEffect(() => {
     setPertWarning(
-      likely > 5 * 60
-        ? 'Development tasks estimate is more than 5 hours. Consider breaking the task down further into separate smaller sized tickets.'
+      likely > LARGE_ESTIMATE_HOURS * 60
+        ? `Development tasks estimate is more than ${LARGE_ESTIMATE_HOURS} hours. Consider breaking the task down further into separate smaller sized tickets.`
         : ''
     );
   }, [likely]);
@@ -63,11 +64,11 @@ const PertRowsForm: FC = () => {
       return;
     }
 
-    if (likelyMinutes > 5 * 60) {
+    if (likelyMinutes > LARGE_ESTIMATE_HOURS * 60) {
       updatePertMessage(
         id,
         'warning',
-        'Estimate is more than 5 hours. Consider breaking the task down further into separate smaller sized tickets.'
+        `Estimate is more than ${LARGE_ESTIMATE_HOURS} hours. Consider breaking the task down further into separate smaller sized tickets.`
       );
       return;
     }
