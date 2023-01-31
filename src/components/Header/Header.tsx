@@ -16,12 +16,12 @@ const Header: FC = () => {
   return (
     <header className={classes.header}>
       <Message
-        message={`Time values can be either hour value (1.5) or hours and
+        message={`NOTE: Time values can be either hour value (1.5) or hours and
       minutes (1h 30m). ${
         round_to_next_minutes
-          ? `Totals will be rounded to next ${round_to_next_minutes} minutes.`
+          ? `Totals will be rounded to next ${round_to_next_minutes} minutes. `
           : ''
-      }`}
+      } Development tasks estimate should include developer testing.`}
         type="info"
       />
       <button type="button" onClick={() => setIsPertModalOpen(false)}>
