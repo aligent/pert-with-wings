@@ -9,6 +9,7 @@ import Logo from '@/components/Logo';
 import PertRowsForm from '@/components/PertRowsForm';
 import PertTable from '@/components/PertTable';
 import { PertContext } from '@/context/pertContext';
+import { handleMouseOver } from '@/utils';
 
 import classes from './PertModal.module.css';
 
@@ -82,6 +83,7 @@ const PertModal: FC = () => {
         id={`pert-button-${IS_JIRA ? 'jira' : 'azure'}`}
         className={classes.openPertModalButton}
         onClick={handleOpen}
+        onMouseOver={handleMouseOver}
       >
         PERT
       </button>
