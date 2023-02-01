@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import JSZip from 'jszip';
 import getUuid from 'uuid-by-string';
+import childProcess from 'node:child_process';
 import packageJson from './package.json';
 
 export default function packageExtensions(): PluginOption {
@@ -85,51 +86,51 @@ export default function packageExtensions(): PluginOption {
           }
           const chromeZip = new JSZip();
 
-          console.log(
-            '\x1b[32m%s\x1b[0m',
-            '  - Preparing files for Chrome extension.'
-          );
+          console.log('- Preparing files for Chrome extension.');
           addFilesToZipArchive(chromeZip, inDir);
 
-          console.log(
-            '\x1b[32m%s\x1b[0m',
-            '  - Creating Chrome extension package.'
-          );
+          console.log('- Creating Chrome extension package.');
           createZipArchive(
             chromeZip,
             `chrome-PERT-with-wings-package-${version}.zip`
           );
 
-          console.log('\x1b[32m%s\x1b[0m', '  - Chrome extension packaged.');
+          console.log('\x1b[32m%s\x1b[0m', '✓ Chrome extension packaged.');
 
           const firefoxZip = new JSZip();
 
-          console.log(
-            '\x1b[32m%s\x1b[0m',
-            '  - Preparing files for Firefox extension.'
-          );
+          console.log('- Preparing files for Firefox extension.');
           modifyManifest(inDir);
           addFilesToZipArchive(firefoxZip, inDir);
 
-          console.log(
-            '\x1b[32m%s\x1b[0m',
-            '  - Creating Firefox extension package.'
-          );
+          console.log('- Creating Firefox extension package.');
           createZipArchive(
             firefoxZip,
             `firefox-PERT-with-wings-package-${version}.zip`
           );
-          console.log('\x1b[32m%s\x1b[0m', '  - Firefox extension packaged.');
+          console.log('\x1b[32m%s\x1b[0m', '✓ Firefox extension packaged.');
+
+          console.log('- Creating source code zip file.');
+          const gitArchive = childProcess.exec(
+            `git archive --format zip --output extensions/pert-extension-source-code-${version}.zip main`
+          );
+
+          gitArchive.stdout.on('close', () => {
+            console.log(
+              '\x1b[32m%s\x1b[0m',
+              '✓ Source code zip file created for firefox extension source code submission.'
+            );
+          });
         } else {
           console.log(
             '\x1b[31m%s\x1b[0m',
-            `  - "${inDir}" folder does not exist!`
+            `× "${inDir}" folder does not exist!`
           );
         }
       } catch (error) {
         console.log(
           '\x1b[31m%s\x1b[0m',
-          '  - Something went wrong while building packages!'
+          '× Something went wrong while building packages!'
         );
       }
     },
