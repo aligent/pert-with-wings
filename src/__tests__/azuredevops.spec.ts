@@ -1,16 +1,15 @@
 import { Browser, Page } from 'puppeteer';
+import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { setup } from './setup';
 import { delay } from './utils';
 
-const AZUREDEVOPS_USER = process.env.AZUREDEVOPS_USER || '';
-const AZUREDEVOPS_PASSWORD = process.env.AZUREDEVOPS_PASSWORD || '';
+const AZUREDEVOPS_USER = process.env.VITE_AZUREDEVOPS_USER || '';
+const AZUREDEVOPS_PASSWORD = process.env.VITE_AZUREDEVOPS_PASSWORD || '';
 
-describe('test PERT with wings extension in Azure DevOps.', () => {
+describe('test PERT with wings extension in Azure DevOps.', async () => {
   let browser: Browser, page: Page;
   const timeout = 5000;
-
-  jest.setTimeout(timeout * 10);
 
   beforeAll(async () => {
     const context = await setup({

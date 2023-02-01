@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`test PERT with wings extension in Azure DevOps. should post an accurate PERT estimate table in Azure DevOps ticket. 1`] = `
+exports[`test PERT with wings extension in Azure DevOps. > should post an accurate PERT estimate table in Azure DevOps ticket. 1`] = `
 "Task	Estimate
 Analysis, solution design and/or scoping	1h
 Task	Optimistic Estimate	Likely Estimate	Pessimistic Estimate	PERT Estimate

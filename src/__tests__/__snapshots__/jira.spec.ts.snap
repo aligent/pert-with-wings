@@ -1,6 +1,6 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Vitest Snapshot v1
 
-exports[`test PERT with wings extension in JIRA should post an accurate PERT estimate table in JIRA ticket. 1`] = `
+exports[`test PERT with wings extension in JIRA > should post an accurate PERT estimate table in JIRA ticket. 1`] = `
 "Task
 
 	

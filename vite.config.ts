@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from 'vite';
 import { resolve } from 'path';
 import react from '@vitejs/plugin-react';
@@ -13,4 +14,8 @@ export default defineConfig({
     },
   },
   plugins: [react(), crx({ manifest }), packageExtensions()],
+  test: {
+    include: ['**/?(*.)+(spec|test).[jt]s?(x)'],
+    testTimeout: 60_000,
+  },
 });
