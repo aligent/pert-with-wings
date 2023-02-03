@@ -76,7 +76,7 @@ const PertTable: FC<Props> = ({ forwardref }) => {
   const getTotal = (segment: number) => {
     const commsPercentMinutes = Math.floor((segment * comms_percent) / 100);
     const codeReviewsAndFixesPercentMinutes = Math.floor(
-      (segment * comms_percent) / 100
+      (segment * code_reviews_and_fixes_percent) / 100
     );
     const qaMinutes =
       qAExactMinutes !== null
