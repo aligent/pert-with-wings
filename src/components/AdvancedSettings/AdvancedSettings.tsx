@@ -52,6 +52,7 @@ const AdvancedSettings: FC = () => {
           description="10% of dev task recommended."
           name="automated_tests_percent"
           type="range"
+          disabled={!pertData.automatedTests}
         />
         {/* <Field
           label="Round to next minutes"
