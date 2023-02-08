@@ -3,3 +3,5 @@ export const delay = (time: number) => {
     setTimeout(resolve, time);
   });
 };
+
+export const timeout = 5000;

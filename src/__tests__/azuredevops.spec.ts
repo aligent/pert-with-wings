@@ -39,7 +39,6 @@ describe('test PERT with wings extension in Azure DevOps.', async () => {
       visible: true,
       timeout,
     });
-    console.log(a);
     await page.type('[name="passwd"]', AZUREDEVOPS_PASSWORD);
     await page.waitForSelector('[data-report-event="Signin_Submit"]', {
       visible: true,
@@ -62,7 +61,7 @@ describe('test PERT with wings extension in Azure DevOps.', async () => {
 
     await delay(2000);
 
-    const btn = await page.waitForSelector("[id^='pert-button-']", {
+    const btn = await page.waitForSelector('#pert-button-azure', {
       visible: true,
       timeout,
     });
