@@ -119,7 +119,7 @@ const PertTable: FC<Props> = ({ forwardref }) => {
   return (
     <div ref={forwardref}>
       {scopingMinutes ? (
-        <table>
+        <table border={1} cellPadding={5}>
           <thead>
             <tr>
               <th colSpan={3}>Task</th>
@@ -135,7 +135,7 @@ const PertTable: FC<Props> = ({ forwardref }) => {
         </table>
       ) : null}
       {isValidPert ? (
-        <table>
+        <table border={1} cellPadding={5}>
           <thead>
             <tr>
               <th colSpan={3}>Task</th>
@@ -245,7 +245,7 @@ const PertTable: FC<Props> = ({ forwardref }) => {
         </table>
       ) : null}
       {risk ? (
-        <table>
+        <table border={1} cellPadding={5}>
           <thead>
             <tr>
               <th>Complexity/Risk Level</th>
