@@ -51,7 +51,10 @@ const PertModal: FC = () => {
     const html = getMarkup();
 
     // clear the message box if it's just the placeholder
-    if (input.current.innerHTML.includes('Add a comment\u2026')) {
+    if (
+      input.current.textContent === 'Type @ to mention and notify someone.' ||
+      input.current.textContent === 'Add a comment…'
+    ) {
       input.current.innerHTML = '';
     }
 
@@ -70,7 +73,7 @@ const PertModal: FC = () => {
       document.querySelector('[contenteditable="true"]'); // new jira comment
 
     if (!input.current) {
-      alert('Please click on comment box before using PERT bookmarklet.');
+      alert('Please click on comment box before using PERT With Wings.');
       return;
     }
 
