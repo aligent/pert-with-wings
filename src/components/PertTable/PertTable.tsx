@@ -128,7 +128,9 @@ const PertTable: FC<Props> = ({ forwardref }) => {
           </thead>
           <tbody>
             <tr>
-              <td colSpan={3}>Analysis, solution design and/or scoping</td>
+              <td colSpan={3}>
+                Analysis/Solution Design, Scoping and Documenting
+              </td>
               <td>{timeString(scopingMinutes)}</td>
             </tr>
           </tbody>

@@ -2,7 +2,7 @@
 
 exports[`test PERT with wings extension in Azure DevOps. > should post an accurate PERT estimate table in Azure DevOps ticket. 1`] = `
 "Task	Estimate
-Analysis, solution design and/or scoping	1h
+Analysis/Solution Design, Scoping and Documenting	1h
 Task	Optimistic Estimate	Likely Estimate	Pessimistic Estimate	PERT Estimate
 My task	1h	2h	6h	2h 30m
 Ticket specific communications	0h 06m	0h 12m	0h 36m	0h 15m

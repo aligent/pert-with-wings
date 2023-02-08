@@ -106,7 +106,7 @@ const PertModal: FC = () => {
               <PertRowsForm />
 
               <Field
-                label="Analysis, solution design and/or scoping"
+                label="Analysis/Solution Design, Scoping and Documenting"
                 name="scoping"
               />
 
