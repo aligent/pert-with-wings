@@ -2,7 +2,7 @@ import { Browser, Page } from 'puppeteer';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 
 import { setup } from './setup';
-import { timeout } from './utils';
+import { delay, timeout } from './utils';
 
 const JIRA_USER = process.env.VITE_JIRA_USER || '';
 const JIRA_PASSWORD = process.env.VITE_JIRA_PASSWORD || '';
@@ -55,11 +55,12 @@ describe('test PERT with wings extension in JIRA', async () => {
   });
 
   it('should render a popup when PERT button is clicked in JIRA ticket.', async () => {
+    await page.keyboard.press('M');
+    await delay(1000);
     const pertButton = await page.waitForSelector('#pert-button-jira', {
       visible: true,
       timeout,
     });
-    await page.keyboard.press('M');
     await pertButton?.click();
     const addPertBtn = await page.waitForSelector('#add-pert-estimate', {
       visible: true,
