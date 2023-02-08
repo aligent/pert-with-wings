@@ -131,7 +131,7 @@ const PertModal: FC = () => {
 
             <section className={classes.pertFieldset}>
               <header className={classes.pertLegend}>Preview</header>
-              <PertTable forwardref={pertHtmlRef} />
+              <PertTable forwardRef={pertHtmlRef} />
             </section>
 
             <footer className={classes.footer}>

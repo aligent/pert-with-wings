@@ -7,10 +7,10 @@ import { useTimeString } from '@/hooks';
 import { getMinutes } from '@/utils';
 
 interface Props {
-  forwardref: RefObject<HTMLDivElement>;
+  forwardRef: RefObject<HTMLDivElement>;
 }
 
-const PertTable: FC<Props> = ({ forwardref }) => {
+const PertTable: FC<Props> = ({ forwardRef }) => {
   const { pertData } = useContext(PertContext) as PertContextType;
   const {
     pertRows,
@@ -117,7 +117,7 @@ const PertTable: FC<Props> = ({ forwardref }) => {
   const devTasks = pertRows.filter((row) => !row.isQATask);
 
   return (
-    <div ref={forwardref}>
+    <div ref={forwardRef}>
       {scopingMinutes ? (
         <table border={1} cellPadding={5}>
           <thead>
