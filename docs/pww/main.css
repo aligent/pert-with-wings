@@ -201,3 +201,7 @@ blockquote {
 #faq details {
   margin-bottom: 10px;
 }
+
+mfrac * {
+  font-size: 1rem;
+}
