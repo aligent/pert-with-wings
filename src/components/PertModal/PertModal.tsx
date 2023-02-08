@@ -1,4 +1,4 @@
-import { FC, useContext, useRef } from 'react';
+import { CSSProperties, FC, useContext, useRef } from 'react';
 import ReactModal from 'react-modal';
 
 import { PertContextType } from '@/@types/pertData';
@@ -21,16 +21,16 @@ const pertModalStyles = {
     backdropFilter: 'blur(5px)',
     overflow: 'auto',
     padding: 40,
-  },
+  } as CSSProperties,
   content: {
+    position: 'static',
     maxWidth: '760px',
     margin: 'auto',
     padding: 0,
     border: 0,
     background: 'none',
     overflow: 'visible',
-    position: 'static',
-  },
+  } as CSSProperties,
 };
 
 const PertModal: FC = () => {
