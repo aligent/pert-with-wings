@@ -29,6 +29,7 @@ const pertModalStyles = {
     border: 0,
     background: 'none',
     overflow: 'visible',
+    position: 'static',
   },
 };
 
