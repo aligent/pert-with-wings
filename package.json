@@ -1,11 +1,11 @@
 {
   "name": "pert-with-wings",
   "private": true,
-  "version": "1.1.9",
+  "version": "1.1.10",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "yarn clean:extensions && tsc && vite build",
     "deploy": "yarn test && yarn clean:extensions && tsc && vite build",
     "preview": "vite preview",
     "test": "vitest --run",
@@ -38,6 +38,7 @@
     "eslint-import-resolver-typescript": "^3.5.3",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-prettier": "^4.2.1",
+    "ghersay": "git+https://github.com/thilinaaligent/ghersay.git#main",
     "jszip": "^3.10.1",
     "prettier": "^2.8.3",
     "puppeteer": "^19.5.2",

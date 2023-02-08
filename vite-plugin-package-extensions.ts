@@ -5,6 +5,7 @@ import JSZip from 'jszip';
 import getUuid from 'uuid-by-string';
 import childProcess from 'node:child_process';
 import packageJson from './package.json';
+import gherSay from 'ghersay';
 
 export default function packageExtensions(): PluginOption {
   const inDir = 'dist';
@@ -79,58 +80,82 @@ export default function packageExtensions(): PluginOption {
     apply: 'build',
     closeBundle() {
       try {
-        console.log('\x1b[36m%s\x1b[0m', `Packaging extensions:`);
+        gherSay(`Let's build v${version}`);
+        console.log(
+          '  %s \x1b[42m\x1b[30m\033[1m %s \x1b[0m\x1b[32m\033[1m %s \x1b[0m%s',
+          '🧩',
+          'PERT WITH WINGS',
+          `v${version}`,
+          `started packaging extensions:`
+        );
+        console.log(' ');
+
         if (fs.existsSync(inDir)) {
           if (!fs.existsSync(outDir)) {
             fs.mkdirSync(outDir);
           }
           const chromeZip = new JSZip();
 
-          console.log('- Preparing files for Chrome extension.');
+          console.log('  - Preparing files for Chrome extension.');
           addFilesToZipArchive(chromeZip, inDir);
 
-          console.log('- Creating Chrome extension package.');
+          console.log('  - Creating Chrome extension package.');
           createZipArchive(
             chromeZip,
             `chrome-PERT-with-wings-package-${version}.zip`
           );
 
-          console.log('\x1b[32m%s\x1b[0m', '✓ Chrome extension packaged.');
+          console.log(
+            '\x1b[32m\033[1m%s\x1b[0m',
+            '  ✓ Chrome extension packaged.'
+          );
 
           const firefoxZip = new JSZip();
 
-          console.log('- Preparing files for Firefox extension.');
+          console.log('  - Preparing files for Firefox extension.');
           modifyManifest(inDir);
           addFilesToZipArchive(firefoxZip, inDir);
 
-          console.log('- Creating Firefox extension package.');
+          console.log('  - Creating Firefox extension package.');
           createZipArchive(
             firefoxZip,
             `firefox-PERT-with-wings-package-${version}.zip`
           );
-          console.log('\x1b[32m%s\x1b[0m', '✓ Firefox extension packaged.');
+          console.log(
+            '\x1b[32m\033[1m%s\x1b[0m',
+            '  ✓ Firefox extension packaged.'
+          );
 
-          console.log('- Creating source code zip file.');
+          console.log('  - Creating source code zip file.');
           const gitArchive = childProcess.exec(
             `git archive --format zip --output extensions/pert-extension-source-code-${version}.zip main`
           );
 
           gitArchive.stdout.on('close', () => {
             console.log(
-              '\x1b[32m%s\x1b[0m',
-              '✓ Source code zip file created for firefox extension source code submission.'
+              '\x1b[32m\033[1m%s\x1b[0m',
+              '  ✓ Source code zip file created.'
             );
+            console.log(' ');
+
+            console.log(
+              '\x1b[36m%s\x1b[0m',
+              '  Packages successfully created in /extensions'
+            );
+
+            console.log(' ');
+            console.log(' ');
           });
         } else {
           console.log(
             '\x1b[31m%s\x1b[0m',
-            `× "${inDir}" folder does not exist!`
+            `  × "${inDir}" folder does not exist!`
           );
         }
       } catch (error) {
         console.log(
           '\x1b[31m%s\x1b[0m',
-          '× Something went wrong while building packages!'
+          '  × Something went wrong while building packages!'
         );
       }
     },
