@@ -19,6 +19,8 @@ const pertModalStyles = {
   overlay: {
     zIndex: 401287331 + 1,
     backdropFilter: 'blur(5px)',
+    overflow: 'auto',
+    padding: 40,
   },
   content: {
     maxWidth: '760px',
@@ -26,6 +28,7 @@ const pertModalStyles = {
     padding: 0,
     border: 0,
     background: 'none',
+    overflow: 'visible',
   },
 };
 

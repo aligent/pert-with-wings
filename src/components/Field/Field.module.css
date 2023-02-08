@@ -9,7 +9,7 @@
   grid-template-columns: 3fr 1fr 3rem;
   gap: 1rem;
   align-items: center;
-  accent-color: var(--color);
+  accent-color: var(--button-bg);
 }
 
 .label {
