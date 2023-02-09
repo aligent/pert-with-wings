@@ -1,18 +1,18 @@
 :root {
-  --color: rgb(51 51 51);
-  --bg: rgb(255 255 255);
-  --border-color: hwb(0 80% 20%);
+  --color: #333;
+  --bg: #fff;
+  --border-color: #ccc;
   --font: 'Lato', sans-serif;
   --fancy-font: 'Indie Flower', cursive;
-  --link-color: rgb(32 81 141);
+  --link-color: #20518d;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --color: rgb(238 238 238);
-    --bg: rgb(17 17 17);
-    --border-color: rgb(51 51 51);
-    --link-color: rgb(70 142 229);
+    --color: #eee;
+    --bg: #111;
+    --border-color: #333;
+    --link-color: #468ee5;
   }
 }
 
@@ -45,39 +45,20 @@ nav ul {
   padding: 0;
 }
 
-.bookmarklet-wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 40px 0;
-}
-
 h1 {
-  font-family: var(--fancy-font);
   margin: 0 0 10px;
   text-align: center;
   font-size: 1.5rem;
 }
 
-.bookmarklet-wrapper .arrow {
-  width: 40px;
-  height: 40px;
-  margin-bottom: 30px;
-  margin-left: 50px;
-  transition: transform 0.3s ease-in-out;
+.logo {
+  display: flex;
+  justify-content: center;
 }
 
-.bookmarklet-wrapper a {
-  display: inline-block;
-  padding: 1rem 1.5rem;
-  border-radius: 1rem;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.5rem;
-  background: #20518d;
-  color: #fff;
-  position: relative;
-  z-index: 2;
+.logo svg {
+  height: 60px;
+  margin-bottom: 20px;
 }
 
 section {
@@ -165,4 +146,62 @@ code {
     background-color: #333;
     border-color: #444;
   }
+}
+
+.extensions {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+@media (min-width: 600px) {
+  .extensions {
+    flex-direction: row;
+  }
+}
+
+.extensions a {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid;
+  border-radius: 10px;
+  text-decoration: none;
+}
+
+.extensions a:hover {
+  background-color: var(--link-color);
+  color: #fff;
+}
+
+.extensions img {
+  max-height: 2rem;
+}
+
+figure {
+  margin: 0;
+  padding: 10px 20px;
+  background: #eee;
+  border-radius: 10px;
+}
+
+@media (prefers-color-scheme: dark) {
+  figure {
+    background-color: #333;
+    border-color: #444;
+  }
+}
+
+blockquote {
+  margin: 0;
+}
+
+#faq details {
+  margin-bottom: 10px;
+}
+
+mfrac * {
+  font-size: 1rem;
 }
