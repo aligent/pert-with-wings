@@ -1,6 +1,6 @@
 import { CSSProperties, FC, useContext, useEffect, useRef } from 'react';
 import ReactModal from 'react-modal';
-import { MdOutlineSmsFailed } from 'react-icons/md';
+import { MdOutlineSmsFailed, MdContentCopy } from 'react-icons/md';
 
 import { PertContextType } from '@/@types/pertData';
 import AdvancedSettings from '@/components/AdvancedSettings';
@@ -14,7 +14,9 @@ import { handleMouseOver } from '@/utils';
 
 import classes from './PertModal.module.css';
 
-const IS_JIRA = window.location.hostname.includes('atlassian.net');
+const IS_JIRA =
+  window.location.hostname.includes('atlassian.net') ||
+  window.location.pathname.startsWith('/browse/');
 
 const pertModalStyles = {
   overlay: {
@@ -35,7 +37,8 @@ const pertModalStyles = {
 };
 
 const PertModal: FC = () => {
-  const input = useRef<HTMLElement | null>(null);
+  const inputRef = useRef<HTMLElement | null>(null);
+  const formRef = useRef<HTMLFormElement | null>(null);
   const pertHtmlRef = useRef<HTMLDivElement>(null);
 
   const { pertData, setIsPertModalOpen, isPertModalOpen } = useContext(
@@ -51,38 +54,58 @@ const PertModal: FC = () => {
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
-    if (!input.current) return;
+    if (!inputRef.current) return;
 
     const html = getMarkup();
 
     // clear the message box if it's just the placeholder
     if (
-      input.current.textContent === 'Type @ to mention and notify someone.' ||
-      input.current.textContent === 'Add a comment…'
+      inputRef.current.textContent ===
+        'Type @ to mention and notify someone.' ||
+      inputRef.current.textContent === 'Add a comment…'
     ) {
-      input.current.innerHTML = '';
+      inputRef.current.innerHTML = '';
     }
 
-    input.current.innerHTML += html;
+    inputRef.current.innerHTML += html;
 
     setIsPertModalOpen(false);
   };
 
   const handleOpen = () => {
-    input.current =
+    inputRef.current =
       (
         document.querySelector(`iframe[id^="mce_"]`) as HTMLIFrameElement
       )?.contentWindow?.document.getElementById('tinymce') || // old jira comment
       document.querySelector('[aria-label="edit-box"]') || // Azupre devops edit mode
       document.querySelector('[aria-label="Discussion"]') || // Azure devops comment
-      document.querySelector('[contenteditable="true"]'); // new jira comment
+      document.querySelector('div[contenteditable="true"]'); // new jira comment
 
-    if (!input.current) {
+    if (!inputRef.current) {
       alert('Please click on comment box before using PERT With Wings.');
       return;
     }
 
     setIsPertModalOpen(true);
+  };
+
+  const handleCopy = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+
+    const form = formRef.current;
+    if (!form) return;
+    if (!form.reportValidity()) return;
+
+    if (!pertHtmlRef.current) return;
+
+    const html = getMarkup();
+    if (!html) return;
+
+    const blobInput = new Blob([html], { type: 'text/html' });
+    const clipboardItemInput = new ClipboardItem({ 'text/html': blobInput });
+    navigator.clipboard.write([clipboardItemInput]);
+
+    setIsPertModalOpen(false);
   };
 
   useEffect(() => {
@@ -113,7 +136,12 @@ const PertModal: FC = () => {
         appElement={document.getElementById('crx-root') || undefined}
       >
         <div className={classes.content}>
-          <form onSubmit={handleSubmit} action="" className={classes.pertForm}>
+          <form
+            onSubmit={handleSubmit}
+            action=""
+            className={classes.pertForm}
+            ref={formRef}
+          >
             <Header />
             <div className={classes.top}>
               <PertRowsForm />
@@ -149,7 +177,15 @@ const PertModal: FC = () => {
 
             <footer className={classes.footer}>
               <button type="submit" id="add-pert-estimate">
-                Add PERT Estimate
+                Add Estimate
+              </button>
+              <button
+                className={classes.buttonSecondary}
+                type="submit"
+                onClick={(e) => handleCopy(e)}
+              >
+                <MdContentCopy />
+                Copy Estimate
               </button>
               <a
                 target="_blank"

@@ -145,11 +145,20 @@
 .footer button {
   background: var(--pert-primary);
   border-color: var(--pert-primary);
-  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer button.buttonSecondary {
+  background: none;
+  color: var(--pert-primary);
 }
 
 .feedback {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  margin-right: auto;
+  color: var(--pert-primary);
 }

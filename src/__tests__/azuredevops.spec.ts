@@ -83,7 +83,7 @@ describe('test PERT with wings extension in Azure DevOps.', async () => {
     const addPertBtnTxt = await addPertBtn?.evaluate(
       (e) => (e as HTMLElement).innerText
     );
-    expect(addPertBtnTxt).toEqual('ADD PERT ESTIMATE');
+    expect(addPertBtnTxt).toEqual('ADD ESTIMATE');
   });
 
   it('should post an accurate PERT estimate table in Azure DevOps ticket.', async () => {
