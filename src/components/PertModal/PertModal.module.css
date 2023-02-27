@@ -145,4 +145,11 @@
 .footer button {
   background: var(--pert-primary);
   border-color: var(--pert-primary);
+  margin-left: auto;
+}
+
+.feedback {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
 }

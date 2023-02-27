@@ -1,5 +1,6 @@
 import { CSSProperties, FC, useContext, useEffect, useRef } from 'react';
 import ReactModal from 'react-modal';
+import { MdOutlineSmsFailed } from 'react-icons/md';
 
 import { PertContextType } from '@/@types/pertData';
 import AdvancedSettings from '@/components/AdvancedSettings';
@@ -150,6 +151,13 @@ const PertModal: FC = () => {
               <button type="submit" id="add-pert-estimate">
                 Add PERT Estimate
               </button>
+              <a
+                target="_blank"
+                href="https://aligent.atlassian.net/jira/software/c/projects/PERT/issues/"
+                className={classes.feedback}
+              >
+                <MdOutlineSmsFailed /> Give feedback or report a bug
+              </a>
               <Logo />
             </footer>
           </form>
