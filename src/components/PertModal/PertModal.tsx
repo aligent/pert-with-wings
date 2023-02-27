@@ -1,4 +1,4 @@
-import { CSSProperties, FC, useContext, useRef } from 'react';
+import { CSSProperties, FC, useContext, useEffect, useRef } from 'react';
 import ReactModal from 'react-modal';
 
 import { PertContextType } from '@/@types/pertData';
@@ -83,6 +83,18 @@ const PertModal: FC = () => {
 
     setIsPertModalOpen(true);
   };
+
+  useEffect(() => {
+    const ticketModalSelector = IS_JIRA
+      ? '.atlaskit-portal-container'
+      : '.new-workitem-dialog';
+
+    const $ticketModalSelector: HTMLElement | null =
+      document.querySelector(ticketModalSelector);
+    if (!$ticketModalSelector) return;
+
+    $ticketModalSelector.inert = isPertModalOpen;
+  }, [isPertModalOpen]);
 
   return (
     <>
