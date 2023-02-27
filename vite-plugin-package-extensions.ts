@@ -10,6 +10,7 @@ import gherSay from 'ghersay';
 export default function packageExtensions(): PluginOption {
   const inDir = 'dist';
   const outDir = 'extensions';
+  const baseBranch = 'production';
   const { version } = packageJson;
 
   function addFilesToZipArchive(zip: JSZip | null, inDir: string) {
@@ -128,7 +129,7 @@ export default function packageExtensions(): PluginOption {
 
           console.log('  - Creating source code zip file.');
           const gitArchive = childProcess.exec(
-            `git archive --format zip --output extensions/pert-extension-source-code-${version}.zip main`
+            `git archive --format zip --output extensions/pert-extension-source-code-${version}.zip ${baseBranch}`
           );
 
           gitArchive.stdout.on('close', () => {
