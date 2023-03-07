@@ -122,13 +122,13 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
         <table border={1} cellPadding={5}>
           <thead>
             <tr>
-              <th colSpan={3}>Task</th>
+              <th colSpan={6}>Task</th>
               <th>Estimate</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td colSpan={3}>
+              <td colSpan={6}>
                 Analysis/Solution Design, Scoping and Documenting
               </td>
               <td>{timeString(scopingMinutes)}</td>
@@ -137,114 +137,168 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
         </table>
       ) : null}
       {isValidPert ? (
-        <table border={1} cellPadding={5}>
-          <thead>
-            <tr>
-              <th colSpan={3}>Task</th>
-              <th>Optimistic Estimate</th>
-              <th>Likely Estimate</th>
-              <th>Pessimistic Estimate</th>
-              <th>PERT Estimate</th>
-            </tr>
-          </thead>
-          <tbody>
-            {devTasks.map(({ id, task, optimistic, likely, pessimistic }) => {
-              const optimisticMinuites = getMinutes(optimistic);
-              const likelyMinuites = getMinutes(likely);
-              const pessimisticMinuites = getMinutes(pessimistic);
-              const pert =
-                (optimisticMinuites +
-                  likelyMinuites * 4 +
-                  pessimisticMinuites) /
-                6;
-              return (
-                <tr key={id}>
-                  {optimisticMinuites !== 0 &&
-                  likelyMinuites !== 0 &&
-                  pessimisticMinuites !== 0 ? (
-                    <Fragment>
-                      <td colSpan={3}>{task}</td>
-                      <td>{timeString(optimisticMinuites)}</td>
-                      <td>{timeString(likelyMinuites)}</td>
-                      <td>{timeString(pessimisticMinuites)}</td>
-                      <td>{timeString(pert)}</td>
-                    </Fragment>
-                  ) : null}
-                </tr>
-              );
-            })}
-            <PertTableRow
-              label="Ticket specific communications"
-              percent={comms_percent}
-              pertMinutes={pertMinutes}
-            />
-            <PertTableRow
-              label="Code review & fixes"
-              percent={code_reviews_and_fixes_percent}
-              pertMinutes={pertMinutes}
-            />
-            {isValidQaMinutes && (
+        <Fragment>
+          <table border={1} cellPadding={5}>
+            <thead>
+              <tr>
+                <th colSpan={3}>Task</th>
+                <th>
+                  Optimistic <br />
+                  Estimate
+                </th>
+                <th>
+                  Likely <br />
+                  Estimate
+                </th>
+                <th>
+                  Pessimistic <br />
+                  Estimate
+                </th>
+                <th>
+                  PERT <br />
+                  Estimate
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {devTasks.map(({ id, task, optimistic, likely, pessimistic }) => {
+                const optimisticMinutes = getMinutes(optimistic);
+                const likelyMinutes = getMinutes(likely);
+                const pessimisticMinutes = getMinutes(pessimistic);
+                const pert =
+                  (optimisticMinutes + likelyMinutes * 4 + pessimisticMinutes) /
+                  6;
+                return (
+                  <tr key={id}>
+                    {optimisticMinutes !== 0 &&
+                    likelyMinutes !== 0 &&
+                    pessimisticMinutes !== 0 ? (
+                      <Fragment>
+                        <td colSpan={3}>{task}</td>
+                        <td>{timeString(optimisticMinutes)}</td>
+                        <td>{timeString(likelyMinutes)}</td>
+                        <td>{timeString(pessimisticMinutes)}</td>
+                        <td>{timeString(pert)}</td>
+                      </Fragment>
+                    ) : null}
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+          <table border={1} cellPadding={5}>
+            <thead>
+              <tr>
+                <th colSpan={3}>Task</th>
+                <th>
+                  Optimistic <br />
+                  Estimate
+                </th>
+                <th>
+                  Likely <br />
+                  Estimate
+                </th>
+                <th>
+                  Pessimistic <br />
+                  Estimate
+                </th>
+                <th>
+                  PERT <br />
+                  Estimate
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colSpan={3}>
+                  <strong>Total Development Tasks Time</strong>
+                </td>
+                <td>
+                  <strong>{timeString(optimisticMinutes)}</strong>
+                </td>
+                <td>
+                  <strong>{timeString(likelyMinutes)}</strong>
+                </td>
+                <td>
+                  <strong>{timeString(pessimisticMinutes)}</strong>
+                </td>
+                <td>
+                  <strong>{timeString(pert)}</strong>
+                </td>
+              </tr>
               <PertTableRow
-                label="Quality Assurance Testing"
-                percent={100}
-                pertMinutes={{
-                  optimisticMinutes: qAExactMinutes.optimistic,
-                  likelyMinutes: qAExactMinutes.likely,
-                  pessimisticMinutes: qAExactMinutes.pessimistic,
-                }}
-              />
-            )}
-            {!qAExactMinutes && (
-              <PertTableRow
-                label="Quality Assurance Testing"
-                percent={qa_testing_percent}
+                label="Ticket Specific Communications"
+                percent={comms_percent}
                 pertMinutes={pertMinutes}
-                min={qa_testing_min}
               />
-            )}
+              <PertTableRow
+                label="Code Review & Fixes"
+                percent={code_reviews_and_fixes_percent}
+                pertMinutes={pertMinutes}
+              />
+              {isValidQaMinutes && (
+                <PertTableRow
+                  label="Quality Assurance Testing"
+                  percent={100}
+                  pertMinutes={{
+                    optimisticMinutes: qAExactMinutes.optimistic,
+                    likelyMinutes: qAExactMinutes.likely,
+                    pessimisticMinutes: qAExactMinutes.pessimistic,
+                  }}
+                />
+              )}
+              {!qAExactMinutes && (
+                <PertTableRow
+                  label="Quality Assurance Testing"
+                  percent={qa_testing_percent}
+                  pertMinutes={pertMinutes}
+                  min={qa_testing_min}
+                />
+              )}
 
-            {automatedTests && (
-              <PertTableRow
-                label="Automated Tests"
-                percent={automated_tests_percent}
-                pertMinutes={pertMinutes}
-              />
-            )}
-            <tr>
-              <td colSpan={3}>
-                <strong>Total Estimate, including Analysis effort</strong>
-              </td>
-              <td>
-                <strong>
-                  {timeString(
-                    getTotal(optimisticMinutes) +
-                      (qAExactMinutes?.optimistic || 0)
-                  )}
-                </strong>
-              </td>
-              <td>
-                <strong>
-                  {timeString(
-                    getTotal(likelyMinutes) + (qAExactMinutes?.likely || 0)
-                  )}
-                </strong>
-              </td>
-              <td>
-                <strong>
-                  {timeString(
-                    getTotal(pessimisticMinutes) +
-                      (qAExactMinutes?.pessimistic || 0)
-                  )}
-                </strong>
-              </td>
-              <td>
-                <strong>
-                  {timeString(getTotal(pert) + (qAExactMinutes?.pert || 0))}
-                </strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              {automatedTests && (
+                <PertTableRow
+                  label="Automated Tests"
+                  percent={automated_tests_percent}
+                  pertMinutes={pertMinutes}
+                />
+              )}
+              <tr>
+                <td colSpan={3}>
+                  <strong>Total Estimate, including Analysis effort</strong>
+                </td>
+                <td>
+                  <strong>
+                    {timeString(
+                      getTotal(optimisticMinutes) +
+                        (qAExactMinutes?.optimistic || 0)
+                    )}
+                  </strong>
+                </td>
+                <td>
+                  <strong>
+                    {timeString(
+                      getTotal(likelyMinutes) + (qAExactMinutes?.likely || 0)
+                    )}
+                  </strong>
+                </td>
+                <td>
+                  <strong>
+                    {timeString(
+                      getTotal(pessimisticMinutes) +
+                        (qAExactMinutes?.pessimistic || 0)
+                    )}
+                  </strong>
+                </td>
+                <td>
+                  <strong>
+                    {timeString(getTotal(pert) + (qAExactMinutes?.pert || 0))}
+                  </strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </Fragment>
       ) : null}
       {risk ? (
         <table border={1} cellPadding={5}>

@@ -125,6 +125,10 @@
   padding: 0.5rem !important;
 }
 
+.pertFieldset th:not(:first-child) {
+  width: 100px; /* use minimal space */
+}
+
 .top {
   padding: 1rem;
   display: flex;
