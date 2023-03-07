@@ -33,11 +33,12 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
     () =>
       pertRows
         .filter(
-          ({ isQATask, optimistic, likely, pessimistic }) =>
+          ({ isQATask, optimistic, likely, pessimistic, error }) =>
             !isQATask &&
             optimistic !== '' &&
             likely !== '' &&
-            pessimistic !== ''
+            pessimistic !== '' &&
+            error === ''
         )
         .reduce(
           (prevSum, current) => ({

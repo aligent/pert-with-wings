@@ -166,3 +166,9 @@
   margin-right: auto;
   color: var(--pert-primary);
 }
+
+.footer button:disabled {
+  cursor: not-allowed;
+  filter: grayscale(1);
+  opacity: 0.5;
+}

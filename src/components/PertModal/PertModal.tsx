@@ -1,4 +1,12 @@
-import { CSSProperties, FC, useContext, useEffect, useRef } from 'react';
+import {
+  CSSProperties,
+  FC,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+} from 'react';
 import ReactModal from 'react-modal';
 import { MdOutlineSmsFailed, MdContentCopy } from 'react-icons/md';
 
@@ -71,6 +79,16 @@ const PertModal: FC = () => {
 
     setIsPertModalOpen(false);
   };
+
+  const isValidPert = useMemo(() => {
+    return pertData.pertRows.every(
+      (row) =>
+        row.error === '' &&
+        row.pessimistic !== '' &&
+        row.likely !== '' &&
+        row.optimistic
+    );
+  }, [pertData]);
 
   const handleOpen = () => {
     inputRef.current =
@@ -176,13 +194,18 @@ const PertModal: FC = () => {
             </section>
 
             <footer className={classes.footer}>
-              <button type="submit" id="add-pert-estimate">
+              <button
+                type="submit"
+                id="add-pert-estimate"
+                disabled={!isValidPert}
+              >
                 Add Estimate
               </button>
               <button
                 className={classes.buttonSecondary}
                 type="submit"
                 onClick={(e) => handleCopy(e)}
+                disabled={!isValidPert}
               >
                 <MdContentCopy />
                 Copy Estimate

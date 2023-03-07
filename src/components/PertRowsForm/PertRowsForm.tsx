@@ -8,12 +8,8 @@ import { getMinutes, getSums, getTimeString } from '@/utils';
 
 import classes from './PertRowsForm.module.css';
 
-const VALIDATE_HOUR_MINUTES = {
-  pattern:
-    '^((\\d*\\.?\\d+)[Mm]?|((\\d*\\.?\\d+)[Hh] ?((\\d*\\.?\\d+)[Mm])?))$',
-  title:
-    'Time values can be either hour value (1.5) or hours and minutes (1h 30m)',
-};
+const VALIDATE_HOUR_MINUTES =
+  '^((\\d*\\.?\\d+)[Mm]?|((\\d*\\.?\\d+)[Hh] ?((\\d*\\.?\\d+)[Mm])?))$';
 const LARGE_ESTIMATE_HOURS = 10;
 
 const PertRowsForm: FC = () => {
@@ -80,11 +76,20 @@ const PertRowsForm: FC = () => {
     const { optimisticMinutes, likelyMinutes, pessimisticMinutes } =
       getRowMinutes(rowData);
 
+    if (
+      optimisticMinutes <= 0 ||
+      likelyMinutes <= 0 ||
+      pessimisticMinutes <= 0
+    ) {
+      updatePertMessage(id, 'error', 'Invalid Estimate.');
+      return;
+    }
+
     if (optimisticMinutes >= likelyMinutes) {
       updatePertMessage(
         id,
         'error',
-        "Lilkely estimate can't be less than Optimisitc Estimate."
+        "Likely estimate can't be less than Optimistic Estimate."
       );
       return;
     }
@@ -105,11 +110,10 @@ const PertRowsForm: FC = () => {
     const rowData = pertData.pertRows.find((row) => row.id === id);
     if (!rowData) return;
 
-    updateWarnings(rowData, id);
-
     const { optimistic, likely, pessimistic } = rowData;
     if (optimistic === '' || likely === '' || pessimistic === '') return;
 
+    updateWarnings(rowData, id);
     updateErrors(rowData, id);
   };
 
@@ -150,11 +154,11 @@ const PertRowsForm: FC = () => {
                 id={`optimistic-${row.id}`}
                 type="text"
                 value={row.optimistic}
-                {...VALIDATE_HOUR_MINUTES}
+                pattern={VALIDATE_HOUR_MINUTES}
                 required
                 className={classes.field}
                 placeholder="Optimistic"
-                title="The fastest time you can complete an activity. This assumes that all the necessary resources have been put in place and nothing unexpected occurs. This estimate is hard to achieve most of the time because projects are expected to face some challenges."
+                title="Time values can be either hour value (1.5) or hours and minutes (1h 30m). The fastest time you can complete an activity. This assumes that all the necessary resources have been put in place and nothing unexpected occurs. This estimate is hard to achieve most of the time because projects are expected to face some challenges."
               />
               <label className={classes.label} htmlFor="optimistic">
                 <span>Optimistic</span>
@@ -170,11 +174,11 @@ const PertRowsForm: FC = () => {
                 id={`likely-${row.id}`}
                 type="text"
                 value={row.likely}
-                {...VALIDATE_HOUR_MINUTES}
+                pattern={VALIDATE_HOUR_MINUTES}
                 required
                 className={classes.field}
                 placeholder="Likely"
-                title="The most likely figure if there aren't any significant issues, but also not the best optimistic case. A realistic estimate. If you were asked for a quick time estimate this might be the figure you would come up with."
+                title="Time values can be either hour value (1.5) or hours and minutes (1h 30m). The most likely figure if there aren't any significant issues, but also not the best optimistic case. A realistic estimate. If you were asked for a quick time estimate this might be the figure you would come up with."
               />
               <label className={classes.label} htmlFor="likely">
                 <span>Likely</span>
@@ -191,11 +195,11 @@ const PertRowsForm: FC = () => {
                 id={`pessimistic-${row.id}`}
                 type="text"
                 value={row.pessimistic}
-                {...VALIDATE_HOUR_MINUTES}
+                pattern={VALIDATE_HOUR_MINUTES}
                 required
                 className={classes.field}
                 placeholder="Pessimistic"
-                title="This refers to the maximum time needed to complete an activity. It assumes and factors in all the negative things that may affect an activity. Most project teams assume resource unavailability and rework when deriving this estimate."
+                title="Time values can be either hour value (1.5) or hours and minutes (1h 30m). This refers to the maximum time needed to complete an activity. It assumes and factors in all the negative things that may affect an activity. Most project teams assume resource unavailability and rework when deriving this estimate."
               />
               <label className={classes.label} htmlFor="pessimistic">
                 <span>Pessimistic</span>
