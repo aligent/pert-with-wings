@@ -21,11 +21,6 @@
   color: var(--color);
 }
 
-.labelCheckbox {
-  width: 100%;
-  justify-content: space-between;
-}
-
 .description {
   display: block;
   margin: 0;
@@ -53,7 +48,7 @@
 }
 
 .field i {
-  position: relative;
+  position: absolute;
   right: 0;
   top: 0;
   width: 6rem;

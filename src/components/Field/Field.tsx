@@ -74,12 +74,7 @@ const Field: FC<Props> = ({
           {pertData[name]}%
         </output>
       )}
-      <label
-        htmlFor={name}
-        className={classnames(classes.label, {
-          [classes.labelCheckbox]: type === 'checkbox',
-        })}
-      >
+      <label htmlFor={name} className={classes.label}>
         <span>
           {label}
           {description && (
