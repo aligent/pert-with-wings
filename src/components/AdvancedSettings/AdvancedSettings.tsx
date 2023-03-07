@@ -45,7 +45,7 @@ const AdvancedSettings: FC = () => {
           label="Minimum Quality Assurance Estimate (minutes)"
           description="15 minutes recommended."
           name="qa_testing_min"
-          disabled={hasQaEstimate}
+          disabled={hasQaEstimate || pertData.qa_testing_percent === 0}
         />
         <Field
           label="Automated Tests Percentage"

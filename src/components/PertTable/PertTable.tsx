@@ -79,7 +79,7 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
       (segment * code_reviews_and_fixes_percent) / 100
     );
     const qaMinutes =
-      qAExactMinutes !== null
+      qAExactMinutes !== null || qa_testing_percent === 0
         ? 0
         : Math.floor((segment * qa_testing_percent) / 100) > qa_testing_min
         ? Math.floor((segment * qa_testing_percent) / 100)
