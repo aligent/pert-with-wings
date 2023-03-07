@@ -12,6 +12,11 @@
   display: flex;
 }
 
+.advancedSettings:not([open]) summary {
+  float: left;
+  color: var(--pert-primary);
+}
+
 .summaryLabel {
   display: flex;
   gap: 0.5rem;
