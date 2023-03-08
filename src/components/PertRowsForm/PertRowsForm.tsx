@@ -75,12 +75,13 @@ const PertRowsForm: FC = () => {
   const updateErrors = (rowData: IPertRow, id: string) => {
     const { optimisticMinutes, likelyMinutes, pessimisticMinutes } =
       getRowMinutes(rowData);
+    const fieldsToValidate = [
+      optimisticMinutes,
+      likelyMinutes,
+      pessimisticMinutes,
+    ];
 
-    if (
-      optimisticMinutes <= 0 ||
-      likelyMinutes <= 0 ||
-      pessimisticMinutes <= 0
-    ) {
+    if (!fieldsToValidate.every((field) => !isNaN(field) && field > 0)) {
       updatePertMessage(id, 'error', 'Invalid Estimate.');
       return;
     }
