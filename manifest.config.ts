@@ -14,6 +14,7 @@ export default defineManifest(async (env) => ({
       js: ['src/content.tsx'],
       matches: [
         'https://dev.azure.com/*', // AzureDevOps
+        'https://*.atlassian.net/*', // JIRA tickets
         'https://*/browse/*', // JIRA tickets
       ],
     },
