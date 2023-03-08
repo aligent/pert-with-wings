@@ -20,19 +20,23 @@ Task
 
 	
 
-Optimistic Estimate
+Optimistic 
+Estimate
 
 	
 
-Likely Estimate
+Likely 
+Estimate
 
 	
 
-Pessimistic Estimate
+Pessimistic 
+Estimate
 
 	
 
-PERT Estimate
+PERT 
+Estimate
 
 
 
@@ -55,10 +59,53 @@ My task
 
 2h 30m
 
+Task
+
+	
+
+Optimistic 
+Estimate
+
+	
+
+Likely 
+Estimate
+
+	
+
+Pessimistic 
+Estimate
+
+	
+
+PERT 
+Estimate
 
 
 
-Ticket specific communications
+
+Total Development Tasks Time
+
+	
+
+1h
+
+	
+
+2h
+
+	
+
+6h
+
+	
+
+2h 30m
+
+
+
+
+Ticket Specific Communications
 
 	
 
@@ -79,7 +126,7 @@ Ticket specific communications
 
 
 
-Code review & fixes
+Code Review & Fixes
 
 	
 
