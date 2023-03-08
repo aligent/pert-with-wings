@@ -1,14 +1,20 @@
 import {
   CSSProperties,
   FC,
+  Fragment,
   useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
+  useState,
 } from 'react';
 import ReactModal from 'react-modal';
-import { MdOutlineSmsFailed, MdContentCopy } from 'react-icons/md';
+import {
+  MdOutlineSmsFailed,
+  MdContentCopy,
+  MdCheckCircle,
+} from 'react-icons/md';
 
 import { PertContextType } from '@/@types/pertData';
 import AdvancedSettings from '@/components/AdvancedSettings';
@@ -48,6 +54,7 @@ const PertModal: FC = () => {
   const inputRef = useRef<HTMLElement | null>(null);
   const formRef = useRef<HTMLFormElement | null>(null);
   const pertHtmlRef = useRef<HTMLDivElement>(null);
+  const [copied, setCopied] = useState(false);
 
   const { pertData, setIsPertModalOpen, isPertModalOpen } = useContext(
     PertContext
@@ -95,7 +102,7 @@ const PertModal: FC = () => {
       (
         document.querySelector(`iframe[id^="mce_"]`) as HTMLIFrameElement
       )?.contentWindow?.document.getElementById('tinymce') || // old jira comment
-      document.querySelector('[aria-label="edit-box"]') || // Azupre devops edit mode
+      document.querySelector('[aria-label="edit-box"]') || // Azure devops edit mode
       document.querySelector('[aria-label="Discussion"]') || // Azure devops comment
       document.querySelector('div[contenteditable="true"]'); // new jira comment
 
@@ -107,7 +114,7 @@ const PertModal: FC = () => {
     setIsPertModalOpen(true);
   };
 
-  const handleCopy = (e: React.SyntheticEvent) => {
+  const handleCopy = async (e: React.SyntheticEvent) => {
     e.preventDefault();
 
     const form = formRef.current;
@@ -118,6 +125,12 @@ const PertModal: FC = () => {
 
     const html = getMarkup();
     if (!html) return;
+
+    setCopied(true);
+    await new Promise((resolve) => {
+      setTimeout(resolve, 300);
+    });
+    setCopied(false);
 
     const blobInput = new Blob([html], { type: 'text/html' });
     const clipboardItemInput = new ClipboardItem({ 'text/html': blobInput });
@@ -207,8 +220,17 @@ const PertModal: FC = () => {
                 onClick={(e) => handleCopy(e)}
                 disabled={!isValidPert}
               >
-                <MdContentCopy />
-                Copy Estimate
+                {copied ? (
+                  <Fragment>
+                    <MdCheckCircle />
+                    Copied
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <MdContentCopy />
+                    Copy Estimate
+                  </Fragment>
+                )}
               </button>
               <a
                 target="_blank"
