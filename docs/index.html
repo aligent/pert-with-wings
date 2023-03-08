@@ -205,9 +205,9 @@
     <section id="changelog">
       <h2>Changelog</h2>
       <dl>
-        <dt>1.2.0 (2023-03-08)</dt>
+        <dt id="changelog-1.2.0">1.2.0 (2023-03-08)</dt>
         <dd>
-          Showing dev tasks separately with dev time as a total in the PERT
+          Now showing dev tasks separately with dev time as a total in the PERT
           table.
         </dd>
         <dd>
@@ -216,19 +216,21 @@
         </dd>
         <dd>
           After adding PERT estimate, videos, tags and emojis which were already
-          in the comment gets broken because of setting these tags again via
-          PWW. As a workaround for this we now have a copy estimate button.
-          Instead of adding the estimate directly to the comment box, now we can
-          copy it and paste it anywhere.
+          in the comment gets broken because PWW tries to set these tags again.
+          As a workaround for this we now have a copy estimate button. Instead
+          of adding the estimate directly to the comment box, now we can copy it
+          and paste it anywhere. (In firefox
+          dom.events.asyncClipboard.clipboardItem preferences needs to be set to
+          true. To change preferences in Firefox, visit about:config.)
         </dd>
         <dd>
-          When a ticket (or issue creation dialogue) is opened in windowed mode
-          PWW was not receiving focus and was not fully functional. This is
-          fixed now.
+          Fixed an issue where PWW was not receiving focus and was not fully
+          functional when a ticket (or issue creation dialogue) is opened in a
+          modal.
         </dd>
         <dd>
-          Now showing errors for invalid estimates except hour value (1.5) or
-          hours and minutes (1h 30m)
+          Now showing errors for invalid estimates. Allowing only hour value
+          (1.5) or hours and minutes (1h 30m) in estimate fields.
         </dd>
       </dl>
       <hr />
