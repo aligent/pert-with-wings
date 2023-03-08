@@ -174,6 +174,14 @@
         <p>Try reloading the JIRA / Azure DevOps ticket</p>
       </details>
       <details>
+        <summary>Copy Estimate functionality is not working.</summary>
+        <p>
+          In firefox dom.events.asyncClipboard.clipboardItem preferences needs
+          to be set to true. To change preferences in Firefox, visit
+          about:config.
+        </p>
+      </details>
+      <details>
         <summary>Why is the calculation wrong?</summary>
         <p>
           It's probably a bug. Please create a bug in
@@ -196,6 +204,34 @@
     </section>
     <section id="changelog">
       <h2>Changelog</h2>
+      <dl>
+        <dt>1.2.0 (2023-03-08)</dt>
+        <dd>
+          Showing dev tasks separately with dev time as a total in the PERT
+          table.
+        </dd>
+        <dd>
+          Minimum QA estimated is no longer added to total with zero percentage
+          of QA.
+        </dd>
+        <dd>
+          After adding PERT estimate, videos, tags and emojis which were already
+          in the comment gets broken because of setting these tags again via
+          PWW. As a workaround for this we now have a copy estimate button.
+          Instead of adding the estimate directly to the comment box, now we can
+          copy it and paste it anywhere.
+        </dd>
+        <dd>
+          When a ticket (or issue creation dialogue) is opened in windowed mode
+          PWW was not receiving focus and was not fully functional. This is
+          fixed now.
+        </dd>
+        <dd>
+          Now showing errors for invalid estimates except hour value (1.5) or
+          hours and minutes (1h 30m)
+        </dd>
+      </dl>
+      <hr />
       <dl>
         <dt>1.1.6 (2023-01-31)</dt>
         <dd>Fixed label styles in Azure DevOps</dd>
