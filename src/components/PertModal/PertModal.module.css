@@ -23,8 +23,12 @@
   background-image: linear-gradient(to right, var(--to), var(--from));
 }
 
-:global(body:not(:has(#jira-issue-header)) #pert-button-jira) {
+:global(body:not(:has([contenteditable='true'])) #pert-button-jira) {
   display: none;
+}
+
+:global(body:has(#jira-issue-header) #pert-button-jira) {
+  display: block;
 }
 
 :global(body:not(:has(.witform-layout)) #pert-button-azure) {
@@ -102,6 +106,7 @@
   border-radius: 0.5rem;
   overflow: hidden;
   border: 1px solid;
+  width: 100%;
 }
 
 .pertFieldset table + table {
