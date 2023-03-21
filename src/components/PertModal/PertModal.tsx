@@ -63,7 +63,7 @@ const PertModal: FC = () => {
   const getMarkup = () => {
     if (!pertHtmlRef.current) return;
 
-    return pertHtmlRef.current.innerHTML;
+    return pertHtmlRef.current;
   };
 
   const handleSubmit = (e: React.SyntheticEvent) => {
@@ -72,6 +72,8 @@ const PertModal: FC = () => {
     if (!inputRef.current) return;
 
     const html = getMarkup();
+
+    if (!html) return;
 
     // clear the message box if it's just the placeholder
     if (
@@ -82,7 +84,7 @@ const PertModal: FC = () => {
       inputRef.current.innerHTML = '';
     }
 
-    inputRef.current.innerHTML += html;
+    inputRef.current.appendChild(html);
 
     setIsPertModalOpen(false);
   };
@@ -132,7 +134,7 @@ const PertModal: FC = () => {
     });
     setCopied(false);
 
-    const blobInput = new Blob([html], { type: 'text/html' });
+    const blobInput = new Blob([html.innerHTML], { type: 'text/html' });
     const clipboardItemInput = new ClipboardItem({ 'text/html': blobInput });
     navigator.clipboard.write([clipboardItemInput]);
 
