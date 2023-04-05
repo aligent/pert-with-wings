@@ -31,7 +31,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     isQATask: false,
   };
 
-  const intialPertData: IPertData = {
+  const initialPertData: IPertData = {
     scoping: '',
     pertRows: [{ ...initialPertRow }],
     automatedTests: false,
@@ -44,7 +44,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     round_to_next_minutes,
   };
 
-  const [pertData, setPertData] = useState<IPertData>({ ...intialPertData });
+  const [pertData, setPertData] = useState<IPertData>({ ...initialPertData });
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
 
@@ -144,7 +144,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
   };
 
   const resetPertData = () => {
-    setPertData({ ...intialPertData });
+    setPertData({ ...initialPertData });
   };
 
   return (
