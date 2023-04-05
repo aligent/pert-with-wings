@@ -11,4 +11,4 @@ _
 _
 
 **Time tracking**
-Please use Toggl time code **PERT-<ID>: pert-with-wings Code Review**
+Please use Toggl time code **PERT-<ID>: PERT with Wings Code Review**
