@@ -2,7 +2,7 @@ import { FC, ReactNode, createContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IPertData, IPertRow, PertContextType } from '@/@types/pertData';
-import { getConfig } from '@/utils';
+import { getConfig, saveConfig } from '@/utils';
 
 export const PertContext = createContext<PertContextType | null>(null);
 
@@ -128,8 +128,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     if (!isValidPertData(event.target.name)) return;
 
     const fieldType = typeof pertData[event.target.name];
-
-    setPertData({
+    const fieldData = {
       ...pertData,
       [event.target.name]:
         event.target.type === 'checkbox'
@@ -137,7 +136,11 @@ const PertContextProvider: FC<Props> = ({ children }) => {
           : fieldType === 'number'
           ? Number(event.target.value)
           : event.target.value,
-    });
+    };
+
+    setPertData(fieldData);
+    const { pertRows, risk, scoping, ...savablePertData } = fieldData;
+    saveConfig(savablePertData);
   };
 
   const resetPertData = () => {
