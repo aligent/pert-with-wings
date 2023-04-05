@@ -32,6 +32,9 @@
 }
 
 :global(body:not(:has(.witform-layout)) #pert-button-azure) {
+
+:global(body#com-atlassian-confluence #pert-button-jira) {
+  /* hide in confluence pages */
   display: none;
 }
 
