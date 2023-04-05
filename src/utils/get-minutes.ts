@@ -8,7 +8,7 @@
 export const getMinutes = (timeValue: string): number => {
   if (!timeValue) return 0;
 
-  const timeValueParts = [...timeValue.matchAll(/(\d+(?:\.\d+)?)+(h|m)/gi)];
+  const timeValueParts = [...timeValue.matchAll(/(\.?\d+(?:\.\d+)?)+(h|m)/gi)];
   if (timeValueParts.length) {
     // we are dealing with a hour minutes string
     const hours = timeValueParts
