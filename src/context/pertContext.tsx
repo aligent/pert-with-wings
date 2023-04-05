@@ -12,6 +12,7 @@ interface Props {
 
 const PertContextProvider: FC<Props> = ({ children }) => {
   const {
+    automatedTests,
     comms_percent,
     automated_tests_percent,
     code_reviews_and_fixes_percent,
@@ -34,7 +35,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
   const initialPertData: IPertData = {
     scoping: '',
     pertRows: [{ ...initialPertRow }],
-    automatedTests: false,
+    automatedTests,
     risk: '',
     comms_percent,
     automated_tests_percent,
