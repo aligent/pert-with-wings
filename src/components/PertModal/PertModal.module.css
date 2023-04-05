@@ -32,6 +32,12 @@
 }
 
 :global(body:not(:has(.witform-layout)) #pert-button-azure) {
+  /* hide in non ticket pages in Azure Devops */
+  display: none;
+}
+
+:global(body#com-atlassian-confluence #pert-button-jira) {
+  /* hide in confluence pages */
   display: none;
 }
 
