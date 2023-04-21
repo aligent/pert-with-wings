@@ -1,3 +1,40 @@
+:root {
+  --pert-modal-button-color: #fff;
+  --pert-modal-bg: #fff;
+  --pert-primary: #0c66e4;
+  --pert-primary-hover: #0055cc;
+  --pert-primary-active: #09326c;
+  --pert-button-color: #fff;
+  --pert-button-bg: #333;
+  --pert-color: #333;
+  --pert-highlight: #f4f5f7;
+  --pert-table-bg: #a1bdd914;
+  --pert-border: #091e4224;
+  --pert-field-border: #333;
+  --pert-field-bg: transparent;
+  --pert-modal-backdrop: rgba(9, 30, 66, 0.54);
+  --pert-modal-shadow: 0 0 0 1px rgba(9, 30, 66, 0.08),
+    0 2px 1px rgba(9, 30, 66, 0.08), 0 0 20px -6px rgba(9, 30, 66, 0.31);
+  --pert-secondary-button-hover: rgba(9, 30, 66, 0.08);
+}
+
+:root[data-color-mode='dark'],
+:global(body:has(.form-dark-theme)) {
+  --pert-modal-button-color: #222;
+  --pert-modal-bg: #22272b;
+  --pert-primary: #579dff;
+  --pert-primary-hover: #85b8ff;
+  --pert-primary-active: #cce0ff;
+  --pert-button-color: #fff;
+  --pert-button-bg: #a1bdd914;
+  --pert-color: #c7d1db;
+  --pert-highlight: #1d2125;
+  --pert-table-bg: #a1bdd914;
+  --pert-border: #a6c5e229;
+  --pert-field-border: #a6c5e229;
+  --pert-modal-backdrop: rgba(9, 30, 66, 0.54);
+}
+
 .openPertModalButton {
   --to: #9061f9;
   --from: #e74694;
@@ -5,11 +42,11 @@
   background-image: linear-gradient(to right, var(--from), var(--to));
   box-shadow: 0 10px 15px -3px rgba(231, 70, 148, 0.5),
     0 4px 6px -4px rgba(231, 70, 148, 0.5);
-  color: #fff;
+  color: var(--pert-modal-button-color);
   white-space: nowrap;
   border: 0;
-  border-radius: 0.5rem;
-  padding: 0.75rem 1.25rem;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
@@ -32,26 +69,24 @@
 }
 
 :global(body:not(:has(.witform-layout)) #pert-button-azure) {
+  /* hide in non ticket pages in Azure Devops */
+  display: none;
+}
+
+:global(body#com-atlassian-confluence #pert-button-jira) {
+  /* hide in confluence pages */
   display: none;
 }
 
 .content {
-  --pert-primary: #00598c;
-  --button-color: #fff;
-  --button-bg: #333;
-  --color: #333;
-  --highlight: #f4f5f7;
-
-  color: var(--color);
+  color: var(--pert-color);
   font-size: 1rem;
-  /* border: 2px solid; */
   border-radius: 0.5rem;
-  background: #fff;
-  /* max-height: calc(100vh - 80px); 40px gutter around the modal */
+  background: var(--pert-modal-bg);
   display: flex;
   line-height: 1.3;
   font-size: 0.9rem;
-  box-shadow: 0px 0px 100px 0px;
+  box-shadow: var(--pert-modal-shadow);
 }
 
 .content *,
@@ -61,14 +96,15 @@
 }
 
 .content button {
-  border: 2px solid var(--button-bg);
+  border: 2px solid var(--pert-button-bg);
   border-radius: 0.4rem;
   padding: 0.5rem 1rem;
   text-transform: uppercase;
   font-weight: bold;
-  background: var(--button-bg);
-  color: var(--button-color);
+  background: var(--pert-button-bg);
+  color: var(--pert-button-color);
   cursor: pointer;
+  display: flex;
 }
 
 .pertForm {
@@ -80,8 +116,8 @@
 .pertFieldset {
   padding: 0 1rem;
   margin: 1rem 0 0;
-  background: #eee;
-  /* overflow: auto; */
+  background: var(--pert-highlight);
+  overflow: auto;
 }
 
 .pertLegend {
@@ -102,10 +138,8 @@
 
 .pertFieldset table {
   margin: 1rem 0;
-  background: var(--color);
-  border-radius: 0.5rem;
-  overflow: hidden;
-  border: 1px solid;
+  background: var(--pert-table-bg);
+  border: 1px solid var(--pert-border);
   width: 100%;
 }
 
@@ -114,20 +148,19 @@
 }
 
 .pertFieldset td {
-  border: 1px solid;
-  padding: 0.5rem !important;
-  background: #fff;
+  border: 1px solid var(--pert-border);
+  padding: 0.5rem !important; /* overwrite JIRA styles */
+  background: var(--pert-modal-bg);
 }
 
 .pertFieldset thead,
 .pertFieldset tbody {
-  border-bottom: 1px solid;
+  border-bottom: 1px solid var(--pert-border);
 }
 
 .pertFieldset th {
-  background: var(--highlight);
-  border: 1px solid;
-  padding: 0.5rem !important;
+  border: 1px solid var(--pert-border);
+  padding: 0.5rem !important; /* overwrite JIRA styles */
 }
 
 .pertFieldset th:not(:first-child) {
@@ -135,10 +168,15 @@
 }
 
 .top {
-  padding: 1rem;
+  padding: 0 1rem 1rem;
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+.main {
+  overflow: auto;
+  max-height: calc(100vh - (40px * 2 + 140px));
 }
 
 .footer {
@@ -147,7 +185,7 @@
   flex-direction: row-reverse;
   align-items: center;
   gap: 1rem;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--pert-border);
   color: var(--pert-primary);
 }
 
@@ -159,9 +197,23 @@
   gap: 0.5rem;
 }
 
+.footer button:hover {
+  background: var(--pert-primary-hover);
+  border-color: var(--pert-primary-hover);
+}
+
+.footer button:active {
+  background: var(--pert-primary-active);
+  border-color: var(--pert-primary-active);
+}
+
 .footer button.buttonSecondary {
   background: none;
   color: var(--pert-primary);
+}
+
+.footer button.buttonSecondary:hover {
+  color: var(--pert-primary-hover);
 }
 
 .feedback {

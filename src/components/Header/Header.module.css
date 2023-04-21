@@ -1,6 +1,17 @@
 .header {
-  padding: 1rem 1rem 0;
+  padding: 1rem;
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
+}
+
+.header button.headerButton {
+  background: none;
+  border: none;
+  color: var(--pert-color);
+  padding: 0.5rem;
+}
+
+.header button.headerButton:hover {
+  background: var(--pert-secondary-button-hover);
 }

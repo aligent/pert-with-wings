@@ -67,6 +67,7 @@ const Field: FC<Props> = ({
           required={required}
           className={classes.input}
           {...(type === 'range' && { step: 5, min: 0, max: 100 })}
+          {...(type === 'checkbox' && { checked: Boolean(pertData[name]) })}
         />
       )}
       {type === 'range' && (

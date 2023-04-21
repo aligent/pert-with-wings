@@ -2,7 +2,7 @@ import { FC, ReactNode, createContext, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IPertData, IPertRow, PertContextType } from '@/@types/pertData';
-import { getConfig } from '@/utils';
+import { getConfig, saveConfig } from '@/utils';
 
 export const PertContext = createContext<PertContextType | null>(null);
 
@@ -12,6 +12,7 @@ interface Props {
 
 const PertContextProvider: FC<Props> = ({ children }) => {
   const {
+    automatedTests,
     comms_percent,
     automated_tests_percent,
     code_reviews_and_fixes_percent,
@@ -31,10 +32,10 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     isQATask: false,
   };
 
-  const intialPertData: IPertData = {
+  const initialPertData: IPertData = {
     scoping: '',
     pertRows: [{ ...initialPertRow }],
-    automatedTests: false,
+    automatedTests,
     risk: '',
     comms_percent,
     automated_tests_percent,
@@ -44,7 +45,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     round_to_next_minutes,
   };
 
-  const [pertData, setPertData] = useState<IPertData>({ ...intialPertData });
+  const [pertData, setPertData] = useState<IPertData>({ ...initialPertData });
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
 
@@ -128,8 +129,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     if (!isValidPertData(event.target.name)) return;
 
     const fieldType = typeof pertData[event.target.name];
-
-    setPertData({
+    const fieldData = {
       ...pertData,
       [event.target.name]:
         event.target.type === 'checkbox'
@@ -137,11 +137,15 @@ const PertContextProvider: FC<Props> = ({ children }) => {
           : fieldType === 'number'
           ? Number(event.target.value)
           : event.target.value,
-    });
+    };
+
+    setPertData(fieldData);
+    const { pertRows, risk, scoping, ...savablePertData } = fieldData;
+    saveConfig(savablePertData);
   };
 
   const resetPertData = () => {
-    setPertData({ ...intialPertData });
+    setPertData({ ...initialPertData });
   };
 
   return (
