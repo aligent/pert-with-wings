@@ -44,19 +44,24 @@
       </p>
       <div class="extensions">
         <a
+          class="link"
           target="_blank"
           href="https://chrome.google.com/webstore/detail/pert-with-wings/ifbamclfijpnbdnajeobljnjglpmmigj"
         >
           <img src="./logo-chrome.svg" alt="" />
           Install on Chrome
         </a>
-        <a
-          target="_blank"
-          href="https://addons.mozilla.org/en-US/firefox/addon/pert-with-wings/"
-        >
-          <img src="./logo-firefox.svg" alt="" />
-          Install on Firefox
-        </a>
+        <div>
+          <a
+            class="link"
+            target="_blank"
+            href="https://addons.mozilla.org/en-US/firefox/addon/pert-with-wings/"
+          >
+            <img src="./logo-firefox.svg" alt="" />
+            Install on Firefox
+          </a>
+          <small><a href="#firefox">requires extra steps.</a></small>
+        </div>
       </div>
     </section>
     <section>
@@ -174,14 +179,6 @@
         <p>Try reloading the JIRA / Azure DevOps ticket</p>
       </details>
       <details>
-        <summary>Copy Estimate functionality is not working.</summary>
-        <p>
-          In firefox dom.events.asyncClipboard.clipboardItem preferences needs
-          to be set to true. To change preferences in Firefox, visit
-          about:config.
-        </p>
-      </details>
-      <details>
         <summary>Why is the calculation wrong?</summary>
         <p>
           It's probably a bug. Please create a bug in
@@ -200,6 +197,23 @@
             >JIRA</a
           >.
         </p>
+      </details>
+      <details open id="firefox">
+        <summary>Firefox extra steps.</summary>
+        <p>
+          Following features needs to be enabled from
+          <code>about:config</code> in order to use PERT with Wings in Firefox
+        </p>
+        <table cellpadding="5" cellspacing="0" width="100%" border="1">
+          <tr>
+            <td>dom.events.asyncClipboard.clipboardItem</td>
+            <td>true</td>
+          </tr>
+          <tr>
+            <td>layout.css.has-selector.enabled</td>
+            <td>true</td>
+          </tr>
+        </table>
       </details>
     </section>
     <section id="changelog">

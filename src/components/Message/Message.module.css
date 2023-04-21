@@ -1,3 +1,22 @@
+:root {
+  --error-color: rgb(200, 30, 30);
+  --error-bg: rgb(253, 232, 232);
+  --warning-color: rgb(142, 75, 16);
+  --warning-bg: rgb(253, 246, 178);
+  --info-color: rgb(26, 86, 219);
+  --info-bg: rgb(225, 239, 254);
+}
+
+:root[data-color-mode='dark'],
+:root:has(.form-dark-theme) {
+  --error-color: rgb(249 128 128);
+  --error-bg: #282d33;
+  --warning-color: rgb(250 202 21);
+  --warning-bg: #282d33;
+  --info-color: rgb(118 169 250);
+  --info-bg: #282d33;
+}
+
 .message {
   padding: 0.5rem 1rem;
   border-radius: 0.25rem;
@@ -6,16 +25,21 @@
 }
 
 .error {
-  color: rgb(200, 30, 30);
-  background: rgb(253, 232, 232);
+  color: var(--error-color);
+  background: var(--error-bg);
 }
 
 .warning {
-  color: rgb(142, 75, 16);
-  background: rgb(253, 246, 178);
+  color: var(--warning-color);
+  background: var(--warning-bg);
 }
 
 .info {
-  color: rgb(26, 86, 219);
-  background: rgb(225, 239, 254);
+  color: var(--info-color);
+  background: var(--info-bg);
+}
+
+.messageSlim {
+  padding: 0;
+  background: none;
 }
