@@ -25,17 +25,22 @@ const Header: FC = () => {
         type="info"
         isSlim={true}
       />
-      <button type="button" onClick={() => setIsPertModalOpen(false)}>
-        <MdMinimize />
+      <button
+        className={classes.headerButton}
+        type="button"
+        onClick={() => setIsPertModalOpen(false)}
+      >
+        <MdMinimize size={20} />
       </button>
       <button
+        className={classes.headerButton}
         type="button"
         onClick={() => {
           resetPertData();
           setIsPertModalOpen(false);
         }}
       >
-        <MdClose />
+        <MdClose size={20} />
       </button>
     </header>
   );
