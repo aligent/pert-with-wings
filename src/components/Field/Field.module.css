@@ -53,6 +53,10 @@
   border-color: var(--pert-primary);
 }
 
+.field input[type='range'] {
+  accent-color: var(--pert-field-border);
+}
+
 .field i {
   position: absolute;
   right: 0;
@@ -63,6 +67,7 @@
   padding: 4px;
   border: 2px solid;
   cursor: pointer;
+  color: var(--pert-field-border);
 }
 
 .field i::after {

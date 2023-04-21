@@ -34,9 +34,9 @@ const IS_JIRA =
 const pertModalStyles = {
   overlay: {
     zIndex: 401287331 + 1,
-    backdropFilter: 'blur(5px)',
     overflow: 'auto',
     padding: 40,
+    backgroundColor: 'var(--pert-modal-backdrop)',
   } as CSSProperties,
   content: {
     position: 'static',

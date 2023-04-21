@@ -10,8 +10,12 @@
   --pert-highlight: #f4f5f7;
   --pert-table-bg: #a1bdd914;
   --pert-border: #091e4224;
-  --pert-field-border: #091e4224;
+  --pert-field-border: #333;
   --pert-field-bg: transparent;
+  --pert-modal-backdrop: rgba(9, 30, 66, 0.54);
+  --pert-modal-shadow: 0 0 0 1px rgba(9, 30, 66, 0.08),
+    0 2px 1px rgba(9, 30, 66, 0.08), 0 0 20px -6px rgba(9, 30, 66, 0.31);
+  --pert-secondary-button-hover: rgba(9, 30, 66, 0.08);
 }
 
 :root[data-color-mode='dark'],
@@ -28,6 +32,7 @@
   --pert-table-bg: #a1bdd914;
   --pert-border: #a6c5e229;
   --pert-field-border: #a6c5e229;
+  --pert-modal-backdrop: rgba(9, 30, 66, 0.54);
 }
 
 .openPertModalButton {
@@ -70,14 +75,12 @@
 .content {
   color: var(--pert-color);
   font-size: 1rem;
-  /* border: 2px solid; */
   border-radius: 0.5rem;
   background: var(--pert-modal-bg);
-  /* max-height: calc(100vh - 80px); 40px gutter around the modal */
   display: flex;
   line-height: 1.3;
   font-size: 0.9rem;
-  box-shadow: 0px 0px 100px 0px;
+  box-shadow: var(--pert-modal-shadow);
 }
 
 .content *,
@@ -95,6 +98,7 @@
   background: var(--pert-button-bg);
   color: var(--pert-button-color);
   cursor: pointer;
+  display: flex;
 }
 
 .pertForm {
