@@ -151,6 +151,7 @@ code {
 .extensions {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 20px;
 }
 
@@ -160,8 +161,17 @@ code {
   }
 }
 
-.extensions a {
+.extensions > * {
   flex: 1;
+}
+
+.extensions small {
+  display: block;
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.extensions .link {
   display: flex;
   align-items: center;
   gap: 1rem;
