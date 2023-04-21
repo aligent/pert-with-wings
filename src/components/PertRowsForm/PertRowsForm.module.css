@@ -1,5 +1,5 @@
 .pertRowsForm {
-  border: 1px solid;
+  border: 1px solid var(--pert-border);
   border-radius: 0.5rem;
   padding: 1rem;
   display: flex;
@@ -41,7 +41,7 @@
 
 .label {
   position: absolute;
-  padding: 0 0.25rem;
+  padding: 0 0.1rem;
   left: 0;
   top: 0.4rem;
   font-size: 1rem;
@@ -49,7 +49,7 @@
   opacity: 0;
 }
 
-.label::before {
+/* .label::before {
   content: '';
   border-top: 4px solid #fff;
   left: 0;
@@ -58,46 +58,44 @@
   top: 6px;
   position: absolute;
   z-index: 0;
-}
+} */
 
-.label span {
+/* .label span {
   position: relative;
   z-index: 1;
-}
+} */
 
 .field {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.7rem 0.5rem 0.6rem;
   border-radius: 0.25rem !important;
-  border: 2px solid;
+  border: 2px solid var(--pert-field-border);
   position: relative;
   z-index: 1;
   font-size: 1rem;
+  background: var(--pert-field-bg);
+}
+
+.field:focus {
+  border-color: var(--pert-primary);
 }
 
 .field:focus::placeholder {
-  color: #fff;
+  color: var(--pert-field-bg);
 }
 
 .field:focus,
 .field:not(:placeholder-shown) {
-  padding: 0.7rem 0.5rem 0.3rem;
+  padding: 1.1rem 0.5rem 0.2rem;
 }
 
 .field:focus + .label,
 .field:not(:placeholder-shown) + .label {
   left: 0.5rem;
-  top: -0.5rem;
+  top: 0.3rem;
   z-index: 2;
   font-size: 0.75rem;
   opacity: 1;
-}
-
-.field:-webkit-autofill,
-.field:-webkit-autofill:hover,
-.field:-webkit-autofill:focus,
-.field:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 30px #fff inset !important;
 }
 
 .footer {

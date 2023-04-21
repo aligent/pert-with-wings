@@ -2,19 +2,18 @@ import {
   CSSProperties,
   FC,
   Fragment,
-  useCallback,
   useContext,
   useEffect,
   useMemo,
   useRef,
   useState,
 } from 'react';
-import ReactModal from 'react-modal';
 import {
-  MdOutlineSmsFailed,
-  MdContentCopy,
   MdCheckCircle,
+  MdContentCopy,
+  MdOutlineSmsFailed,
 } from 'react-icons/md';
+import ReactModal from 'react-modal';
 
 import { PertContextType } from '@/@types/pertData';
 import AdvancedSettings from '@/components/AdvancedSettings';
@@ -176,38 +175,39 @@ const PertModal: FC = () => {
             ref={formRef}
           >
             <Header />
-            <div className={classes.top}>
-              <PertRowsForm />
+            <main className={classes.main}>
+              <div className={classes.top}>
+                <PertRowsForm />
 
-              <Field
-                label="Analysis/Solution Design, Scoping and Documenting"
-                name="scoping"
-              />
+                <Field
+                  label="Analysis/Solution Design, Scoping and Documenting"
+                  name="scoping"
+                />
 
-              <Field
-                label="Automated Tests"
-                description={`${pertData.automated_tests_percent}% of dev task.`}
-                name="automatedTests"
-                type="checkbox"
-                required={false}
-              />
+                <Field
+                  label="Automated Tests"
+                  description={`${pertData.automated_tests_percent}% of dev task.`}
+                  name="automatedTests"
+                  type="checkbox"
+                  required={false}
+                />
 
-              <Field
-                label="Complexity/Risk level"
-                name="risk"
-                type="select"
-                values={['Low', 'Medium', 'High']}
-                required={false}
-              />
+                <Field
+                  label="Complexity/Risk level"
+                  name="risk"
+                  type="select"
+                  values={['Low', 'Medium', 'High']}
+                  required={false}
+                />
 
-              <AdvancedSettings />
-            </div>
+                <AdvancedSettings />
+              </div>
 
-            <section className={classes.pertFieldset}>
-              <header className={classes.pertLegend}>Preview</header>
-              <PertTable forwardRef={pertHtmlRef} />
-            </section>
-
+              <section className={classes.pertFieldset}>
+                <header className={classes.pertLegend}>Preview</header>
+                <PertTable forwardRef={pertHtmlRef} />
+              </section>
+            </main>
             <footer className={classes.footer}>
               <button
                 type="submit"

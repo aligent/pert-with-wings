@@ -34,17 +34,23 @@
   width: 100%;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem !important;
-  border: 2px solid;
+  border: 2px solid var(--pert-field-border);
   position: relative;
   z-index: 1;
   font-size: 0.9rem;
   max-width: 6rem;
   align-self: flex-start;
+  background: var(--pert-modal-bg);
 }
 
 .field input[type='checkbox'] {
   opacity: 0;
   position: absolute;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: var(--pert-primary);
 }
 
 .field i {

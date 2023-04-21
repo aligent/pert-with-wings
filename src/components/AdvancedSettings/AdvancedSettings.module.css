@@ -4,7 +4,7 @@
 
 .advancedSettings[open] {
   padding: 1rem;
-  background: #eee;
+  background: var(--pert-highlight);
   border-radius: 0.5rem;
 }
 
