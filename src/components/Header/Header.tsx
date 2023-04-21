@@ -23,6 +23,7 @@ const Header: FC = () => {
           : ''
       } Development tasks estimate should include developer testing.`}
         type="info"
+        isSlim={true}
       />
       <button type="button" onClick={() => setIsPertModalOpen(false)}>
         <MdMinimize />
