@@ -49,26 +49,10 @@
   opacity: 0;
 }
 
-/* .label::before {
-  content: '';
-  border-top: 4px solid #fff;
-  left: 0;
-  right: 0;
-  display: block;
-  top: 6px;
-  position: absolute;
-  z-index: 0;
-} */
-
-/* .label span {
-  position: relative;
-  z-index: 1;
-} */
-
 .field {
   width: 100%;
   padding: 0.7rem 0.5rem 0.6rem;
-  border-radius: 0.25rem !important;
+  border-radius: 0.25rem !important; /* overwrite JIRA styles */
   border: 2px solid var(--pert-field-border);
   position: relative;
   z-index: 1;

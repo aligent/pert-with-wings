@@ -33,7 +33,7 @@
 .field select {
   width: 100%;
   padding: 0.25rem 0.5rem;
-  border-radius: 0.25rem !important;
+  border-radius: 0.25rem !important; /* overwrite JIRA styles */
   border: 2px solid var(--pert-field-border);
   position: relative;
   z-index: 1;
