@@ -55,9 +55,8 @@ const PertModal: FC = () => {
   const pertHtmlRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
 
-  const { pertData, setIsPertModalOpen, isPertModalOpen } = useContext(
-    PertContext
-  ) as PertContextType;
+  const { pertData, resetPertData, setIsPertModalOpen, isPertModalOpen } =
+    useContext(PertContext) as PertContextType;
 
   const getMarkup = () => {
     if (!pertHtmlRef.current) return;
@@ -99,6 +98,8 @@ const PertModal: FC = () => {
   }, [pertData]);
 
   const handleOpen = () => {
+    resetPertData();
+
     inputRef.current =
       (
         document.querySelector(`iframe[id^="mce_"]`) as HTMLIFrameElement
