@@ -1,4 +1,4 @@
-import { FC, ReactNode, createContext, useState } from 'react';
+import { FC, ReactNode, createContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IPertData, IPertRow, PertContextType } from '@/@types/pertData';
@@ -46,26 +46,26 @@ const PertContextProvider: FC<Props> = ({ children }) => {
   };
   const now = new Date();
   const [ticketNo, setTicketNo] = useState('');
+  const [pertData, setPertData] = useState<IPertData>({ ...initialPertData });
 
-  const retrieveTicketDetails = localStorage.getItem(ticketNo);
-  // console.log('initialPertData', initialPertData);
-  let retrieveTicketDetailsParse;
-  if (retrieveTicketDetails !== null) {
-    retrieveTicketDetailsParse = JSON.parse(retrieveTicketDetails);
-    // console.log('retrieveTicketDetailsParse', retrieveTicketDetailsParse?.length);
-  }
-  const [pertData, setPertData] = useState<IPertData>(
-    retrieveTicketDetailsParse?.length > 0
-      ? { ...retrieveTicketDetailsParse }
-      : { ...initialPertData }
-  );
-  retrieveTicketDetailsParse?.length > 0
-    ? console.log(
-        'retrieveTicketDetailsParse',
-        retrieveTicketDetailsParse?.length
-      )
-    : console.log('pertData', pertData);
-  // console.log('pertData', pertData);
+  /**
+   * PERT-16:Estimation for each ticket will be stored in localStorage for a week.
+   * This gives the user the ability to edit her/his estimation
+   */
+  useEffect(() => {
+    const retrieveTicketDetails = localStorage.getItem(ticketNo);
+
+    if (retrieveTicketDetails !== null) {
+      const data = JSON.parse(retrieveTicketDetails);
+      if (now.getTime() + 7 * 24 * 60 * 60 * 1000 === data.expiry) {
+        localStorage.removeItem(ticketNo);
+      } else {
+        setPertData({ ...data });
+      }
+    } else {
+      resetPertData();
+    }
+  }, [ticketNo]);
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
   const addPertRow = (isQATask = false) => {
@@ -108,7 +108,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
   const updateLocalStorage = () => {
     const storelocalData = {
       ...pertData,
-      expiry: now.getTime() + 7,
+      expiry: now.getTime() + 7 * 24 * 60 * 60 * 1000,
     };
 
     localStorage.setItem(`${ticketNo}`, JSON.stringify(storelocalData));

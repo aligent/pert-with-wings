@@ -69,19 +69,6 @@ const PertModal: FC = () => {
     return pertHtmlRef.current;
   };
 
-  useEffect(() => {
-    if (window.location.pathname.startsWith('/browse/')) {
-      const ticket = window.location.pathname.split('/').pop();
-
-      setTicketNo(ticket);
-    } else {
-      const urlParams = new URLSearchParams(window.location.search);
-      const selectedIssue = urlParams.get('selectedIssue');
-
-      setTicketNo(selectedIssue);
-    }
-  }, [ticketNo]);
-
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
 
@@ -167,7 +154,18 @@ const PertModal: FC = () => {
     if (!$ticketModalSelector) return;
 
     $ticketModalSelector.inert = isPertModalOpen;
-  }, [isPertModalOpen]);
+
+    if (window.location.pathname.startsWith('/browse/')) {
+      const ticket = window.location.pathname.split('/').pop();
+
+      setTicketNo(ticket);
+    } else {
+      const urlParams = new URLSearchParams(window.location.search);
+      const selectedIssue = urlParams.get('selectedIssue');
+
+      setTicketNo(selectedIssue);
+    }
+  }, [isPertModalOpen, ticketNo]);
 
   return (
     <>
