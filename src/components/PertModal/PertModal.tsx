@@ -55,14 +55,32 @@ const PertModal: FC = () => {
   const pertHtmlRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
 
-  const { pertData, resetPertData, setIsPertModalOpen, isPertModalOpen } =
-    useContext(PertContext) as PertContextType;
+  const {
+    pertData,
+    setIsPertModalOpen,
+    isPertModalOpen,
+    ticketNo,
+    setTicketNo,
+  } = useContext(PertContext) as PertContextType;
 
   const getMarkup = () => {
     if (!pertHtmlRef.current) return;
 
     return pertHtmlRef.current;
   };
+
+  useEffect(() => {
+    if (window.location.pathname.startsWith('/browse/')) {
+      const ticket = window.location.pathname.split('/').pop();
+
+      setTicketNo(ticket);
+    } else {
+      const urlParams = new URLSearchParams(window.location.search);
+      const selectedIssue = urlParams.get('selectedIssue');
+
+      setTicketNo(selectedIssue);
+    }
+  }, [ticketNo]);
 
   const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
@@ -98,8 +116,6 @@ const PertModal: FC = () => {
   }, [pertData]);
 
   const handleOpen = () => {
-    resetPertData();
-
     inputRef.current =
       (
         document.querySelector(`iframe[id^="mce_"]`) as HTMLIFrameElement

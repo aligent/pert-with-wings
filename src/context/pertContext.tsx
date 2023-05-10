@@ -44,11 +44,30 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     qa_testing_percent,
     round_to_next_minutes,
   };
+  const now = new Date();
+  const [ticketNo, setTicketNo] = useState('');
 
-  const [pertData, setPertData] = useState<IPertData>({ ...initialPertData });
+  const retrieveTicketDetails = localStorage.getItem(ticketNo);
+  // console.log('initialPertData', initialPertData);
+  let retrieveTicketDetailsParse;
+  if (retrieveTicketDetails !== null) {
+    retrieveTicketDetailsParse = JSON.parse(retrieveTicketDetails);
+    // console.log('retrieveTicketDetailsParse', retrieveTicketDetailsParse?.length);
+  }
+  const [pertData, setPertData] = useState<IPertData>(
+    retrieveTicketDetailsParse?.length > 0
+      ? { ...retrieveTicketDetailsParse }
+      : { ...initialPertData }
+  );
+  retrieveTicketDetailsParse?.length > 0
+    ? console.log(
+        'retrieveTicketDetailsParse',
+        retrieveTicketDetailsParse?.length
+      )
+    : console.log('pertData', pertData);
+  // console.log('pertData', pertData);
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
-
   const addPertRow = (isQATask = false) => {
     const _pertRows = [...pertData.pertRows];
     _pertRows.push({
@@ -86,6 +105,15 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     return value in row;
   };
 
+  const updateLocalStorage = () => {
+    const storelocalData = {
+      ...pertData,
+      expiry: now.getTime() + 7,
+    };
+
+    localStorage.setItem(`${ticketNo}`, JSON.stringify(storelocalData));
+  };
+
   const updatePertRow = (
     id: string,
     event: React.ChangeEvent<HTMLInputElement>
@@ -101,6 +129,8 @@ const PertContextProvider: FC<Props> = ({ children }) => {
       ...pertData,
       pertRows: _pertRows,
     });
+
+    updateLocalStorage();
   };
 
   const updatePertMessage = (
@@ -142,6 +172,8 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     setPertData(fieldData);
     const { pertRows, risk, scoping, ...savablePertData } = fieldData;
     saveConfig(savablePertData);
+
+    updateLocalStorage();
   };
 
   const resetPertData = () => {
@@ -161,6 +193,8 @@ const PertContextProvider: FC<Props> = ({ children }) => {
         setIsPertModalOpen,
         resetPertData,
         isValidPertData,
+        ticketNo,
+        setTicketNo,
       }}
     >
       {children}
