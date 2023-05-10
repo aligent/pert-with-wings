@@ -1,5 +1,3 @@
-import { IPertData } from '@/@types/pertData';
-
 export const PERT_STORAGE_KEY = 'pert-with-wings-config';
 
 export const getConfig = () => {

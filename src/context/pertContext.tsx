@@ -44,30 +44,104 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     qa_testing_percent,
     round_to_next_minutes,
   };
+
+  const [isPertModalOpen, setIsPertModalOpen] = useState(false);
+
   const now = new Date();
+  const dateInAWeek = now.getTime() + 7 * 24 * 60 * 60 * 1000;
   const [ticketNo, setTicketNo] = useState('');
   const [pertData, setPertData] = useState<IPertData>({ ...initialPertData });
+  const TICKETS_LIST_DATA = 'pert-with-wings-tickets-list';
+
+  type listType = {
+    ticketNo: string;
+    details: IPertData;
+    expiry: number;
+  };
 
   /**
    * PERT-16:Estimation for each ticket will be stored in localStorage for a week.
    * This gives the user the ability to edit her/his estimation
    */
   useEffect(() => {
-    const retrieveTicketDetails = localStorage.getItem(ticketNo);
+    // Get list
+    const list: listType[] | null = getPertStoredList();
 
-    if (retrieveTicketDetails !== null) {
-      const data = JSON.parse(retrieveTicketDetails);
-      if (now.getTime() + 7 * 24 * 60 * 60 * 1000 === data.expiry) {
-        localStorage.removeItem(ticketNo);
-      } else {
-        setPertData({ ...data });
-      }
-    } else {
+    if (list === null) {
       resetPertData();
+      return;
+    }
+
+    const listItem = list.find((item) => item.ticketNo === ticketNo);
+
+    if (listItem === undefined) {
+      resetPertData();
+      return;
+    }
+
+    if (dateInAWeek === listItem.expiry) {
+      removePertStoredList();
+    } else {
+      setPertData({ ...listItem.details });
     }
   }, [ticketNo]);
 
-  const [isPertModalOpen, setIsPertModalOpen] = useState(false);
+  const getPertStoredList = () => {
+    const retrieveTicketDetails = localStorage.getItem(TICKETS_LIST_DATA);
+
+    if (retrieveTicketDetails !== null)
+      return JSON.parse(retrieveTicketDetails);
+
+    return null;
+  };
+
+  const updatePertStoredList = () => {
+    let storelocalData;
+
+    // Get list
+    const list: listType[] | null = getPertStoredList();
+
+    if (list === null) return;
+
+    const listItem = list.find((item) => item.ticketNo === ticketNo);
+
+    if (listItem === undefined) return;
+
+    if (list !== null) {
+      storelocalData = list.map((item) => {
+        if (item.ticketNo === listItem.ticketNo)
+          return {
+            ...item,
+            details: { ...listItem.details, ...pertData },
+          };
+
+        return item;
+      });
+    } else {
+      storelocalData = [
+        {
+          ticketNo: ticketNo,
+          details: {
+            ...pertData,
+          },
+          expiry: dateInAWeek,
+        },
+      ];
+    }
+
+    localStorage.setItem(TICKETS_LIST_DATA, JSON.stringify(storelocalData));
+  };
+
+  const removePertStoredList = () => {
+    // Get list
+    const list: listType[] | null = getPertStoredList();
+
+    if (list === null) return;
+
+    const newList = list.filter((item) => item.ticketNo !== ticketNo);
+    localStorage.setItem(TICKETS_LIST_DATA, JSON.stringify(newList));
+  };
+
   const addPertRow = (isQATask = false) => {
     const _pertRows = [...pertData.pertRows];
     _pertRows.push({
@@ -105,15 +179,6 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     return value in row;
   };
 
-  const updateLocalStorage = () => {
-    const storelocalData = {
-      ...pertData,
-      expiry: now.getTime() + 7 * 24 * 60 * 60 * 1000,
-    };
-
-    localStorage.setItem(`${ticketNo}`, JSON.stringify(storelocalData));
-  };
-
   const updatePertRow = (
     id: string,
     event: React.ChangeEvent<HTMLInputElement>
@@ -130,7 +195,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
       pertRows: _pertRows,
     });
 
-    updateLocalStorage();
+    updatePertStoredList();
   };
 
   const updatePertMessage = (
@@ -173,7 +238,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     const { pertRows, risk, scoping, ...savablePertData } = fieldData;
     saveConfig(savablePertData);
 
-    updateLocalStorage();
+    updatePertStoredList();
   };
 
   const resetPertData = () => {
