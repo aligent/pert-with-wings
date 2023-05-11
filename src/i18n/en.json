@@ -1,5 +1,5 @@
 {
-  "headerNote": "NOTE: Time values can be either hour value (1.5) or hours and minutes (1h 30m). Development tasks estimate should include developer testing.",
+  "headerNote": "NOTE: Time values can be either hour value (1.5) or hours and minutes (1h 30m). {{roundToNextMinutes}} Development tasks estimate should include developer testing.",
   "feedback": "Give feedback or report a bug",
   "advancedSettings": "Advanced Settings",
   "complexity": "Complexity/Risk level",

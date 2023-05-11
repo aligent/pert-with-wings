@@ -1,5 +1,5 @@
 {
-  "headerNote": "Arrr!: Time values can be either hour value (1.5) or hours and minutes (1h 30m). Me hearties, ye should include developer testing in yer estimation o' development tasks.",
+  "headerNote": "Arrr!: Time values can be either hour value (1.5) or hours and minutes (1h 30m). {{roundToNextMinutes}} Me hearties, ye should include developer testing in yer estimation o' development tasks.",
   "feedback": "Share yer thoughts or report a scurvy bug",
   "advancedSettings": "Fancy Settin's",
   "complexity": "Treacherousness o' the seas",

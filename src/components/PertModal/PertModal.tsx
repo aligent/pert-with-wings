@@ -23,9 +23,10 @@ import Logo from '@/components/Logo';
 import PertRowsForm from '@/components/PertRowsForm';
 import PertTable from '@/components/PertTable';
 import { PertContext } from '@/context/pertContext';
-import { handleMouseOver } from '@/utils';
+import { getRandomTranslation, handleMouseOver } from '@/utils';
 
 import classes from './PertModal.module.css';
+import { useTranslation } from 'react-i18next';
 
 const IS_JIRA =
   window.location.hostname.includes('atlassian.net') ||
@@ -40,7 +41,7 @@ const pertModalStyles = {
   } as CSSProperties,
   content: {
     position: 'static',
-    maxWidth: '760px',
+    maxWidth: '860px',
     margin: 'auto',
     padding: 0,
     border: 0,
@@ -58,6 +59,8 @@ const PertModal: FC = () => {
   const { pertData, setIsPertModalOpen, isPertModalOpen } = useContext(
     PertContext
   ) as PertContextType;
+
+  const { t } = useTranslation();
 
   const getMarkup = () => {
     if (!pertHtmlRef.current) return;
@@ -160,7 +163,11 @@ const PertModal: FC = () => {
         onClick={handleOpen}
         onMouseOver={handleMouseOver}
       >
-        PERT
+        {getRandomTranslation(
+          t('pert', {
+            returnObjects: true,
+          })
+        )}
       </button>
       <ReactModal
         isOpen={isPertModalOpen}
@@ -179,13 +186,10 @@ const PertModal: FC = () => {
               <div className={classes.top}>
                 <PertRowsForm />
 
-                <Field
-                  label="Analysis/Solution Design, Scoping and Documenting"
-                  name="scoping"
-                />
+                <Field label={t('scoping')} name="scoping" />
 
                 <Field
-                  label="Automated Tests"
+                  label={t('automatedTests')}
                   description={`${pertData.automated_tests_percent}% of dev task.`}
                   name="automatedTests"
                   type="checkbox"
@@ -193,7 +197,7 @@ const PertModal: FC = () => {
                 />
 
                 <Field
-                  label="Complexity/Risk level"
+                  label={t('complexity')}
                   name="risk"
                   type="select"
                   values={['Low', 'Medium', 'High']}
@@ -214,7 +218,7 @@ const PertModal: FC = () => {
                 id="add-pert-estimate"
                 disabled={!isValidPert}
               >
-                Add Estimate
+                {t('addEstimate')}
               </button>
               <button
                 className={classes.buttonSecondary}
@@ -230,7 +234,7 @@ const PertModal: FC = () => {
                 ) : (
                   <Fragment>
                     <MdContentCopy />
-                    Copy Estimate
+                    {t('copyEstimate')}
                   </Fragment>
                 )}
               </button>
@@ -239,7 +243,7 @@ const PertModal: FC = () => {
                 href="https://aligent.atlassian.net/jira/software/c/projects/PERT/issues/"
                 className={classes.feedback}
               >
-                <MdOutlineSmsFailed /> Give feedback or report a bug
+                <MdOutlineSmsFailed /> {t('feedback')}
               </a>
               <Logo />
             </footer>

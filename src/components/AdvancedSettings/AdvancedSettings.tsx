@@ -1,4 +1,5 @@
 import { FC, useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MdClose, MdSettings } from 'react-icons/md';
 
 import { PertContextType } from '@/@types/pertData';
@@ -9,13 +10,14 @@ import classes from './AdvancedSettings.module.css';
 
 const AdvancedSettings: FC = () => {
   const { pertData } = useContext(PertContext) as PertContextType;
+  const { t } = useTranslation();
   const hasQaEstimate = pertData.pertRows.some((row) => row.isQATask);
   return (
     <details className={classes.advancedSettings}>
       <summary className={classes.summary}>
         <div className={classes.summaryLabel}>
           <MdSettings />
-          Advanced Settings
+          {t('advancedSettings')}
           <span className={classes.close}>
             <MdClose />
           </span>
