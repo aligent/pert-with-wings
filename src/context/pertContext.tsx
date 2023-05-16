@@ -3,6 +3,13 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { IPertData, IPertRow, PertContextType } from '@/@types/pertData';
 import { getConfig, saveConfig } from '@/utils';
+import {
+  currentDate,
+  getPertStoredList,
+  pertListType,
+  removePertTicketFromList,
+  updatePertStoredList,
+} from '@/utils/get-pert-data';
 
 export const PertContext = createContext<PertContextType | null>(null);
 
@@ -46,26 +53,15 @@ const PertContextProvider: FC<Props> = ({ children }) => {
   };
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
-
-  const now = new Date();
-  const dateInAWeek = now.getTime() + 7 * 24 * 60 * 60 * 1000;
   const [ticketNo, setTicketNo] = useState('');
   const [pertData, setPertData] = useState<IPertData>({ ...initialPertData });
-  const TICKETS_LIST_DATA = 'pert-with-wings-tickets-list';
-
-  type listType = {
-    ticketNo: string;
-    details: IPertData;
-    expiry: number;
-  };
 
   /**
    * PERT-16:Estimation for each ticket will be stored in localStorage for a week.
-   * This gives the user the ability to edit her/his estimation
+   * This gives the user the ability to re-estimate the ticket
    */
   useEffect(() => {
-    // Get list
-    const list: listType[] | null = getPertStoredList();
+    const list: pertListType[] | null = getPertStoredList();
 
     if (list === null) {
       resetPertData();
@@ -79,68 +75,12 @@ const PertContextProvider: FC<Props> = ({ children }) => {
       return;
     }
 
-    if (dateInAWeek === listItem.expiry) {
-      removePertStoredList();
+    if (currentDate === listItem.expiry) {
+      removePertTicketFromList(ticketNo, list);
     } else {
       setPertData({ ...listItem.details });
     }
   }, [ticketNo]);
-
-  const getPertStoredList = () => {
-    const retrieveTicketDetails = localStorage.getItem(TICKETS_LIST_DATA);
-
-    if (retrieveTicketDetails !== null)
-      return JSON.parse(retrieveTicketDetails);
-
-    return null;
-  };
-
-  const updatePertStoredList = () => {
-    let storelocalData;
-
-    // Get list
-    const list: listType[] | null = getPertStoredList();
-
-    if (list === null) return;
-
-    const listItem = list.find((item) => item.ticketNo === ticketNo);
-
-    if (listItem === undefined) return;
-
-    if (list !== null) {
-      storelocalData = list.map((item) => {
-        if (item.ticketNo === listItem.ticketNo)
-          return {
-            ...item,
-            details: { ...listItem.details, ...pertData },
-          };
-
-        return item;
-      });
-    } else {
-      storelocalData = [
-        {
-          ticketNo: ticketNo,
-          details: {
-            ...pertData,
-          },
-          expiry: dateInAWeek,
-        },
-      ];
-    }
-
-    localStorage.setItem(TICKETS_LIST_DATA, JSON.stringify(storelocalData));
-  };
-
-  const removePertStoredList = () => {
-    // Get list
-    const list: listType[] | null = getPertStoredList();
-
-    if (list === null) return;
-
-    const newList = list.filter((item) => item.ticketNo !== ticketNo);
-    localStorage.setItem(TICKETS_LIST_DATA, JSON.stringify(newList));
-  };
 
   const addPertRow = (isQATask = false) => {
     const _pertRows = [...pertData.pertRows];
@@ -195,7 +135,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
       pertRows: _pertRows,
     });
 
-    updatePertStoredList();
+    updatePertStoredList(ticketNo, pertData);
   };
 
   const updatePertMessage = (
@@ -235,10 +175,10 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     };
 
     setPertData(fieldData);
-    const { pertRows, risk, scoping, ...savablePertData } = fieldData;
+    const { ...savablePertData } = fieldData;
     saveConfig(savablePertData);
 
-    updatePertStoredList();
+    updatePertStoredList(ticketNo, pertData);
   };
 
   const resetPertData = () => {
