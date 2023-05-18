@@ -23,8 +23,7 @@ import Logo from '@/components/Logo';
 import PertRowsForm from '@/components/PertRowsForm';
 import PertTable from '@/components/PertTable';
 import { PertContext } from '@/context/pertContext';
-import { handleMouseOver } from '@/utils';
-import { IS_JIRA, getTicketNo } from '@/utils/get-ticket-no';
+import { IS_JIRA, getTicketNo, handleMouseOver } from '@/utils';
 
 import classes from './PertModal.module.css';
 
@@ -52,13 +51,8 @@ const PertModal: FC = () => {
   const pertHtmlRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
 
-  const {
-    pertData,
-    setIsPertModalOpen,
-    isPertModalOpen,
-    ticketNo,
-    setTicketNo,
-  } = useContext(PertContext) as PertContextType;
+  const { pertData, setIsPertModalOpen, isPertModalOpen, setTicketNo } =
+    useContext(PertContext) as PertContextType;
 
   const getMarkup = () => {
     if (!pertHtmlRef.current) return;
