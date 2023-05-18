@@ -31,6 +31,8 @@ const IS_JIRA =
   window.location.hostname.includes('atlassian.net') ||
   window.location.pathname.startsWith('/browse/');
 
+const IS_AZURE = window.location.hostname.includes('dev.azure.com');
+
 const pertModalStyles = {
   overlay: {
     zIndex: 401287331 + 1,
@@ -54,6 +56,8 @@ const PertModal: FC = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
   const pertHtmlRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
+  const urlParams = new URLSearchParams(window.location.search);
+  const azureHasParam = urlParams.get('workitem');
 
   const {
     pertData,
@@ -151,19 +155,25 @@ const PertModal: FC = () => {
 
     const $ticketModalSelector: HTMLElement | null =
       document.querySelector(ticketModalSelector);
-    if (!$ticketModalSelector) return;
 
-    $ticketModalSelector.inert = isPertModalOpen;
-
-    if (window.location.pathname.startsWith('/browse/')) {
-      const ticket = window.location.pathname.split('/').pop();
+    if (
+      window.location.pathname.startsWith('/browse/') ||
+      (IS_AZURE && azureHasParam === null)
+    ) {
+      const itemNo = window.location.pathname.split('/').pop();
+      const ticket = IS_AZURE ? `AZURE-${itemNo}` : itemNo;
 
       setTicketNo(ticket);
     } else {
-      const urlParams = new URLSearchParams(window.location.search);
-      const selectedIssue = urlParams.get('selectedIssue');
+      const selectedIssue = IS_AZURE
+        ? `AZURE-${urlParams.get('workitem')}`
+        : urlParams.get('selectedIssue');
 
       setTicketNo(selectedIssue);
+    }
+
+    if ($ticketModalSelector) {
+      $ticketModalSelector.inert = isPertModalOpen;
     }
   }, [isPertModalOpen, ticketNo]);
 
@@ -195,7 +205,7 @@ const PertModal: FC = () => {
                 <PertRowsForm />
 
                 <Field
-                  label="Analysis/Solution Design, Scoping and Documenting"
+                  label="TestAnalysis/Solution Design, Scoping and Documenting"
                   name="scoping"
                 />
 
