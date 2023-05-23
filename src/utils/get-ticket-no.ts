@@ -3,9 +3,6 @@ export const IS_JIRA =
   window.location.pathname.startsWith('/browse/');
 
 export const getTicketNo = () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const azureParam = urlParams.get('workitem');
-
   const ticket = 'DEFAULT';
 
   if (IS_JIRA) {
@@ -13,11 +10,19 @@ export const getTicketNo = () => {
 
     if (jiraNo !== null) return jiraNo[0];
   } else {
-    if (azureParam !== null) return `AZURE-${azureParam}`;
+    const urlParams = new URLSearchParams(window.location.search);
+    const azureParam = urlParams.get('workitem');
+
+    const project = window.location.href.match(
+      /azure.com\/(?<project>[A-Za-z]{2,})/
+    );
+
+    if (azureParam !== null) return `${project?.groups?.project}-${azureParam}`;
 
     const azureNo = window.location.href.match(/edit\/(?<ticket>\d+)/);
 
-    if (azureNo !== null) return `AZURE-${azureNo.groups?.ticket}`;
+    if (azureNo !== null)
+      return `${project?.groups?.project}-${azureNo.groups?.ticket}`;
   }
 
   return ticket;
