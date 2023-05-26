@@ -17,7 +17,8 @@ export const getTicketNo = () => {
       /azure.com\/(?<project>[A-Za-z]{2,})/
     );
 
-    if (azureParam !== null) return `${project?.groups?.project}-${azureParam}`;
+    if (azureParam !== null || azureParam !== undefined)
+      return `${project?.groups?.project}-${azureParam}`;
 
     const azureNo = window.location.href.match(/edit\/(?<ticket>\d+)/);
 
