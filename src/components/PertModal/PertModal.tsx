@@ -23,13 +23,9 @@ import Logo from '@/components/Logo';
 import PertRowsForm from '@/components/PertRowsForm';
 import PertTable from '@/components/PertTable';
 import { PertContext } from '@/context/pertContext';
-import { handleMouseOver } from '@/utils';
+import { IS_JIRA, getTicketNo, handleMouseOver } from '@/utils';
 
 import classes from './PertModal.module.css';
-
-const IS_JIRA =
-  window.location.hostname.includes('atlassian.net') ||
-  window.location.pathname.startsWith('/browse/');
 
 const pertModalStyles = {
   overlay: {
@@ -55,9 +51,8 @@ const PertModal: FC = () => {
   const pertHtmlRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
 
-  const { pertData, setIsPertModalOpen, isPertModalOpen } = useContext(
-    PertContext
-  ) as PertContextType;
+  const { pertData, setIsPertModalOpen, isPertModalOpen, setTicketNo } =
+    useContext(PertContext) as PertContextType;
 
   const getMarkup = () => {
     if (!pertHtmlRef.current) return;
@@ -112,6 +107,9 @@ const PertModal: FC = () => {
       return;
     }
 
+    const ticket = getTicketNo();
+    setTicketNo(ticket);
+
     setIsPertModalOpen(true);
   };
 
@@ -147,9 +145,10 @@ const PertModal: FC = () => {
 
     const $ticketModalSelector: HTMLElement | null =
       document.querySelector(ticketModalSelector);
-    if (!$ticketModalSelector) return;
 
-    $ticketModalSelector.inert = isPertModalOpen;
+    if ($ticketModalSelector) {
+      $ticketModalSelector.inert = isPertModalOpen;
+    }
   }, [isPertModalOpen]);
 
   return (

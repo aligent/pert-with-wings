@@ -36,7 +36,6 @@ const Header: FC = () => {
         className={classes.headerButton}
         type="button"
         onClick={() => {
-          resetPertData();
           setIsPertModalOpen(false);
         }}
       >

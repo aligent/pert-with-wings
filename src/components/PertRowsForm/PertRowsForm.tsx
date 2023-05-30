@@ -194,7 +194,6 @@ const PertRowsForm: FC = () => {
                   updatePertRow(row.id, e);
                   handleChange(row.id);
                 }}
-                // onBlur={() => handleOnBlur(row.id)}
                 name="pessimistic"
                 id={`pessimistic-${row.id}`}
                 type="text"
