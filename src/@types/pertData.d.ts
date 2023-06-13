@@ -20,6 +20,7 @@ export interface IPertData {
   qa_testing_percent: number;
   automated_tests_percent: number;
   round_to_next_minutes: number;
+  expiry_days: number;
 }
 
 export type PertContextType = {

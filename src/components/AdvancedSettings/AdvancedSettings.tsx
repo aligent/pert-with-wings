@@ -54,6 +54,11 @@ const AdvancedSettings: FC = () => {
           type="range"
           disabled={!pertData.automatedTests}
         />
+        <Field
+          label="Number of days PERT data to be saved in local storage"
+          description="Will be kept for 7 days by default."
+          name="expiry_days"
+        />
         {/* <Field
           label="Round to next minutes"
           description="10 recommended"

@@ -10,6 +10,7 @@ export const getConfig = () => {
     qa_testing_percent: 0,
     qa_testing_min: 15,
     automated_tests_percent: 10,
+    expiry_days: 7,
     ...JSON.parse(savedConfig),
   };
 

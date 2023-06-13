@@ -27,6 +27,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     qa_testing_min,
     qa_testing_percent,
     round_to_next_minutes,
+    expiry_days,
   } = getConfig();
 
   const initialPertRow: IPertRow = {
@@ -51,6 +52,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     qa_testing_min,
     qa_testing_percent,
     round_to_next_minutes,
+    expiry_days,
   };
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
