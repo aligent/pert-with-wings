@@ -69,7 +69,7 @@
   display: block;
 }
 
-:global(body:not(:has(.witform-layout)) #pert-button-azure) {
+:global(body:not(:has([aria-label="Discussion"])) #pert-button-azure) {
   /* hide in non ticket pages in Azure Devops */
   display: none;
 }

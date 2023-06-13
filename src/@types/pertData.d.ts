@@ -42,4 +42,6 @@ export type PertContextType = {
     type: 'error' | 'warning',
     message: string
   ) => void;
+  ticketNo: string;
+  setTicketNo: (string) => void;
 };

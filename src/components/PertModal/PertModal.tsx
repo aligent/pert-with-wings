@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   MdCheckCircle,
   MdContentCopy,
@@ -23,14 +24,14 @@ import Logo from '@/components/Logo';
 import PertRowsForm from '@/components/PertRowsForm';
 import PertTable from '@/components/PertTable';
 import { PertContext } from '@/context/pertContext';
-import { getRandomTranslation, handleMouseOver } from '@/utils';
+import {
+  IS_JIRA,
+  getRandomTranslation,
+  getTicketNo,
+  handleMouseOver,
+} from '@/utils';
 
 import classes from './PertModal.module.css';
-import { useTranslation } from 'react-i18next';
-
-const IS_JIRA =
-  window.location.hostname.includes('atlassian.net') ||
-  window.location.pathname.startsWith('/browse/');
 
 const pertModalStyles = {
   overlay: {
@@ -56,9 +57,8 @@ const PertModal: FC = () => {
   const pertHtmlRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
 
-  const { pertData, setIsPertModalOpen, isPertModalOpen } = useContext(
-    PertContext
-  ) as PertContextType;
+  const { pertData, setIsPertModalOpen, isPertModalOpen, setTicketNo } =
+    useContext(PertContext) as PertContextType;
 
   const { t } = useTranslation();
 
@@ -115,6 +115,9 @@ const PertModal: FC = () => {
       return;
     }
 
+    const ticket = getTicketNo();
+    setTicketNo(ticket);
+
     setIsPertModalOpen(true);
   };
 
@@ -150,9 +153,10 @@ const PertModal: FC = () => {
 
     const $ticketModalSelector: HTMLElement | null =
       document.querySelector(ticketModalSelector);
-    if (!$ticketModalSelector) return;
 
-    $ticketModalSelector.inert = isPertModalOpen;
+    if ($ticketModalSelector) {
+      $ticketModalSelector.inert = isPertModalOpen;
+    }
   }, [isPertModalOpen]);
 
   return (
@@ -190,7 +194,9 @@ const PertModal: FC = () => {
 
                 <Field
                   label={t('automatedTests')}
-                  description={`${pertData.automated_tests_percent}% of dev task.`}
+                  description={`${pertData.automated_tests_percent}% of dev ${t(
+                    'task'
+                  )}.`}
                   name="automatedTests"
                   type="checkbox"
                   required={false}
@@ -208,7 +214,7 @@ const PertModal: FC = () => {
               </div>
 
               <section className={classes.pertFieldset}>
-                <header className={classes.pertLegend}>Preview</header>
+                <header className={classes.pertLegend}>{t('preview')}</header>
                 <PertTable forwardRef={pertHtmlRef} />
               </section>
             </main>

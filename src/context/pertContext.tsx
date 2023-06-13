@@ -1,8 +1,16 @@
-import { FC, ReactNode, createContext, useState } from 'react';
+import { FC, ReactNode, createContext, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IPertData, IPertRow, PertContextType } from '@/@types/pertData';
-import { getConfig, saveConfig } from '@/utils';
+import {
+  currentDate,
+  getConfig,
+  getPertStoredList,
+  pertListType,
+  removePertTicketFromList,
+  saveConfig,
+  updatePertStoredList,
+} from '@/utils';
 
 export const PertContext = createContext<PertContextType | null>(null);
 
@@ -45,9 +53,35 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     round_to_next_minutes,
   };
 
+  const [isPertModalOpen, setIsPertModalOpen] = useState(false);
+  const [ticketNo, setTicketNo] = useState('');
   const [pertData, setPertData] = useState<IPertData>({ ...initialPertData });
 
-  const [isPertModalOpen, setIsPertModalOpen] = useState(false);
+  /**
+   * PERT-16:Estimation for each ticket will be stored in localStorage for a week.
+   * This gives the user the ability to re-estimate the ticket
+   */
+  useEffect(() => {
+    const list: pertListType[] | null = getPertStoredList();
+
+    if (list === null) {
+      resetPertData();
+      return;
+    }
+
+    const listItem = list.find((item) => item.ticketNo === ticketNo);
+
+    if (listItem === undefined) {
+      resetPertData();
+      return;
+    }
+
+    if (currentDate === listItem.expiry) {
+      removePertTicketFromList(ticketNo, list);
+    } else {
+      setPertData({ ...listItem.details });
+    }
+  }, [ticketNo]);
 
   const addPertRow = (isQATask = false) => {
     const _pertRows = [...pertData.pertRows];
@@ -101,6 +135,8 @@ const PertContextProvider: FC<Props> = ({ children }) => {
       ...pertData,
       pertRows: _pertRows,
     });
+
+    updatePertStoredList(ticketNo, pertData);
   };
 
   const updatePertMessage = (
@@ -140,8 +176,10 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     };
 
     setPertData(fieldData);
-    const { pertRows, risk, scoping, ...savablePertData } = fieldData;
+    const { ...savablePertData } = fieldData;
     saveConfig(savablePertData);
+
+    updatePertStoredList(ticketNo, pertData);
   };
 
   const resetPertData = () => {
@@ -161,6 +199,8 @@ const PertContextProvider: FC<Props> = ({ children }) => {
         setIsPertModalOpen,
         resetPertData,
         isValidPertData,
+        ticketNo,
+        setTicketNo,
       }}
     >
       {children}
