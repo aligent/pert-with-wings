@@ -1,4 +1,5 @@
 import { IPertData } from '@/@types/pertData';
+import { getConfig } from '@/utils/get-config';
 
 export const TICKETS_LIST_DATA = 'pert-with-wings-tickets-list';
 
@@ -9,8 +10,9 @@ export interface pertListType {
 }
 
 const now = new Date();
-export const currentDate = now.getTime() + 24 * 60 * 60 * 1000;
-export const dateInAWeek = currentDate * 7;
+export const currentDate = now.getTime();
+export const expiryDate =
+  currentDate + 24 * 60 * 60 * 1000 * (getConfig()?.expiry_days ?? 7);
 
 /**
  * Retrieve all data from localstorage
@@ -44,7 +46,7 @@ export const updatePertStoredList = (ticketNo: string, pertData: IPertData) => {
         details: {
           ...pertData,
         },
-        expiry: dateInAWeek,
+        expiry: expiryDate,
       },
     ];
   } else {
@@ -68,7 +70,7 @@ export const updatePertStoredList = (ticketNo: string, pertData: IPertData) => {
           details: {
             ...pertData,
           },
-          expiry: dateInAWeek,
+          expiry: expiryDate,
         },
       ];
     }
