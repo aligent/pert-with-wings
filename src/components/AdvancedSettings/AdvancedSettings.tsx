@@ -55,8 +55,8 @@ const AdvancedSettings: FC = () => {
           disabled={!pertData.automatedTests}
         />
         <Field
-          label="Number of days PERT data to be saved in local storage"
-          description="Will be kept for 7 days by default."
+          label="Number of days the estimate to be kept in local storage"
+          description="You will be able to load the data from previous estimate of this ticket during this period."
           name="expiry_days"
         />
         {/* <Field
