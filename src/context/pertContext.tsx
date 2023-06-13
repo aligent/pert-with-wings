@@ -78,7 +78,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
       return;
     }
 
-    if (currentDate === listItem.expiry) {
+    if (currentDate > listItem.expiry) {
       removePertTicketFromList(ticketNo, list);
     } else {
       setPertData({ ...listItem.details });
