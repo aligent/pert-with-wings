@@ -26,19 +26,19 @@ const AdvancedSettings: FC = () => {
       <section className={classes.content}>
         <Field
           label="Ticket specific communications Percentage"
-          description="10% of dev task recommended."
+          description={`10% of dev ${t('task')} recommended.`}
           name="comms_percent"
           type="range"
         />
         <Field
           label="Code review & fixes Percentage"
-          description="10% of dev task recommended."
+          description={`10% of dev ${t('task')} recommended.`}
           name="code_reviews_and_fixes_percent"
           type="range"
         />
         <Field
           label="Quality Assurance Testing Percentage"
-          description="10% of dev task recommended."
+          description={`10% of dev ${t('task')} recommended.`}
           name="qa_testing_percent"
           type="range"
           disabled={hasQaEstimate}
@@ -51,7 +51,7 @@ const AdvancedSettings: FC = () => {
         />
         <Field
           label="Automated Tests Percentage"
-          description="10% of dev task recommended."
+          description={`10% of dev ${t('task')} recommended.`}
           name="automated_tests_percent"
           type="range"
           disabled={!pertData.automatedTests}

@@ -47,6 +47,7 @@
   font-size: 1rem;
   z-index: 0;
   opacity: 0;
+  text-transform: capitalize;
 }
 
 .field {

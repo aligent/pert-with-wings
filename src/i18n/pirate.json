@@ -7,10 +7,10 @@
   "scoping": "Designin' solutions, scopin', and documentin' th' plunder",
   "addEstimate": "Mark thy reckoning",
   "copyEstimate": "Copy yer reckonin'",
-  "pert": [
-    "PERT (Pirate's Estimatin' and Rangin' Technique)",
-    "PERT (Pirate's Estimatin' and Reckonin' Technique)",
-    "PERT (Plunderin' and Estimatin' Risky Tasks)",
-    "PERT (Pieces o' Eight, Rum and Treasure)"
-  ]
+  "pert": "PERT (Pirate's Estimatin' and Reckonin' Technique)",
+  "task": "quest",
+  "optimistic": "sunshine reckonin'",
+  "likely": "best reckonin'",
+  "pessimistic": "gloomy reckonin'",
+  "preview": "foreglimpse"
 }
