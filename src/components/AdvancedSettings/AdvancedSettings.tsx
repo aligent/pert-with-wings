@@ -56,6 +56,11 @@ const AdvancedSettings: FC = () => {
           type="range"
           disabled={!pertData.automatedTests}
         />
+        <Field
+          label="Number of days the estimate to be kept in local storage"
+          description="You will be able to load the data from previous estimate of this ticket during this period."
+          name="expiry_days"
+        />
         {/* <Field
           label="Round to next minutes"
           description="10 recommended"
