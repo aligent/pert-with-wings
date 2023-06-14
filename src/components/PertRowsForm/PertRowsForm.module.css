@@ -59,6 +59,7 @@
   z-index: 1;
   font-size: 1rem;
   background: var(--pert-field-bg);
+  text-transform: capitalize;
 }
 
 .field:focus {

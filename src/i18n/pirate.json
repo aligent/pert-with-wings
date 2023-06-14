@@ -9,8 +9,8 @@
   "copyEstimate": "Copy yer reckonin'",
   "pert": "PERT (Pirate's Estimatin' and Reckonin' Technique)",
   "task": "quest",
-  "optimistic": "sunshine reckonin'",
-  "likely": "best reckonin'",
-  "pessimistic": "gloomy reckonin'",
+  "optimistic": "sunshine",
+  "likely": "best",
+  "pessimistic": "gloomy",
   "preview": "foreglimpse"
 }
