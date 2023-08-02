@@ -23,7 +23,12 @@ import Logo from '@/components/Logo';
 import PertRowsForm from '@/components/PertRowsForm';
 import PertTable from '@/components/PertTable';
 import { PertContext } from '@/context/pertContext';
-import { IS_JIRA, getTicketNo, handleMouseOver } from '@/utils';
+import {
+  IS_JIRA,
+  VALIDATE_HOUR_MINUTES,
+  getTicketNo,
+  handleMouseOver,
+} from '@/utils';
 
 import classes from './PertModal.module.css';
 
@@ -181,6 +186,8 @@ const PertModal: FC = () => {
                 <Field
                   label="Analysis/Solution Design, Scoping and Documenting"
                   name="scoping"
+                  pattern={VALIDATE_HOUR_MINUTES}
+                  errorMessage="Time values can be either hour value (1.5) or hours and minutes (1h 30m)"
                 />
 
                 <Field
