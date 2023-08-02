@@ -2,6 +2,7 @@
   display: flex;
   justify-content: space-between;
   position: relative;
+  flex-wrap: wrap;
 }
 
 .fieldRange {
@@ -118,4 +119,14 @@
 .fieldDisabled {
   pointer-events: none;
   opacity: 0.5;
+}
+
+.error {
+  display: none;
+  width: 100%;
+  color: var(--error-color);
+}
+
+.field:has(input:invalid) .error {
+  display: block;
 }
