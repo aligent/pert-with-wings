@@ -4,12 +4,15 @@ import { MdAdd } from 'react-icons/md';
 import { IPertRow, PertContextType } from '@/@types/pertData';
 import Message from '@/components/Message';
 import { PertContext } from '@/context/pertContext';
-import { getMinutes, getSums, getTimeString } from '@/utils';
+import {
+  VALIDATE_HOUR_MINUTES,
+  getMinutes,
+  getSums,
+  getTimeString,
+} from '@/utils';
 
 import classes from './PertRowsForm.module.css';
 
-const VALIDATE_HOUR_MINUTES =
-  '^((\\d*\\.?\\d+)[Mm]?|((\\d*\\.?\\d+)[Hh] ?((\\d*\\.?\\d+)[Mm])?))$';
 const LARGE_ESTIMATE_HOURS = 10;
 
 const PertRowsForm: FC = () => {
