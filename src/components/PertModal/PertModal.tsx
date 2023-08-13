@@ -26,6 +26,7 @@ import PertTable from '@/components/PertTable';
 import { PertContext } from '@/context/pertContext';
 import {
   IS_JIRA,
+  VALIDATE_HOUR_MINUTES,
   getRandomTranslation,
   getTicketNo,
   handleMouseOver,
@@ -190,7 +191,12 @@ const PertModal: FC = () => {
               <div className={classes.top}>
                 <PertRowsForm />
 
-                <Field label={t('scoping')} name="scoping" />
+                <Field
+                  label={t('scoping')}
+                  name="scoping"
+                  pattern={VALIDATE_HOUR_MINUTES}
+                  errorMessage="Time values can be either hour value (1.5) or hours and minutes (1h 30m)"
+                />
 
                 <Field
                   label={t('automatedTests')}

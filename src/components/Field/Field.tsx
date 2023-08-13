@@ -21,6 +21,8 @@ interface Props {
   values?: string[];
   required?: boolean;
   disabled?: boolean;
+  pattern?: string;
+  errorMessage?: string;
 }
 
 const Field: FC<Props> = ({
@@ -31,6 +33,8 @@ const Field: FC<Props> = ({
   required = true,
   values,
   disabled = false,
+  pattern = '',
+  errorMessage = '',
 }) => {
   const { pertData, updateField } = useContext(PertContext) as PertContextType;
 
@@ -67,6 +71,7 @@ const Field: FC<Props> = ({
           required={required}
           className={classes.input}
           {...(type === 'range' && { step: 5, min: 0, max: 100 })}
+          {...(pattern && { pattern })}
           {...(type === 'checkbox' && { checked: Boolean(pertData[name]) })}
         />
       )}
@@ -84,6 +89,7 @@ const Field: FC<Props> = ({
         </span>
         {type === 'checkbox' && <i />}
       </label>
+      {errorMessage && <div className={classes.error}>{errorMessage}</div>}
     </div>
   );
 };

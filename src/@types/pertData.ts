@@ -35,7 +35,7 @@ export type PertContextType = {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
   isPertModalOpen: boolean;
-  setIsPertModalOpen: (boolean) => void;
+  setIsPertModalOpen: (value: boolean) => void;
   resetPertData: () => void;
   isValidPertData: (key: string) => boolean;
   updatePertMessage: (
@@ -44,5 +44,5 @@ export type PertContextType = {
     message: string
   ) => void;
   ticketNo: string;
-  setTicketNo: (string) => void;
+  setTicketNo: (value: string) => void;
 };

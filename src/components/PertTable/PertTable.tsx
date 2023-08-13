@@ -57,7 +57,7 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
     [pertRows]
   );
   const { optimisticMinutes, likelyMinutes, pessimisticMinutes } = pertMinutes;
-  const scopingMinutes = getMinutes(scoping);
+  const scopingMinutes = getMinutes(scoping) || 0;
   const qAExactMinutes = useMemo(() => {
     const qAEstimate = pertRows.find((row) => row.isQATask);
     if (!qAEstimate) return null;

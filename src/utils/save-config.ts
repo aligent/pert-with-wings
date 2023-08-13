@@ -1,4 +1,5 @@
 import { IPertData } from '@/@types/pertData';
+
 import { PERT_STORAGE_KEY } from './get-config';
 
 export const saveConfig = (data: Partial<IPertData>) => {
