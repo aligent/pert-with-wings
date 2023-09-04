@@ -89,7 +89,9 @@ const Field: FC<Props> = ({
         </span>
         {type === 'checkbox' && <i />}
       </label>
-      {errorMessage && <div className={classes.error}>{errorMessage}</div>}
+      {errorMessage && pertData[name].toString() !== '' && (
+        <div className={classes.error}>{errorMessage}</div>
+      )}
     </div>
   );
 };
