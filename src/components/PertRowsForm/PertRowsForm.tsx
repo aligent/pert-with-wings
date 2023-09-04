@@ -1,4 +1,5 @@
 import { FC, Fragment, useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MdAdd } from 'react-icons/md';
 
 import { IPertRow, PertContextType } from '@/@types/pertData';
@@ -16,6 +17,7 @@ import classes from './PertRowsForm.module.css';
 const LARGE_ESTIMATE_HOURS = 10;
 
 const PertRowsForm: FC = () => {
+  const { t } = useTranslation();
   const [pertWarning, setPertWarning] = useState('');
 
   const {
@@ -139,13 +141,13 @@ const PertRowsForm: FC = () => {
                 autoComplete="off"
                 placeholder={`${
                   row.isQATask ? 'QA' : `${index > 0 ? 'Optional ' : ''}Dev`
-                } Task`}
+                } ${t('task')}`}
               />
               <label className={classes.label} htmlFor="task">
                 <span>
                   {`${
                     row.isQATask ? 'QA' : `${index > 0 ? 'Optional ' : ''}Dev`
-                  } Task`}{' '}
+                  } ${t('task')}`}{' '}
                 </span>
               </label>
             </div>
@@ -163,11 +165,11 @@ const PertRowsForm: FC = () => {
                 required
                 autoComplete="off"
                 className={classes.field}
-                placeholder="Optimistic"
-                title="Time values can be either hour value (1.5) or hours and minutes (1h 30m). The fastest time you can complete an activity. This assumes that all the necessary resources have been put in place and nothing unexpected occurs. This estimate is hard to achieve most of the time because projects are expected to face some challenges."
+                placeholder={`${t('optimistic')}`}
+                title="The fastest time you can complete an activity. This assumes that all the necessary resources have been put in place and nothing unexpected occurs. This estimate is hard to achieve most of the time because projects are expected to face some challenges."
               />
               <label className={classes.label} htmlFor="optimistic">
-                <span>Optimistic</span>
+                <span>{t('optimistic')}</span>
               </label>
             </div>
             <div className={classes.control}>
@@ -184,11 +186,11 @@ const PertRowsForm: FC = () => {
                 required
                 autoComplete="off"
                 className={classes.field}
-                placeholder="Likely"
-                title="Time values can be either hour value (1.5) or hours and minutes (1h 30m). The most likely figure if there aren't any significant issues, but also not the best optimistic case. A realistic estimate. If you were asked for a quick time estimate this might be the figure you would come up with."
+                placeholder={`${t('likely')}`}
+                title="The most likely figure if there aren't any significant issues, but also not the best optimistic case. A realistic estimate. If you were asked for a quick time estimate this might be the figure you would come up with."
               />
               <label className={classes.label} htmlFor="likely">
-                <span>Likely</span>
+                <span>{t('likely')}</span>
               </label>
             </div>
             <div className={classes.control}>
@@ -205,11 +207,11 @@ const PertRowsForm: FC = () => {
                 required
                 autoComplete="off"
                 className={classes.field}
-                placeholder="Pessimistic"
-                title="Time values can be either hour value (1.5) or hours and minutes (1h 30m). This refers to the maximum time needed to complete an activity. It assumes and factors in all the negative things that may affect an activity. Most project teams assume resource unavailability and rework when deriving this estimate."
+                placeholder={`${t('pessimistic')}`}
+                title="This refers to the maximum time needed to complete an activity. It assumes and factors in all the negative things that may affect an activity. Most project teams assume resource unavailability and rework when deriving this estimate."
               />
               <label className={classes.label} htmlFor="pessimistic">
-                <span>Pessimistic</span>
+                <span>{t('pessimistic')}</span>
               </label>
             </div>
             {pertData.pertRows.length > 1 && (
@@ -228,7 +230,7 @@ const PertRowsForm: FC = () => {
           type="button"
           onClick={() => addPertRow()}
         >
-          <MdAdd /> Add optional dev task
+          <MdAdd /> Add optional dev {t('task')}
         </button>
         {!hasQaEstimate && (
           <button
@@ -236,7 +238,7 @@ const PertRowsForm: FC = () => {
             type="button"
             onClick={() => addPertRow(true)}
           >
-            <MdAdd /> Add QA task
+            <MdAdd /> Add QA {t('task')}
           </button>
         )}
       </footer>

@@ -12,9 +12,8 @@
   --pert-border: #091e4224;
   --pert-field-border: #333;
   --pert-field-bg: transparent;
-  --pert-modal-backdrop: rgba(9, 30, 66, 0.54);
-  --pert-modal-shadow: 0 0 0 1px rgba(9, 30, 66, 0.08),
-    0 2px 1px rgba(9, 30, 66, 0.08), 0 0 20px -6px rgba(9, 30, 66, 0.31);
+  --pert-modal-backdrop: #091e427d;
+  --pert-modal-shadow: 0px 8px 12px #091e4226, 0px 0px 1px #091e424f;
   --pert-secondary-button-hover: rgba(9, 30, 66, 0.08);
 }
 
@@ -32,7 +31,9 @@
   --pert-table-bg: #a1bdd914;
   --pert-border: #a6c5e229;
   --pert-field-border: #a6c5e229;
-  --pert-modal-backdrop: rgba(9, 30, 66, 0.54);
+  --pert-modal-backdrop: #03040442;
+  --pert-modal-shadow: inset 0px 0px 0px 1px #bcd6f00a, 0px 8px 12px #0304045c,
+    0px 0px 1px #03040480;
 }
 
 .openPertModalButton {

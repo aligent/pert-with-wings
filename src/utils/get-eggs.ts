@@ -26,3 +26,8 @@ const isAprilFoolsDay = () => {
   const now = new Date();
   return now.getMonth() == 3 && now.getDate() == 1;
 };
+
+export const isPirateDay = () => {
+  const now = new Date();
+  return now.getMonth() == 8 && (now.getDate() == 19 || now.getDate() == 15);
+};

@@ -8,6 +8,7 @@ import {
   useRef,
   useState,
 } from 'react';
+import { useTranslation } from 'react-i18next';
 import {
   MdCheckCircle,
   MdContentCopy,
@@ -26,6 +27,7 @@ import { PertContext } from '@/context/pertContext';
 import {
   IS_JIRA,
   VALIDATE_HOUR_MINUTES,
+  getRandomTranslation,
   getTicketNo,
   handleMouseOver,
 } from '@/utils';
@@ -41,7 +43,7 @@ const pertModalStyles = {
   } as CSSProperties,
   content: {
     position: 'static',
-    maxWidth: '760px',
+    maxWidth: '860px',
     margin: 'auto',
     padding: 0,
     border: 0,
@@ -58,6 +60,8 @@ const PertModal: FC = () => {
 
   const { pertData, setIsPertModalOpen, isPertModalOpen, setTicketNo } =
     useContext(PertContext) as PertContextType;
+
+  const { t } = useTranslation();
 
   const getMarkup = () => {
     if (!pertHtmlRef.current) return;
@@ -164,7 +168,11 @@ const PertModal: FC = () => {
         onClick={handleOpen}
         onMouseOver={handleMouseOver}
       >
-        PERT
+        {getRandomTranslation(
+          t('pert', {
+            returnObjects: true,
+          })
+        )}
       </button>
       <ReactModal
         isOpen={isPertModalOpen}
@@ -184,22 +192,24 @@ const PertModal: FC = () => {
                 <PertRowsForm />
 
                 <Field
-                  label="Analysis/Solution Design, Scoping and Documenting"
+                  label={t('scoping')}
                   name="scoping"
                   pattern={VALIDATE_HOUR_MINUTES}
                   errorMessage="Time values can be either hour value (1.5) or hours and minutes (1h 30m)"
                 />
 
                 <Field
-                  label="Automated Tests"
-                  description={`${pertData.automated_tests_percent}% of dev task.`}
+                  label={t('automatedTests')}
+                  description={`${pertData.automated_tests_percent}% of dev ${t(
+                    'task'
+                  )}.`}
                   name="automatedTests"
                   type="checkbox"
                   required={false}
                 />
 
                 <Field
-                  label="Complexity/Risk level"
+                  label={t('complexity')}
                   name="risk"
                   type="select"
                   values={['Low', 'Medium', 'High']}
@@ -210,7 +220,7 @@ const PertModal: FC = () => {
               </div>
 
               <section className={classes.pertFieldset}>
-                <header className={classes.pertLegend}>Preview</header>
+                <header className={classes.pertLegend}>{t('preview')}</header>
                 <PertTable forwardRef={pertHtmlRef} />
               </section>
             </main>
@@ -220,7 +230,7 @@ const PertModal: FC = () => {
                 id="add-pert-estimate"
                 disabled={!isValidPert}
               >
-                Add Estimate
+                {t('addEstimate')}
               </button>
               <button
                 className={classes.buttonSecondary}
@@ -236,7 +246,7 @@ const PertModal: FC = () => {
                 ) : (
                   <Fragment>
                     <MdContentCopy />
-                    Copy Estimate
+                    {t('copyEstimate')}
                   </Fragment>
                 )}
               </button>
@@ -245,7 +255,7 @@ const PertModal: FC = () => {
                 href="https://aligent.atlassian.net/jira/software/c/projects/PERT/issues/"
                 className={classes.feedback}
               >
-                <MdOutlineSmsFailed /> Give feedback or report a bug
+                <MdOutlineSmsFailed /> {t('feedback')}
               </a>
               <Logo />
             </footer>
