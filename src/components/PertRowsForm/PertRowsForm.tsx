@@ -91,7 +91,7 @@ const PertRowsForm: FC = () => {
       return;
     }
 
-    if (optimisticMinutes >= likelyMinutes) {
+    if (optimisticMinutes > likelyMinutes) {
       updatePertMessage(
         id,
         'error',
@@ -100,7 +100,7 @@ const PertRowsForm: FC = () => {
       return;
     }
 
-    if (likelyMinutes >= pessimisticMinutes) {
+    if (likelyMinutes > pessimisticMinutes) {
       updatePertMessage(
         id,
         'error',
