@@ -28,11 +28,11 @@ describe('test PERT with wings extension in Azure DevOps.', async () => {
       timeout,
     });
     await page.type('[name="loginfmt"]', AZUREDEVOPS_USER);
-    await page.waitForSelector('[data-report-event="Signin_Submit"]', {
+    await page.waitForSelector('[type="submit"]', {
       visible: true,
       timeout,
     });
-    await page.click('[data-report-event="Signin_Submit"]');
+    await page.click('[type="submit"]');
 
     // password screen
     const a = await page.waitForSelector('#otcLoginLink', {
@@ -40,18 +40,18 @@ describe('test PERT with wings extension in Azure DevOps.', async () => {
       timeout,
     });
     await page.type('[name="passwd"]', AZUREDEVOPS_PASSWORD);
-    await page.waitForSelector('[data-report-event="Signin_Submit"]', {
+    await page.waitForSelector('[type="submit"]', {
       visible: true,
       timeout,
     });
-    await page.click('[data-report-event="Signin_Submit"]');
+    await page.click('[type="submit"]');
 
     // Stay signed in screen
-    await page.waitForSelector('[data-report-event="Signin_Submit"]', {
+    await page.waitForSelector('[id="acceptButton"]', {
       visible: true,
       timeout,
     });
-    await page.click('[data-report-event="Signin_Submit"]');
+    await page.click('[id="acceptButton"]');
   });
 
   it('should render a button in Azure DevOps ticket.', async () => {
