@@ -1,6 +1,6 @@
 import { FC, useContext } from 'react';
-import { MdClose, MdMinimize } from 'react-icons/md';
 import { useTranslation } from 'react-i18next';
+import { MdClose, MdMinimize } from 'react-icons/md';
 
 import { PertContextType } from '@/@types/pertData';
 import Message from '@/components/Message';
