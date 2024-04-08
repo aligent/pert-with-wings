@@ -9,3 +9,5 @@ export * from './get-sums';
 export * from './get-ticket-no';
 export * from './get-time-string';
 export * from './save-config';
+export * from './wait-for';
+export * from './update-clipboard';

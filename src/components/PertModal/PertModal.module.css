@@ -36,12 +36,24 @@
     0px 0px 1px #03040480;
 }
 
-.openPertModalButton {
+.pertButtons {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: 401287331;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.pertButtons button {
   --to: #9061f9;
   --from: #e74694;
 
-  background-image: linear-gradient(to right, var(--from), var(--to));
-  box-shadow: 0 10px 15px -3px rgba(231, 70, 148, 0.5),
+  background-image: linear-gradient(100deg, var(--from), var(--to));
+  background-size: 150% 100%;
+  background-position: left;
+  box-shadow: 0 5px 10px -3px rgba(231, 70, 148, 0.5),
     0 4px 6px -4px rgba(231, 70, 148, 0.5);
   color: var(--pert-modal-button-color);
   white-space: nowrap;
@@ -51,14 +63,28 @@
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 401287331;
+  transition: all ease-in-out .3s;
 }
 
-.openPertModalButton:hover {
-  background-image: linear-gradient(to right, var(--to), var(--from));
+.jiraWithWingsTools {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.jiraWithWingsTools button {
+  position: static;
+}
+
+.jiraWithWingsTools:not(:hover):not(:focus-within) dd {
+  display: none;
+}
+
+.pertButtons button:hover {
+  background-position: right;
 }
 
 :global(body:not(:has([contenteditable='true'])) #pert-button-jira) {
@@ -77,6 +103,18 @@
 :global(body#com-atlassian-confluence #pert-button-jira) {
   /* hide in confluence pages */
   display: none;
+}
+
+.copyTicketsListButton {
+  display: none;
+}
+
+body:has([data-component-selector="VersionDetailIssueListIssueCardContainer"]) .copyTicketsListButton {
+  display: block;
+}
+
+body:has([aria-label="Issues"]) .copyTicketsListButton {
+  display: block;
 }
 
 .content {
