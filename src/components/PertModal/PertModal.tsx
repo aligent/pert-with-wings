@@ -62,7 +62,7 @@ const PertModal: FC = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
   const pertHtmlRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
-  const [pp, setPp] = useState(false);
+  const [showPlanningPoker, setShowPlanningPoker] = useState(false);
 
   const { pertData, setIsPertModalOpen, isPertModalOpen, setTicketNo } =
     useContext(PertContext) as PertContextType;
@@ -217,7 +217,7 @@ const PertModal: FC = () => {
   };
 
   const handlePlanningPoker = () => {
-    setPp(true);
+    setShowPlanningPoker(true);
   };
 
   useEffect(() => {
@@ -270,7 +270,7 @@ const PertModal: FC = () => {
           )}
         </button>
       </div>
-      {pp && <PlanningPoker exit={setPp} />}
+      {showPlanningPoker && <PlanningPoker exit={setShowPlanningPoker} />}
       <ReactModal
         isOpen={isPertModalOpen}
         style={pertModalStyles}
