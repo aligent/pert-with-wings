@@ -64,6 +64,8 @@
   font-weight: bold;
   cursor: pointer;
   transition: all ease-in-out .3s;
+  position: relative;
+  z-index: 1;
 }
 
 .jiraWithWingsTools {
@@ -73,13 +75,23 @@
   gap: 1rem;
   margin: 0;
   padding: 0;
+  position: relative;
+  left: 100%;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 0;
+}
+
+.pertButtons:hover .jiraWithWingsTools {
+  left: 0;
+  opacity: 1;
 }
 
 .jiraWithWingsTools button {
   position: static;
 }
 
-.jiraWithWingsTools:not(:hover):not(:focus-within) dd {
+.jiraWithWingsTools:not(:hover) dd {
   display: none;
 }
 
@@ -105,21 +117,20 @@
   display: none;
 }
 
-.copyTicketsListButton {
-  display: none;
-}
+/*.copyTicketsListButton {*/
+/*  display: none;*/
+/*}*/
 
-body:has([data-component-selector="VersionDetailIssueListIssueCardContainer"]) .copyTicketsListButton {
-  display: block;
-}
+/*body:has([data-component-selector="VersionDetailIssueListIssueCardContainer"]) .jiraWithWingsTools {*/
+/*  display: block;*/
+/*}*/
 
-body:has([aria-label="Issues"]) .copyTicketsListButton {
-  display: block;
-}
+/*body:has([aria-label="Issues"]) .jiraWithWingsTools {*/
+/*  display: block;*/
+/*}*/
 
 .content {
   color: var(--pert-color);
-  font-size: 1rem;
   border-radius: 0.5rem;
   background: var(--pert-modal-bg);
   display: flex;

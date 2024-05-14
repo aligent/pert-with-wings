@@ -25,6 +25,7 @@ import Header from '@/components/Header';
 import Logo from '@/components/Logo';
 import PertRowsForm from '@/components/PertRowsForm';
 import PertTable from '@/components/PertTable';
+import PlanningPoker from '@/components/PlanningPoker';
 import { PertContext } from '@/context/pertContext';
 import {
   IS_JIRA,
@@ -61,6 +62,7 @@ const PertModal: FC = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
   const pertHtmlRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
+  const [pp, setPp] = useState(false);
 
   const { pertData, setIsPertModalOpen, isPertModalOpen, setTicketNo } =
     useContext(PertContext) as PertContextType;
@@ -214,6 +216,10 @@ const PertModal: FC = () => {
     }
   };
 
+  const handlePlanningPoker = () => {
+    setPp(true);
+  };
+
   useEffect(() => {
     const ticketModalSelector = IS_JIRA
       ? '.atlaskit-portal-container'
@@ -230,20 +236,26 @@ const PertModal: FC = () => {
   return (
     <>
       <div className={classes.pertButtons}>
-        <dl className={classes.jiraWithWingsTools}>
-          <dt>
-            <button className={classes.copyTicketsListButton} type="button">
-              ✨
-            </button>
-          </dt>
-          <dd>
-            <ActionButton
-              clickAction={handleCopyTicketsForSlack}
-              actionLabel="Copy tickets list for Slack"
-              progressLabel="Copied"
-            />
-          </dd>
-        </dl>
+        {IS_JIRA && (
+          <dl className={classes.jiraWithWingsTools}>
+            <dt>
+              <button type="button">✨</button>
+            </dt>
+            <dd className={classes.copyTicketsListButton}>
+              <ActionButton
+                clickAction={handleCopyTicketsForSlack}
+                actionLabel="Copy tickets list for Slack"
+                progressLabel="Copied"
+              />
+            </dd>
+            <dd>
+              <ActionButton
+                clickAction={handlePlanningPoker}
+                actionLabel="Planning Poker"
+              />
+            </dd>
+          </dl>
+        )}
         <button
           id={`pert-button-${IS_JIRA ? 'jira' : 'azure'}`}
           className={classes.openPertModalButton}
@@ -258,6 +270,7 @@ const PertModal: FC = () => {
           )}
         </button>
       </div>
+      {pp && <PlanningPoker exit={setPp} />}
       <ReactModal
         isOpen={isPertModalOpen}
         style={pertModalStyles}
