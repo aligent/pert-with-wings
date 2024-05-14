@@ -6,11 +6,19 @@ import { waitFor } from '@/utils';
 interface ActionButtonProps {
   clickAction: (e: SyntheticEvent) => void;
   actionLabel: string;
-  progressLabel: string;
+  progressLabel?: string;
+  className?: string;
+  disabled?: boolean;
 }
 
 const ActionButton: FC<ActionButtonProps> = (props) => {
-  const { clickAction, actionLabel, progressLabel } = props;
+  const {
+    clickAction,
+    actionLabel,
+    progressLabel = '',
+    className = '',
+    disabled = false,
+  } = props;
   const [inProgress, setInProgress] = useState(false);
 
   const handleOnClick = async (e: SyntheticEvent) => {
@@ -21,8 +29,13 @@ const ActionButton: FC<ActionButtonProps> = (props) => {
   };
 
   return (
-    <button onClick={handleOnClick} type="button">
-      {inProgress ? (
+    <button
+      onClick={handleOnClick}
+      type="button"
+      className={className}
+      disabled={disabled}
+    >
+      {inProgress && progressLabel ? (
         <Fragment>
           <MdCheckCircle /> {progressLabel}
         </Fragment>

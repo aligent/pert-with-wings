@@ -1,10 +1,11 @@
 import { defineManifest } from '@crxjs/vite-plugin';
+
 import packageJson from './package.json';
 const { version } = packageJson;
 
 export default defineManifest(async (env) => ({
   manifest_version: 3,
-  name: 'PERT With Wings',
+  name: `PERT With Wings ${env.mode === 'development' ? ' - Dev Build' : ''}`,
   description: 'Helper to make PERT estimates in JIRA / Azure DevOps tickets',
   version,
   action: {},
