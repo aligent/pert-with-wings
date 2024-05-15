@@ -1,3 +1,4 @@
+import classNames from 'classnames';
 import {
   CSSProperties,
   FC,
@@ -29,6 +30,7 @@ import { PertContext } from '@/context/pertContext';
 import {
   IS_JIRA,
   VALIDATE_HOUR_MINUTES,
+  getIsIDAHOBIT,
   getRandomTranslation,
   getTicketNo,
   handleMouseOver,
@@ -246,7 +248,9 @@ const PertModal: FC = () => {
         </dl>
         <button
           id={`pert-button-${IS_JIRA ? 'jira' : 'azure'}`}
-          className={classes.openPertModalButton}
+          className={classNames(classes.openPertModalButton, {
+            [classes.IDAHOBIT]: getIsIDAHOBIT(),
+          })}
           onClick={handleOpen}
           onMouseOver={handleMouseOver}
           type="button"
