@@ -231,14 +231,14 @@
   opacity: 0.5;
 }
 
-.pertButtons .IDAHOBIT {
+.openPertModalButton.IDAHOBIT {
   --width: 100px;
   --angle:120deg;
   background: repeating-linear-gradient(var(--angle), rgb(255, 140, 0), rgb(255, 171, 0), rgb(45, 181, 125), rgb(0, 184, 217), rgb(135, 119, 217), rgb(255, 86, 35), rgb(255, 140, 0) var(--width));
   background-size: calc(var(--width)/sin(var(--angle))) 100%;
 }
 
-.pertButtons .IDAHOBIT:hover {
+.openPertModalButton.IDAHOBIT:hover {
   animation: IDAHOBITanimation 2s linear infinite;
   background-position: unset;
 }
