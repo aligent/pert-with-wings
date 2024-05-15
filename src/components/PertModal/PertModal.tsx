@@ -234,24 +234,21 @@ const PertModal: FC = () => {
   }, [isPertModalOpen]);
 
   return (
-    <>
+    <div className={classes.pert}>
       <div className={classes.pertButtons}>
         {IS_JIRA && (
           <dl className={classes.jiraWithWingsTools}>
-            <dt>
-              <button type="button">✨</button>
-            </dt>
             <dd className={classes.copyTicketsListButton}>
               <ActionButton
                 clickAction={handleCopyTicketsForSlack}
-                actionLabel="Copy tickets list for Slack"
+                actionLabel="✨ Copy tickets list for Slack"
                 progressLabel="Copied"
               />
             </dd>
-            <dd>
+            <dd className={classes.planningPokerButton}>
               <ActionButton
                 clickAction={handlePlanningPoker}
-                actionLabel="Planning Poker"
+                actionLabel="✨ Planning Poker"
               />
             </dd>
           </dl>
@@ -270,7 +267,11 @@ const PertModal: FC = () => {
           )}
         </button>
       </div>
-      {showPlanningPoker && <PlanningPoker exit={setShowPlanningPoker} />}
+      {showPlanningPoker && (
+        <div className={classes.planningPokerContainer}>
+          <PlanningPoker exit={setShowPlanningPoker} />
+        </div>
+      )}
       <ReactModal
         isOpen={isPertModalOpen}
         style={pertModalStyles}
@@ -359,7 +360,7 @@ const PertModal: FC = () => {
           </form>
         </div>
       </ReactModal>
-    </>
+    </div>
   );
 };
 

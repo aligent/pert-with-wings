@@ -80,20 +80,30 @@
   opacity: 0;
   transition: all 0.3s ease-in-out;
   z-index: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.pert:has(.planningPokerContainer) .pertButtons {
+  display: none;
 }
 
 .pertButtons:hover .jiraWithWingsTools {
   left: 0;
   opacity: 1;
+  width: auto;
+  height: auto;
+  pointer-events: auto;
 }
 
 .jiraWithWingsTools button {
   position: static;
 }
 
-.jiraWithWingsTools:not(:hover) dd {
-  display: none;
-}
+/*.jiraWithWingsTools:not(:hover) dd {*/
+/*  display: none;*/
+/*}*/
 
 .pertButtons button:hover {
   background-position: right;
@@ -103,7 +113,16 @@
   display: none;
 }
 
-:global(body:has(#jira-issue-header) #pert-button-jira) {
+.planningPokerButton {
+  display: block;
+}
+
+:global(body:not(:has([contenteditable='true']))) .planningPokerButton {
+  display: none;
+}
+
+:global(body:has(#jira-issue-header) #pert-button-jira),
+:global(body:has(#jira-issue-header)) .planningPokerButton {
   display: block;
 }
 
@@ -112,22 +131,30 @@
   display: none;
 }
 
-:global(body#com-atlassian-confluence #pert-button-jira) {
+:global(body#com-atlassian-confluence .pert) {
   /* hide in confluence pages */
   display: none;
 }
 
-/*.copyTicketsListButton {*/
-/*  display: none;*/
-/*}*/
+.copyTicketsListButton {
+  display: none;
+}
 
-/*body:has([data-component-selector="VersionDetailIssueListIssueCardContainer"]) .jiraWithWingsTools {*/
-/*  display: block;*/
-/*}*/
+/* show copy tickets button when in release page / issue list page if ticket preview is not visible */
+body:has([data-component-selector="VersionDetailIssueListIssueCardContainer"]):not(:has([data-testid="issue.views.issue-details.issue-layout.issue-layout"])) .jiraWithWingsTools,
+body:has([aria-label="Issues"]):not(:has([data-testid="issue.views.issue-details.issue-layout.issue-layout"])) .jiraWithWingsTools {
+  display: block;
+  left: 0;
+  opacity: 1;
+  width: auto;
+  height: auto;
+}
 
-/*body:has([aria-label="Issues"]) .jiraWithWingsTools {*/
-/*  display: block;*/
-/*}*/
+
+body:has([aria-label="Issues"]) .copyTicketsListButton,
+body:has([data-component-selector="VersionDetailIssueListIssueCardContainer"]) .copyTicketsListButton {
+  display: block;
+}
 
 .content {
   color: var(--pert-color);
