@@ -59,6 +59,9 @@
   z-index: 1;
   font-size: 1rem;
   background: var(--pert-field-bg);
+}
+
+.field::placeholder {
   text-transform: capitalize;
 }
 
