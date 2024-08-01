@@ -243,7 +243,11 @@ const PertModal: FC = () => {
             <dd className={classes.copyTicketsListButton}>
               <ActionButton
                 clickAction={handleCopyTicketsForSlack}
-                actionLabel={<>✨ Copy tickets list for Slack</>}
+                actionLabel={
+                  <>
+                    ✨ Copy tickets list for Slack <sup>BETA</sup>
+                  </>
+                }
                 progressLabel="Copied"
               />
             </dd>
@@ -260,13 +264,13 @@ const PertModal: FC = () => {
           </dl>
         )}
         <button
-        id={`pert-button-${IS_JIRA ? 'jira' : 'azure'}`}
-        className={classnames(classes.openPertModalButton, {
-          [classes.IDAHOBIT]: getIsIDAHOBIT(),
-        })}
-        onClick={handleOpen}
-        onMouseOver={handleMouseOver}
-      >
+          id={`pert-button-${IS_JIRA ? 'jira' : 'azure'}`}
+          className={classnames(classes.openPertModalButton, {
+            [classes.IDAHOBIT]: getIsIDAHOBIT(),
+          })}
+          onClick={handleOpen}
+          onMouseOver={handleMouseOver}
+        >
           {getRandomTranslation(
             t('pert', {
               returnObjects: true,
