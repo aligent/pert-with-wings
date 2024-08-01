@@ -133,7 +133,7 @@
   display: block;
 }
 
-:global(body:not(:has([aria-label="Discussion"])) #pert-button-azure) {
+:global(body:not(:has([aria-label='Discussion'])) #pert-button-azure) {
   /* hide in non ticket pages in Azure Devops */
   display: none;
 }
@@ -148,8 +148,16 @@
 }
 
 /* show copy tickets button when in release page / issue list page if ticket preview is not visible */
-body:has([data-component-selector="VersionDetailIssueListIssueCardContainer"]):not(:has([data-testid="issue.views.issue-details.issue-layout.issue-layout"])) .jiraWithWingsTools,
-body:has([aria-label="Issues"]):not(:has([data-testid="issue.views.issue-details.issue-layout.issue-layout"])) .jiraWithWingsTools {
+body:has(
+    [data-component-selector='VersionDetailIssueListIssueCardContainer']
+  ):not(
+    :has([data-testid='issue.views.issue-details.issue-layout.issue-layout'])
+  )
+  .jiraWithWingsTools,
+body:has([aria-label='Issues']):not(
+    :has([data-testid='issue.views.issue-details.issue-layout.issue-layout'])
+  )
+  .jiraWithWingsTools {
   display: block;
   left: 0;
   opacity: 1;
@@ -157,9 +165,9 @@ body:has([aria-label="Issues"]):not(:has([data-testid="issue.views.issue-details
   height: auto;
 }
 
-
-body:has([aria-label="Issues"]) .copyTicketsListButton,
-body:has([data-component-selector="VersionDetailIssueListIssueCardContainer"]) .copyTicketsListButton {
+body:has([aria-label='Issues']) .copyTicketsListButton,
+body:has([data-component-selector='VersionDetailIssueListIssueCardContainer'])
+  .copyTicketsListButton {
   display: block;
 }
 
