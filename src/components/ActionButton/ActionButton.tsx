@@ -1,11 +1,11 @@
-import { FC, Fragment, SyntheticEvent, useState } from 'react';
+import { FC, Fragment, ReactNode, SyntheticEvent, useState } from 'react';
 import { MdCheckCircle } from 'react-icons/md';
 
 import { waitFor } from '@/utils';
 
 interface ActionButtonProps {
   clickAction: (e: SyntheticEvent) => void;
-  actionLabel: string;
+  actionLabel: ReactNode;
   progressLabel?: string;
   className?: string;
   disabled?: boolean;
@@ -40,7 +40,7 @@ const ActionButton: FC<ActionButtonProps> = (props) => {
           <MdCheckCircle /> {progressLabel}
         </Fragment>
       ) : (
-        actionLabel
+        <Fragment>{actionLabel}</Fragment>
       )}
     </button>
   );

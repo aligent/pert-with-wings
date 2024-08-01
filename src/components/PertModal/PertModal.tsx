@@ -241,14 +241,18 @@ const PertModal: FC = () => {
             <dd className={classes.copyTicketsListButton}>
               <ActionButton
                 clickAction={handleCopyTicketsForSlack}
-                actionLabel="✨ Copy tickets list for Slack"
+                actionLabel={<>✨ Copy tickets list for Slack</>}
                 progressLabel="Copied"
               />
             </dd>
             <dd className={classes.planningPokerButton}>
               <ActionButton
                 clickAction={handlePlanningPoker}
-                actionLabel="✨ Planning Poker"
+                actionLabel={
+                  <>
+                    ✨ Planning Poker <sup>BETA</sup>
+                  </>
+                }
               />
             </dd>
           </dl>

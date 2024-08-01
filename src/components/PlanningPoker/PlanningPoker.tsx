@@ -264,7 +264,7 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
             className={classes.revealButton}
             disabled={!canRevealCards || cardsRevealed}
             clickAction={handleRevealCards}
-            actionLabel="Reveal"
+            actionLabel={<>Reveal</>}
           />
         </li>
       </ul>

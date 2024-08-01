@@ -68,6 +68,13 @@
   z-index: 1;
 }
 
+.pertButtons button sup {
+  color: var(--pert-modal-button-color);
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 9px;
+}
+
 .jiraWithWingsTools {
   display: flex;
   flex-direction: column-reverse;
