@@ -35,7 +35,6 @@ import {
   getRandomTranslation,
   getTicketNo,
   handleMouseOver,
-  updateClipboard,
   waitFor,
 } from '@/utils';
 
@@ -153,71 +152,6 @@ const PertModal: FC = () => {
     setIsPertModalOpen(false);
   };
 
-  const handleCopyTicketsForSlack = (e: SyntheticEvent) => {
-    e.preventDefault();
-    try {
-      const hasSelection = window.getSelection()?.toString() !== '';
-
-      if (hasSelection) {
-        const selection = window.getSelection()?.getRangeAt(0)?.cloneContents();
-        const ticketList = [
-          ...(selection?.querySelectorAll(
-            '[data-testid="native-issue-table.ui.issue-row"]'
-          ) as NodeListOf<HTMLTableRowElement>),
-          ...(selection?.querySelectorAll(
-            '[data-testid="issue-navigator.ui.issue-results.detail-view.card-list.card.list-item"]'
-          ) as NodeListOf<HTMLUListElement>),
-        ]
-          .filter((a) => a.hasAttribute('data-testid'))
-          .map((ticket) => {
-            const ticketLink =
-              (ticket.querySelector(
-                '[data-component-selector="jira-native-issue-table-issue-key"]'
-              ) as HTMLAnchorElement) ||
-              (ticket.querySelector(
-                '[data-testid="issue-navigator.ui.issue-results.detail-view.card-list.card"]'
-              ) as HTMLAnchorElement);
-            const ticketDescription =
-              (ticket.querySelector(
-                '[data-testid="issue-field-inline-edit-read-view-container.ui.container"]'
-              ) as HTMLDivElement) ||
-              (ticket.querySelector(
-                '[data-testid="issue-navigator.ui.issue-results.detail-view.card-list.card.summary"]'
-              ) as HTMLDivElement);
-            return `<li><a href="${ticketLink.href}">${
-              ticketLink.href.match(/[A-Z]{2,}-\d+/)?.[0] || ''
-            }: ${ticketDescription.textContent}</a></li>`;
-          })
-          .join('');
-        updateClipboard(ticketList);
-        return;
-      }
-
-      const ticketList = [
-        ...(document.querySelectorAll(
-          '[data-component-selector="VersionDetailIssueListIssueCardContainer"]'
-        ) as NodeListOf<HTMLAnchorElement>),
-      ]
-        .map(
-          (ticket) =>
-            `<li><a href="${ticket.href}">${[...ticket.childNodes[0].childNodes]
-              .map((a) => a.textContent)
-              .filter(Boolean)
-              .join(': ')}</a></li>`
-        )
-        .join('');
-
-      if (!ticketList) {
-        alert('Highlight what you want to copy');
-        return;
-      }
-
-      updateClipboard(ticketList);
-    } catch (e) {
-      console.error(e);
-    }
-  };
-
   const handlePlanningPoker = () => {
     setShowPlanningPoker(true);
   };
@@ -240,17 +174,6 @@ const PertModal: FC = () => {
       <div className={classes.pertButtons}>
         {IS_JIRA && (
           <dl className={classes.jiraWithWingsTools}>
-            <dd className={classes.copyTicketsListButton}>
-              <ActionButton
-                clickAction={handleCopyTicketsForSlack}
-                actionLabel={
-                  <>
-                    ✨ Copy tickets list for Slack <sup>BETA</sup>
-                  </>
-                }
-                progressLabel="Copied"
-              />
-            </dd>
             <dd className={classes.planningPokerButton}>
               <ActionButton
                 clickAction={handlePlanningPoker}

@@ -143,34 +143,6 @@
   display: none;
 }
 
-.copyTicketsListButton {
-  display: none;
-}
-
-/* show copy tickets button when in release page / issue list page if ticket preview is not visible */
-body:has(
-    [data-component-selector='VersionDetailIssueListIssueCardContainer']
-  ):not(
-    :has([data-testid='issue.views.issue-details.issue-layout.issue-layout'])
-  )
-  .jiraWithWingsTools,
-body:has([aria-label='Issues']):not(
-    :has([data-testid='issue.views.issue-details.issue-layout.issue-layout'])
-  )
-  .jiraWithWingsTools {
-  display: block;
-  left: 0;
-  opacity: 1;
-  width: auto;
-  height: auto;
-}
-
-body:has([aria-label='Issues']) .copyTicketsListButton,
-body:has([data-component-selector='VersionDetailIssueListIssueCardContainer'])
-  .copyTicketsListButton {
-  display: block;
-}
-
 .content {
   color: var(--pert-color);
   border-radius: 0.5rem;
