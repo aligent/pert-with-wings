@@ -15,6 +15,7 @@
   --pert-modal-backdrop: #091e427d;
   --pert-modal-shadow: 0px 8px 12px #091e4226, 0px 0px 1px #091e424f;
   --pert-secondary-button-hover: rgba(9, 30, 66, 0.08);
+  --pert-gutter: 24px;
 }
 
 :root[data-color-mode='dark'],
@@ -38,8 +39,8 @@
 
 .pertButtons {
   position: fixed;
-  right: 20px;
-  bottom: 20px;
+  right: var(--pert-gutter);
+  bottom: var(--pert-gutter);
   z-index: 401287331;
   display: flex;
   align-items: flex-end;
@@ -140,6 +141,20 @@
 
 :global(body#com-atlassian-confluence .pert) {
   /* hide in confluence pages */
+  display: none;
+}
+
+/* move pert buttons away from mini create account modal (modal width + twice the gutter) */
+:global(body:not(:has([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]:empty))) .pertButtons {
+  right: calc(436px + (var(--pert-gutter) * 2));
+}
+
+/* hide planning poker container when create issue modal is visible */
+:global(body:has([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]:not(:empty))) .planningPokerContainer {
+  display: none;
+}
+/* hide planning poker button when create issue modal is visible */
+:global(body:has([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]:not(:empty))) .planningPokerButton  {
   display: none;
 }
 

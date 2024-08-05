@@ -2,8 +2,8 @@
   --card-size: 90px;
 
   position: fixed;
-  right: 20px;
-  bottom: 20px;
+  right: var(--pert-gutter);
+  bottom: var(--pert-gutter);
   width: var(--card-size);
   z-index: 401287331;
 }
