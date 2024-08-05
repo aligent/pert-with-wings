@@ -65,7 +65,7 @@ export default function packageExtensions(): PluginOption {
     jsonData.browser_specific_settings = {
       gecko: {
         id: `{${getUuid('pert-with-wings')}}`,
-        strict_min_version: '42.0',
+        strict_min_version: '58.0',
       },
     };
 
