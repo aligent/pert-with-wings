@@ -139,13 +139,13 @@
   display: none;
 }
 
-:global(body#com-atlassian-confluence .pert) {
+:global(body#com-atlassian-confluence) .pert {
   /* hide in confluence pages */
   display: none;
 }
 
 /* move pert buttons away from mini create account modal (modal width + twice the gutter) */
-:global(body:not(:has([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]:empty))) .pertButtons {
+:global(body:has([data-testid="minimizable-modal.ui.modal-container.mini"])) .pertButtons {
   right: calc(436px + (var(--pert-gutter) * 2));
 }
 
