@@ -147,12 +147,9 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
   }, [uniqueParty]);
 
   useEffect(() => {
-    if (!currentUser) return;
-    console.log(currentUser, getTicketNo(), 'starting');
-  }, [ws]);
-
-  useEffect(() => {
     const listenNavigate = () => {
+      if (!ws) return;
+
       ws.updateProperties({
         room: getTicketNo(),
       });
