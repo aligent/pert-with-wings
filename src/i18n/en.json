@@ -11,5 +11,11 @@
   "task": "task",
   "optimistic": "optimistic",
   "likely": "likely",
-  "pessimistic": "pessimistic"
+  "pessimistic": "pessimistic",
+  "preview": "Preview",
+  "planningPoker": "Planning Poker",
+  "waitingForOthers": "Waiting for others",
+  "reveal": "Reveal",
+  "leavePlanningPoker": "Leave Planning Poker",
+  "chooseYourCard": "Choose your card"
 }

@@ -179,7 +179,7 @@ const PertModal: FC = () => {
                 clickAction={handlePlanningPoker}
                 actionLabel={
                   <>
-                    ✨ Planning Poker <sup>BETA</sup>
+                    ✨ {t('planningPoker')} <sup>BETA</sup>
                   </>
                 }
               />

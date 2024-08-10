@@ -12,5 +12,10 @@
   "optimistic": "sunshine",
   "likely": "best",
   "pessimistic": "gloomy",
-  "preview": "fore-glimpse"
+  "preview": "fore-glimpse",
+  "planningPoker": "Plannin' Parley",
+  "waitingForOthers": "Hangin' fer the crew",
+  "reveal": "Unveil",
+  "leavePlanningPoker": "Abandonin' the Plannin' Parley",
+  "chooseYourCard": "Pick yer mark"
 }

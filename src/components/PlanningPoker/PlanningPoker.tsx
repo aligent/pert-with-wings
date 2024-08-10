@@ -2,6 +2,7 @@ import classnames from 'classnames';
 // eslint-disable-next-line import/no-named-as-default
 import usePartySocket from 'partysocket/react';
 import { CSSProperties, FC, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { MdClose } from 'react-icons/md';
 
 import ActionButton from '@/components/ActionButton';
@@ -61,7 +62,7 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
     host:
       import.meta.env.MODE === 'development'
         ? 'localhost:1999'
-        : 'https://pww.thilinaaligent.partykit.dev', // or localhost:1999 in dev
+        : 'https://pww.thilinaaligent.partykit.dev',
     room: getTicketNo(),
 
     onOpen() {
@@ -78,7 +79,6 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
     },
     onMessage(e) {
       const data = safelyParseJson(e.data);
-      // console.log(JSON.stringify(e.data));
       if (data.type === 'presence') {
         setParty(data.payload.users.filter(Boolean));
       }
@@ -96,6 +96,8 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
       setSocketConnected(false);
     },
   });
+
+  const { t } = useTranslation();
 
   const handleShowChoices = () => {
     ws.send(
@@ -131,9 +133,6 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
     );
     setCardsRevealed(true);
   };
-
-  // const message = ;
-  // const messageJson = message ? JSON.stringify(message) : null;
 
   const uniqueParty = useMemo(() => {
     return [...new Map(party.map((item) => [item['name'], item])).values()];
@@ -207,8 +206,8 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
                         ) : (
                           <small>
                             {canChooseCards
-                              ? 'Choose your card'
-                              : 'Waiting for others'}
+                              ? t('chooseYourCard')
+                              : t('waitingForOthers')}
                           </small>
                         )}
                       </>
@@ -227,7 +226,7 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
               <>
                 <button
                   className={classes.leave}
-                  title={'Leave Planning poker'}
+                  title={`${t('leavePlanningPoker')}`}
                   onClick={() => exit(false)}
                 >
                   <MdClose />
@@ -264,7 +263,7 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
             className={classes.revealButton}
             disabled={!canRevealCards || cardsRevealed}
             clickAction={handleRevealCards}
-            actionLabel={<>Reveal</>}
+            actionLabel={<>{t('reveal')}</>}
           />
         </li>
       </ul>
