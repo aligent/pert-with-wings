@@ -3,6 +3,7 @@ import {
   CSSProperties,
   FC,
   Fragment,
+  SyntheticEvent,
   useContext,
   useEffect,
   useMemo,
@@ -18,12 +19,14 @@ import {
 import ReactModal from 'react-modal';
 
 import { PertContextType } from '@/@types/pertData';
+import ActionButton from '@/components/ActionButton';
 import AdvancedSettings from '@/components/AdvancedSettings';
 import Field from '@/components/Field';
 import Header from '@/components/Header';
 import Logo from '@/components/Logo';
 import PertRowsForm from '@/components/PertRowsForm';
 import PertTable from '@/components/PertTable';
+import PlanningPoker from '@/components/PlanningPoker';
 import { PertContext } from '@/context/pertContext';
 import {
   IS_JIRA,
@@ -32,6 +35,7 @@ import {
   getRandomTranslation,
   getTicketNo,
   handleMouseOver,
+  waitFor,
 } from '@/utils';
 
 import classes from './PertModal.module.css';
@@ -59,6 +63,7 @@ const PertModal: FC = () => {
   const formRef = useRef<HTMLFormElement | null>(null);
   const pertHtmlRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState(false);
+  const [showPlanningPoker, setShowPlanningPoker] = useState(false);
 
   const { pertData, setIsPertModalOpen, isPertModalOpen, setTicketNo } =
     useContext(PertContext) as PertContextType;
@@ -124,7 +129,7 @@ const PertModal: FC = () => {
     setIsPertModalOpen(true);
   };
 
-  const handleCopy = async (e: React.SyntheticEvent) => {
+  const handleCopy = async (e: SyntheticEvent) => {
     e.preventDefault();
 
     const form = formRef.current;
@@ -137,9 +142,7 @@ const PertModal: FC = () => {
     if (!html) return;
 
     setCopied(true);
-    await new Promise((resolve) => {
-      setTimeout(resolve, 300);
-    });
+    await waitFor(700);
     setCopied(false);
 
     const blobInput = new Blob([html.innerHTML], { type: 'text/html' });
@@ -147,6 +150,10 @@ const PertModal: FC = () => {
     navigator.clipboard.write([clipboardItemInput]);
 
     setIsPertModalOpen(false);
+  };
+
+  const handlePlanningPoker = () => {
+    setShowPlanningPoker(true);
   };
 
   useEffect(() => {
@@ -163,21 +170,42 @@ const PertModal: FC = () => {
   }, [isPertModalOpen]);
 
   return (
-    <>
-      <button
-        id={`pert-button-${IS_JIRA ? 'jira' : 'azure'}`}
-        className={classnames(classes.openPertModalButton, {
-          [classes.IDAHOBIT]: getIsIDAHOBIT(),
-        })}
-        onClick={handleOpen}
-        onMouseOver={handleMouseOver}
-      >
-        {getRandomTranslation(
-          t('pert', {
-            returnObjects: true,
-          })
+    <div className={classes.pert}>
+      <div className={classes.pertButtons}>
+        {IS_JIRA && (
+          <dl className={classes.jiraWithWingsTools}>
+            <dd className={classes.planningPokerButton}>
+              <ActionButton
+                clickAction={handlePlanningPoker}
+                actionLabel={
+                  <>
+                    ✨ {t('planningPoker')} <sup>BETA</sup>
+                  </>
+                }
+              />
+            </dd>
+          </dl>
         )}
-      </button>
+        <button
+          id={`pert-button-${IS_JIRA ? 'jira' : 'azure'}`}
+          className={classnames(classes.openPertModalButton, {
+            [classes.IDAHOBIT]: getIsIDAHOBIT(),
+          })}
+          onClick={handleOpen}
+          onMouseOver={handleMouseOver}
+        >
+          {getRandomTranslation(
+            t('pert', {
+              returnObjects: true,
+            })
+          )}
+        </button>
+      </div>
+      {showPlanningPoker && (
+        <div className={classes.planningPokerContainer}>
+          <PlanningPoker exit={setShowPlanningPoker} />
+        </div>
+      )}
       <ReactModal
         isOpen={isPertModalOpen}
         style={pertModalStyles}
@@ -266,7 +294,7 @@ const PertModal: FC = () => {
           </form>
         </div>
       </ReactModal>
-    </>
+    </div>
   );
 };
 

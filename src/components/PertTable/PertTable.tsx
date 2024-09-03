@@ -108,12 +108,20 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
     [pertMinutes]
   );
 
-  const isValidPert =
-    optimisticMinutes < likelyMinutes && likelyMinutes < pessimisticMinutes;
+  const isValidPert = useMemo(() => {
+    return pertRows.every(
+      (row) =>
+        row.error === '' &&
+        row.pessimistic !== '' &&
+        row.likely !== '' &&
+        row.optimistic
+    );
+  }, [pertData]);
+
   const isValidQaMinutes =
     qAExactMinutes &&
-    qAExactMinutes.optimistic < qAExactMinutes.likely &&
-    qAExactMinutes.likely < qAExactMinutes.pessimistic;
+    qAExactMinutes.optimistic <= qAExactMinutes.likely &&
+    qAExactMinutes.likely <= qAExactMinutes.pessimistic;
 
   const devTasks = pertRows.filter((row) => !row.isQATask);
 

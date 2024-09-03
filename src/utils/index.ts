@@ -8,4 +8,8 @@ export * from './get-random-translation';
 export * from './get-sums';
 export * from './get-ticket-no';
 export * from './get-time-string';
+export * from './get-user-data';
 export * from './save-config';
+export * from './safely-parse-json';
+export * from './wait-for';
+export * from './update-clipboard';

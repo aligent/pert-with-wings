@@ -1,0 +1,198 @@
+.planningPoker {
+  --card-size: 90px;
+
+  position: fixed;
+  right: var(--pert-gutter);
+  bottom: var(--pert-gutter);
+  width: var(--card-size);
+  z-index: 401287331;
+}
+
+.party {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1rem;
+}
+
+.card {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+.player,
+.selectableCard {
+  width: var(--card-size);
+  cursor: pointer;
+  padding: 0;
+  background: none;
+  border: none;
+  aspect-ratio: 2 / 3;
+  position: relative;
+  perspective: 500px;
+  z-index: 1;
+}
+
+.cardContent {
+  display: flex;
+  border-radius: 0.5rem;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+  position: absolute;
+  inset: 0;
+  border: 0.25rem solid white;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+  background: white;
+  color: black;
+}
+
+.cardFlipped .cardContent {
+  transform: rotateY( 180deg ) ;
+  transition: transform 0.2s;
+}
+
+.cardFront,
+.cardBack {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  backface-visibility: hidden;
+}
+
+.cardBack {
+  transform: rotateY( 180deg );
+}
+
+.playerReady {
+  /*background: none;*/
+}
+
+.cards {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  z-index: 0;
+  opacity: 0;
+  transition: all .2s ease-in-out;
+  pointer-events: none;
+}
+
+.cards.cardsShow {
+  z-index: 2;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cards .card {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  transition: all .2s ease-in-out;
+}
+
+.cards.cardsShow .card:hover {
+  bottom: 0.5rem;
+}
+
+.cards.cardsShow .card {
+  --index: 0;
+
+  bottom: 0;
+  right: calc((var(--card-size) + 1rem) * var(--index));
+}
+
+.score {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+.score small {
+  font-size: 0.75rem;
+  -webkit-text-stroke: 5px white;
+  paint-order: stroke fill;
+  padding: 1rem;
+  text-align: center;
+  color: black;
+}
+
+.info {
+  display: flex;
+  align-items: center;
+  padding: 0.25rem 0.25rem 0.25rem;
+  border-radius: .25rem;
+  background: linear-gradient(0deg, black, transparent);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.info img {
+  width: 20px;
+  height: 20px;
+  border-radius: 0.25rem;
+  margin-right: 0.5rem;
+}
+
+.info span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-weight: bold;
+  color: white;
+}
+
+.leave {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 0 .5rem;
+  background: #fff;
+  color: black;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+}
+
+.revealButton {
+  white-space: nowrap;
+  border: 0;
+  border-radius: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  width: 100%;
+}
+
+.revealButton:not(:disabled) {
+  --to: #9061f9;
+  --from: #e74694;
+
+  background-image: linear-gradient(100deg, var(--from), var(--to));
+  background-size: 150% 100%;
+  background-position: left;
+  box-shadow: 0 5px 10px -3px rgba(231, 70, 148, 0.5),
+  0 4px 6px -4px rgba(231, 70, 148, 0.5);
+  color: var(--pert-modal-button-color);
+}
+
+.revealButton:hover {
+  background-position: right;
+}
