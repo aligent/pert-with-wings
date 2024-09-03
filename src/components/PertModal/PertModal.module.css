@@ -15,6 +15,7 @@
   --pert-modal-backdrop: #091e427d;
   --pert-modal-shadow: 0px 8px 12px #091e4226, 0px 0px 1px #091e424f;
   --pert-secondary-button-hover: rgba(9, 30, 66, 0.08);
+  --pert-gutter: 24px;
 }
 
 :root[data-color-mode='dark'],
@@ -36,12 +37,24 @@
     0px 0px 1px #03040480;
 }
 
-.openPertModalButton {
+.pertButtons {
+  position: fixed;
+  right: var(--pert-gutter);
+  bottom: var(--pert-gutter);
+  z-index: 401287331;
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+}
+
+.pertButtons button {
   --to: #9061f9;
   --from: #e74694;
 
-  background-image: linear-gradient(to right, var(--from), var(--to));
-  box-shadow: 0 10px 15px -3px rgba(231, 70, 148, 0.5),
+  background-image: linear-gradient(100deg, var(--from), var(--to));
+  background-size: 150% 100%;
+  background-position: left;
+  box-shadow: 0 5px 10px -3px rgba(231, 70, 148, 0.5),
     0 4px 6px -4px rgba(231, 70, 148, 0.5);
   color: var(--pert-modal-button-color);
   white-space: nowrap;
@@ -51,37 +64,102 @@
   font-size: 1rem;
   font-weight: bold;
   cursor: pointer;
-  position: fixed;
-  right: 20px;
-  bottom: 20px;
-  z-index: 401287331;
+  transition: all ease-in-out 0.3s;
+  position: relative;
+  z-index: 1;
 }
 
-.openPertModalButton:hover {
-  background-image: linear-gradient(to right, var(--to), var(--from));
+.pertButtons button sup {
+  color: var(--pert-modal-button-color);
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 9px;
+}
+
+.jiraWithWingsTools {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  gap: 1rem;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  left: 100%;
+  opacity: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.pert:has(.planningPokerContainer) .pertButtons {
+  display: none;
+}
+
+.pertButtons:hover .jiraWithWingsTools {
+  left: 0;
+  opacity: 1;
+  width: auto;
+  height: auto;
+  pointer-events: auto;
+}
+
+.jiraWithWingsTools button {
+  position: static;
+}
+
+/*.jiraWithWingsTools:not(:hover) dd {*/
+/*  display: none;*/
+/*}*/
+
+.pertButtons button:hover {
+  background-position: right;
 }
 
 :global(body:not(:has([contenteditable='true'])) #pert-button-jira) {
   display: none;
 }
 
-:global(body:has(#jira-issue-header) #pert-button-jira) {
+.planningPokerButton {
   display: block;
 }
 
-:global(body:not(:has([aria-label="Discussion"])) #pert-button-azure) {
+:global(body:not(:has([contenteditable='true']))) .planningPokerButton {
+  display: none;
+}
+
+:global(body:has(#jira-issue-header) #pert-button-jira),
+:global(body:has(#jira-issue-header)) .planningPokerButton {
+  display: block;
+}
+
+:global(body:not(:has([aria-label='Discussion'])) #pert-button-azure) {
   /* hide in non ticket pages in Azure Devops */
   display: none;
 }
 
-:global(body#com-atlassian-confluence #pert-button-jira) {
+:global(body#com-atlassian-confluence) .pert {
   /* hide in confluence pages */
+  display: none;
+}
+
+/* move pert buttons away from mini create account modal (modal width + twice the gutter) */
+:global(body:has([data-testid="minimizable-modal.ui.modal-container.mini"])) .pertButtons {
+  right: calc(436px + (var(--pert-gutter) * 2));
+}
+
+/* hide planning poker container when create issue modal is visible */
+:global(body:has([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]:not(:empty))) .planningPokerContainer {
+  display: none;
+}
+/* hide planning poker button when create issue modal is visible */
+:global(body:has([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]:not(:empty))) .planningPokerButton  {
   display: none;
 }
 
 .content {
   color: var(--pert-color);
-  font-size: 1rem;
   border-radius: 0.5rem;
   background: var(--pert-modal-bg);
   display: flex;
