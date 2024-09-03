@@ -1,5 +1,6 @@
 import { IPertData } from '@/@types/pertData';
-import { getConfig } from '@/utils/get-config';
+
+import { get, set } from './storage';
 
 export const TICKETS_LIST_DATA = 'pert-with-wings-tickets-list';
 
@@ -11,42 +12,43 @@ export interface pertListType {
 
 const now = new Date();
 export const currentDate = now.getTime();
-export const expiryDate =
-  currentDate + 24 * 60 * 60 * 1000 * (getConfig()?.expiry_days ?? 7);
+export const getExpiryDate = (config: IPertData) =>
+  currentDate + 24 * 60 * 60 * 1000 * (config?.expiry_days ?? 7);
 
 /**
- * Retrieve all data from localstorage
+ * Retrieve all data from chrome storage
  *
- * @returns { IPertData[] | null } ticket list stored in Local Storage
+ * @returns { IPertData[] | undefined } ticket list stored in Chrome Storage
  */
-export const getPertStoredList = () => {
-  const retrieveTicketDetails = localStorage.getItem(TICKETS_LIST_DATA);
+export const getPertStoredList = async () => {
+  const retrieveTicketDetails = await get<pertListType[]>(TICKETS_LIST_DATA);
 
-  if (retrieveTicketDetails !== null) return JSON.parse(retrieveTicketDetails);
-
-  return null;
+  return retrieveTicketDetails;
 };
 
 /**
- * If pert-with-wings-tickets-list doesn't exist in Local Storage, it creates a new list.
+ * If pert-with-wings-tickets-list doesn't exist in Chrome storage, it creates a new list.
  * Otherwise, update/add ticket details to the list
  *
  * @param ticketNo
  * @param pertData
  */
-export const updatePertStoredList = (ticketNo: string, pertData: IPertData) => {
+export const updatePertStoredList = async (
+  ticketNo: string,
+  pertData: IPertData
+) => {
   let storelocalData;
 
-  const list: pertListType[] | null = getPertStoredList();
+  const list: pertListType[] | undefined = await getPertStoredList();
 
-  if (list === null) {
+  if (list === undefined) {
     storelocalData = [
       {
         ticketNo: ticketNo,
         details: {
           ...pertData,
         },
-        expiry: expiryDate,
+        expiry: getExpiryDate(pertData),
       },
     ];
   } else {
@@ -70,13 +72,13 @@ export const updatePertStoredList = (ticketNo: string, pertData: IPertData) => {
           details: {
             ...pertData,
           },
-          expiry: expiryDate,
+          expiry: getExpiryDate(pertData),
         },
       ];
     }
   }
 
-  localStorage.setItem(TICKETS_LIST_DATA, JSON.stringify(storelocalData));
+  set<pertListType[]>(TICKETS_LIST_DATA, storelocalData);
 };
 
 /**
@@ -89,9 +91,9 @@ export const removePertTicketFromList = (
   ticketNo: string,
   list: pertListType[]
 ) => {
-  if (list === null) return;
+  if (list === undefined) return;
 
   const newList = list.filter((item) => item.ticketNo !== ticketNo);
 
-  localStorage.setItem(TICKETS_LIST_DATA, JSON.stringify(newList));
+  set<pertListType[]>(TICKETS_LIST_DATA, newList);
 };

@@ -20,6 +20,7 @@ export default defineManifest(async (env) => ({
       ],
     },
   ],
+  permissions: ['storage'],
   icons: {
     '16': 'icon16.png',
     '32': 'icon32.png',

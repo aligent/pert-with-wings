@@ -1,5 +1,7 @@
 import { MouseEvent } from 'react';
 
+import { get, set } from './storage';
+
 const styles = [
   { inset: 'auto auto 20px 20px' },
   { inset: '20px auto auto 20px' },
@@ -8,18 +10,16 @@ const styles = [
 
 const APRILFOOLS_STORAGE_KEY = `PWWAprilFools${new Date().getFullYear()}`;
 
-export const handleMouseOver = (e: MouseEvent<HTMLButtonElement>) => {
+export const handleMouseOver = async (e: MouseEvent<HTMLButtonElement>) => {
   if (!isAprilFoolsDay()) return;
 
-  const fooledCount = parseInt(
-    localStorage.getItem(APRILFOOLS_STORAGE_KEY) ?? '0'
-  );
+  const fooledCount = (await get<number>(APRILFOOLS_STORAGE_KEY)) ?? 0;
 
   if (fooledCount > 2) return;
 
   const button = e.target as HTMLButtonElement;
   Object.assign(button.style, styles[fooledCount]);
-  localStorage.setItem(APRILFOOLS_STORAGE_KEY, (fooledCount + 1).toString());
+  set(APRILFOOLS_STORAGE_KEY, fooledCount + 1);
 };
 
 const isAprilFoolsDay = () => {

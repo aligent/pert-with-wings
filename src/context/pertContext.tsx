@@ -4,7 +4,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { IPertData, IPertRow, PertContextType } from '@/@types/pertData';
 import {
   currentDate,
-  getConfig,
   getPertStoredList,
   pertListType,
   removePertTicketFromList,
@@ -16,9 +15,10 @@ export const PertContext = createContext<PertContextType | null>(null);
 
 interface Props {
   children: ReactNode;
+  config: IPertData;
 }
 
-const PertContextProvider: FC<Props> = ({ children }) => {
+const PertContextProvider: FC<Props> = ({ children, config }) => {
   const {
     automatedTests,
     comms_percent,
@@ -28,7 +28,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     qa_testing_percent,
     round_to_next_minutes,
     expiry_days,
-  } = getConfig();
+  } = config;
 
   const initialPertRow: IPertRow = {
     task: '',
@@ -60,29 +60,33 @@ const PertContextProvider: FC<Props> = ({ children }) => {
   const [pertData, setPertData] = useState<IPertData>({ ...initialPertData });
 
   /**
-   * PERT-16:Estimation for each ticket will be stored in localStorage for a week.
+   * PERT-16:Estimation for each ticket will be stored in chrome storage for a week.
    * This gives the user the ability to re-estimate the ticket
    */
   useEffect(() => {
-    const list: pertListType[] | null = getPertStoredList();
+    const getPertListItems = async () => {
+      const list: pertListType[] | undefined = await getPertStoredList();
 
-    if (list === null) {
-      resetPertData();
-      return;
-    }
+      if (list === undefined) {
+        resetPertData();
+        return;
+      }
 
-    const listItem = list.find((item) => item.ticketNo === ticketNo);
+      const listItem = list.find((item) => item.ticketNo === ticketNo);
 
-    if (listItem === undefined) {
-      resetPertData();
-      return;
-    }
+      if (listItem === undefined) {
+        resetPertData();
+        return;
+      }
 
-    if (currentDate > listItem.expiry) {
-      removePertTicketFromList(ticketNo, list);
-    } else {
-      setPertData({ ...listItem.details });
-    }
+      if (currentDate > listItem.expiry) {
+        removePertTicketFromList(ticketNo, list);
+      } else {
+        setPertData({ ...listItem.details });
+      }
+    };
+
+    getPertListItems();
   }, [ticketNo]);
 
   const addPertRow = (isQATask = false) => {
@@ -122,7 +126,7 @@ const PertContextProvider: FC<Props> = ({ children }) => {
     return value in row;
   };
 
-  const updatePertRow = (
+  const updatePertRow = async (
     id: string,
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -137,7 +141,6 @@ const PertContextProvider: FC<Props> = ({ children }) => {
       ...pertData,
       pertRows: _pertRows,
     });
-
     updatePertStoredList(ticketNo, pertData);
   };
 
@@ -173,15 +176,14 @@ const PertContextProvider: FC<Props> = ({ children }) => {
         event.target.type === 'checkbox'
           ? (event.target as HTMLInputElement).checked
           : fieldType === 'number'
-          ? Number(event.target.value)
-          : event.target.value,
+            ? Number(event.target.value)
+            : event.target.value,
     };
 
-    setPertData(fieldData);
     const { ...savablePertData } = fieldData;
+    updatePertStoredList(ticketNo, savablePertData);
     saveConfig(savablePertData);
-
-    updatePertStoredList(ticketNo, pertData);
+    setPertData(fieldData);
   };
 
   const resetPertData = () => {
