@@ -1,4 +1,5 @@
 import { defineManifest } from '@crxjs/vite-plugin';
+
 import packageJson from './package.json';
 const { version } = packageJson;
 
@@ -19,6 +20,7 @@ export default defineManifest(async (env) => ({
       ],
     },
   ],
+  permissions: ['storage'],
   icons: {
     '16': 'icon16.png',
     '32': 'icon32.png',

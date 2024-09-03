@@ -1,17 +1,13 @@
-export const PERT_STORAGE_KEY = 'pert-with-wings-config';
+import { IPertData } from '@/@types/pertData';
 
-export const getConfig = () => {
-  const savedConfig = localStorage.getItem(PERT_STORAGE_KEY) || '{}';
+import { PERT_STORAGE_KEY, TICKET_DEFAULTS } from './constants';
+import { get } from './storage';
+
+export const getConfig = async (): Promise<IPertData> => {
+  const savedConfig = (await get<IPertData>(PERT_STORAGE_KEY)) || {};
   const config = {
-    automatedTests: false,
-    round_to_next_minutes: 0,
-    comms_percent: 10,
-    code_reviews_and_fixes_percent: 10,
-    qa_testing_percent: 0,
-    qa_testing_min: 15,
-    automated_tests_percent: 10,
-    expiry_days: 7,
-    ...JSON.parse(savedConfig),
+    ...TICKET_DEFAULTS,
+    ...savedConfig,
   };
 
   return config;
