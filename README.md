@@ -12,9 +12,17 @@ Uses https://crxjs.dev/vite-plugin to build the react typescript based applicati
 
 # Development
 
+## For Chrome and Co
+
 `yarn dev`
 
 in chrome://extensions enable Developer mode and point to /dist folder by clicking on **Load unpacked** button.
+
+## For Firefox
+
+`yarn dev:firefox`
+
+in about:debugging click on **Load Temporary Add-on** button and point to /dist/manifest.json file.
 
 # Creating chrome / firefox extension packages.
 
