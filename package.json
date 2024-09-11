@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "dev:firefox": "vite -- --browser=firefox",
     "build": "yarn clean:extensions && tsc && vite build",
     "deploy": "yarn test && yarn clean:extensions && tsc && vite build",
     "preview": "vite preview",
