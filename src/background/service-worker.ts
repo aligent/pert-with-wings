@@ -7,22 +7,29 @@ interface WSPayload {
   payload: any;
 }
 
-// This keeps track of websockets from different tabs
-const wsData = {};
+interface WSData {
+  [key: number]: PartySocket;
+}
 
-const closeExistingConnection = (tabId: number) => {
+// This keeps track of websockets from different tabs
+const wsData: WSData = {};
+
+const closeExistingConnection = (tabId: number | undefined) => {
+  if (!tabId) return;
   wsData[tabId]?.close();
   delete wsData[tabId];
 };
 
-const handleWSUpdate = (ticketNumber: string, tabId: number) => {
+const handleWSUpdate = (ticketNumber: string, tabId: number | undefined) => {
+  if (!tabId) return;
   wsData[tabId].updateProperties({
     room: ticketNumber,
   });
   wsData[tabId].reconnect(undefined, RECONNECT_REASON);
 };
 
-const handleWSMessageSend = (tabId: number, message: WSPayload) => {
+const handleWSMessageSend = (tabId: number | undefined, message: WSPayload) => {
+  if (!tabId) return;
   wsData[tabId]?.send(JSON.stringify(message));
 };
 
@@ -51,12 +58,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   //wsm is websocket message that the content script wants to send across
   if (request.wsm) {
-    handleWSMessageSend(sender.tab.id, request.payload);
+    handleWSMessageSend(sender.tab?.id, request.payload);
     sendResponse({ success: true });
   }
 
   if (request.close) {
-    closeExistingConnection(sender.tab.id);
+    closeExistingConnection(sender.tab?.id);
   }
 
   // This is where the websocket initialization happens.
@@ -64,12 +71,13 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   // Here we close any existing connection tied to the tabId from where the request is sent and creates and new connection
   if (request.init) {
     const tabId = sender.tab?.id;
+    if (!tabId) return;
     try {
       const ws = new PartySocket({
-        host: 'https://pww.thilinaaligent.partykit.dev',
-        // import.meta.env.MODE === 'development'
-        //   ? 'localhost:1999'
-        //   : 'https://pww.thilinaaligent.partykit.dev',
+        host:
+          import.meta.env.MODE === 'development'
+            ? 'localhost:1999'
+            : 'https://pww.thilinaaligent.partykit.dev',
         room: request.ticket,
       });
 
