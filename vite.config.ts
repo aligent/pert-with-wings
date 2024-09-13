@@ -7,18 +7,7 @@ import { defineConfig } from 'vite';
 
 import manifest from './manifest.config';
 import packageExtensions from './vite-plugin-package-extensions';
-
-const isFirefox = () => {
-  let browser = 'chrome';
-  try {
-    browser = process.argv
-      .find((opts) => opts.includes('browser'))
-      .split('=')[1];
-  } catch (ex) {
-    /** No browser supplied - defaults to chrome */
-  }
-  return browser === 'firefox';
-};
+import { isFirefox } from './vite-utils';
 
 // https://vitejs.dev/config/
 export default defineConfig({

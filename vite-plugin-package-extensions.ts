@@ -60,6 +60,13 @@ export default function packageExtensions(): PluginOption {
     // https://bugzilla.mozilla.org/show_bug.cgi?id=1713196
     delete jsonData['web_accessible_resources'][0]['use_dynamic_url'];
 
+    const bgData = jsonData['background'];
+
+    jsonData['background'] = {
+      scripts: [bgData["service_worker"]],
+      type: "module"
+    }
+
     // All Manifest V3 extensions need an add-on ID in their manifest.json when submitted to AMO.
     // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_specific_settings#description
     jsonData.browser_specific_settings = {
@@ -74,6 +81,8 @@ export default function packageExtensions(): PluginOption {
       JSON.stringify(jsonData, null, 2),
       { encoding: 'utf-8' }
     );
+
+    return data;
   }
 
   return {
@@ -114,7 +123,7 @@ export default function packageExtensions(): PluginOption {
           const firefoxZip = new JSZip();
 
           console.log('  - Preparing files for Firefox extension.');
-          modifyManifest(inDir);
+          const originalManifestData = modifyManifest(inDir);
           addFilesToZipArchive(firefoxZip, inDir);
 
           console.log('  - Creating Firefox extension package.');
@@ -143,6 +152,24 @@ export default function packageExtensions(): PluginOption {
               '\x1b[36m%s\x1b[0m',
               '  Packages successfully created in /extensions'
             );
+
+            console.log(' ');
+
+            console.log(
+              '  - Reverting manifest to original.'
+            );
+
+            fs.writeFileSync(
+              path.join(inDir, 'manifest.json'),
+              originalManifestData,
+              { encoding: 'utf-8' }
+            );
+
+            console.log(
+              '\x1b[32m\033[1m%s\x1b[0m',
+              '  ✓ Reverted manifest to original.'
+            );
+            
 
             console.log(' ');
             console.log(' ');
