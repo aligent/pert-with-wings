@@ -29,7 +29,7 @@ const isAprilFoolsDay = () => {
 
 export const isPirateDay = () => {
   const now = new Date();
-  return now.getMonth() == 8 && (now.getDate() == 19 || now.getDate() == 20);
+  return now.getMonth() == 8 && now.getDate() == 20;
 };
 
 export const getIsIDAHOBIT = () => {
