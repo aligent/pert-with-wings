@@ -67,6 +67,11 @@
   transform: rotateY( 180deg );
 }
 
+.cardFlipped .cardBack {
+  z-index: 1;
+  background: white;
+}
+
 .playerReady {
   /*background: none;*/
 }

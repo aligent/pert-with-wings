@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:firefox": "vite -- --browser=firefox",
+    "dev:firefox": "vite --https -- --browser=firefox",
+    "build:watch": "vite build --watch",
     "build": "yarn clean:extensions && tsc && vite build",
     "deploy": "yarn test && yarn clean:extensions && tsc && vite build",
     "preview": "vite preview",
@@ -37,6 +38,7 @@
     "@typescript-eslint/eslint-plugin": "^5.48.2",
     "@typescript-eslint/parser": "^5.48.2",
     "@vitejs/plugin-react": "^4.2.1",
+    "chrome-types": "^0.1.303",
     "dotenv": "^16.0.3",
     "eslint": "^8.32.0",
     "eslint-config-prettier": "^8.6.0",

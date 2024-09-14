@@ -8,6 +8,8 @@
   },
   "include": [
     "vite.config.ts",
+    "vite-utils.ts",
+    "src/background/service-worker.ts",
     "manifest.config.ts",
     "vite-plugin-package-extensions.ts",
     "package.json"

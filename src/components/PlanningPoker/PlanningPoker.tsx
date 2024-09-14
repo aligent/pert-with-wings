@@ -1,6 +1,5 @@
 import classnames from 'classnames';
 // eslint-disable-next-line import/no-named-as-default
-import usePartySocket from 'partysocket/react';
 import { CSSProperties, FC, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MdClose } from 'react-icons/md';
@@ -58,79 +57,108 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [showCards, setShowCards] = useState(false);
   const [cardsRevealed, setCardsRevealed] = useState(false);
-  const ws = usePartySocket({
-    host:
-      import.meta.env.MODE === 'development'
-        ? 'localhost:1999'
-        : 'https://pww.thilinaaligent.partykit.dev',
-    room: getTicketNo(),
 
-    onOpen() {
-      setSocketConnected(true);
-      ws.send(
-        JSON.stringify({
-          type: 'add-user',
-          payload: {
-            ...currentUser,
-            score: null,
-          },
-        })
-      );
-    },
-    onMessage(e) {
-      const data = safelyParseJson(e.data);
-      if (data.type === 'presence') {
-        setParty(data.payload.users.filter(Boolean));
+  useEffect(() => {
+    // On the initial render request background script to create a new websocket connection
+    chrome.runtime.sendMessage({
+      init: true,
+      ticket: getTicketNo(),
+      currentUser,
+    });
+
+    // Handles all background script messages
+    const handleBgEvents = (
+      request: any,
+      sender: chrome.runtime.MessageSender,
+      sendResponse: (response?: any) => void
+    ) => {
+      // on tabupdate message from bg script, new ticket number is sent back to reconnect with updated ticket number
+      if (request.tabUpdate) {
+        sendResponse(getTicketNo());
       }
 
-      if (data.type === 'reveal-cards') {
-        setCardsRevealed(true);
+      // Any partykit socket related messages
+      if (request.partykit) {
+        if (request.open) {
+          setSocketConnected(true);
+        }
+
+        if (request.message) {
+          const data = safelyParseJson(request.data);
+          if (data.type === 'presence') {
+            setParty(data.payload.users.filter(Boolean));
+          }
+
+          if (data.type === 'reveal-cards') {
+            setCardsRevealed(true);
+          }
+        }
+
+        if (request.close) {
+          setSocketConnected(false);
+        }
       }
-    },
-    onClose() {
-      console.log('closed');
-      setSocketConnected(false);
-    },
-    onError() {
-      console.log('error');
-      setSocketConnected(false);
-    },
-  });
+      /////////////////////////////////// Partykit socket messages end
+    };
+
+    chrome.runtime.onMessage.addListener(handleBgEvents);
+
+    const pingSW = () => {
+      try {
+        chrome.runtime.sendMessage({
+          ping: true,
+        });
+      } catch (ex) {
+        /** Error */
+      }
+    };
+
+    const intervalId = setInterval(pingSW, 1000);
+
+    return () => {
+      chrome.runtime.sendMessage({ close: true });
+      chrome.runtime.onMessage.removeListener(handleBgEvents);
+      clearInterval(intervalId);
+    };
+  }, []);
 
   const { t } = useTranslation();
 
   const handleShowChoices = () => {
-    ws.send(
-      JSON.stringify({
+    chrome.runtime.sendMessage({
+      wsm: true,
+      payload: {
         type: 'set-score',
         payload: {
           ...currentUser,
           score: null,
         },
-      })
-    );
+      },
+    });
     setShowCards(true);
   };
 
   const handleChooseCard = (card: number | string) => {
-    ws.send(
-      JSON.stringify({
+    chrome.runtime.sendMessage({
+      wsm: true,
+      payload: {
         type: 'set-score',
         payload: {
           ...currentUser,
           score: card,
         },
-      })
-    );
+      },
+    });
     setShowCards(false);
   };
 
   const handleRevealCards = () => {
-    ws.send(
-      JSON.stringify({
+    chrome.runtime.sendMessage({
+      wsm: true,
+      payload: {
         type: 'reveal-cards',
-      })
-    );
+      },
+    });
     setCardsRevealed(true);
   };
 
@@ -145,25 +173,6 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
   const canChooseCards = useMemo(() => {
     return uniqueParty.length > 1;
   }, [uniqueParty]);
-
-  useEffect(() => {
-    const listenNavigate = () => {
-      if (!ws) return;
-
-      ws.updateProperties({
-        room: getTicketNo(),
-      });
-      ws.reconnect();
-    };
-
-    //@ts-expect-error navigation api not supported yet
-    navigation.addEventListener('navigate', listenNavigate);
-
-    return () => {
-      //@ts-expect-error navigation api not supported yet
-      navigation.removeEventListener('navigate', listenNavigate);
-    };
-  }, []);
 
   if (!socketConnected) return null;
 

@@ -1,6 +1,7 @@
 import { defineManifest } from '@crxjs/vite-plugin';
 
 import packageJson from './package.json';
+import { isFirefox } from './vite-utils';
 const { version } = packageJson;
 
 export default defineManifest(async (env) => ({
@@ -20,6 +21,15 @@ export default defineManifest(async (env) => ({
       ],
     },
   ],
+  background: isFirefox()
+    ? {
+        scripts: ['src/background/service-worker.ts'],
+        type: 'module',
+      }
+    : {
+        service_worker: 'src/background/service-worker.ts',
+        type: 'module',
+      },
   permissions: ['storage'],
   icons: {
     '16': 'icon16.png',
