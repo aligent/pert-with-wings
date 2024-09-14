@@ -12,7 +12,7 @@ Uses https://crxjs.dev/vite-plugin to build the react typescript based applicati
 
 # Development
 
-## For Chrome and Co
+## For Chrome
 
 `yarn dev`
 
