@@ -27,7 +27,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@crxjs/vite-plugin": "^2.0.0-beta.7",
+    "@crxjs/vite-plugin": "^2.0.0-beta.26",
     "@types/chrome": "^0.0.270",
     "@types/dom-navigation": "^1.0.3",
     "@types/puppeteer": "^7.0.4",
