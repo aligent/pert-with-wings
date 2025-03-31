@@ -18,8 +18,11 @@ export const handleMouseOver = async (e: MouseEvent<HTMLButtonElement>) => {
   if (fooledCount > 2) return;
 
   const button = e.target as HTMLButtonElement;
-  Object.assign(button.style, styles[fooledCount]);
-  set(APRILFOOLS_STORAGE_KEY, fooledCount + 1);
+  const buttonContainer = button.parentElement;
+  if (buttonContainer) {
+    Object.assign(buttonContainer.style, styles[fooledCount]);
+    set(APRILFOOLS_STORAGE_KEY, fooledCount + 1);
+  }
 };
 
 const isAprilFoolsDay = () => {
