@@ -25,4 +25,9 @@ export default defineConfig({
     include: ['**/?(*.)+(spec|test).[jt]s?(x)'],
     testTimeout: 60_000,
   },
+  server: {
+    cors: {
+      origin: [/chrome-extension:\/\//],
+    },
+  },
 });
