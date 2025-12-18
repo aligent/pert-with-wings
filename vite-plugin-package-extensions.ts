@@ -24,7 +24,12 @@ export default function packageExtensions(): PluginOption {
         const dir = zip!.folder(fileName);
         addFilesToZipArchive(dir, filePath);
       } else {
-        zip!.file(fileName, fs.readFileSync(filePath));
+        // JSZip expects ArrayBuffer | Uint8Array for binary data. Convert Node Buffer to ArrayBuffer.
+        const buf = fs.readFileSync(filePath);
+        // Ensure we pass a plain ArrayBuffer (not SharedArrayBuffer) to satisfy JSZip typings.
+        const copy = new Uint8Array(buf); // creates a Uint8Array backed by a real ArrayBuffer
+        const arrayBuffer = copy.buffer;
+        zip!.file(fileName, arrayBuffer);
       }
     });
   }
@@ -45,7 +50,8 @@ export default function packageExtensions(): PluginOption {
           fs.unlinkSync(fileName);
         }
 
-        fs.writeFileSync(fileName, file);
+        // `file` is a Node Buffer (Uint8Array compatible). Cast to the type expected by fs.writeFileSync.
+        fs.writeFileSync(fileName, file as unknown as Uint8Array);
       });
   }
 
@@ -63,9 +69,9 @@ export default function packageExtensions(): PluginOption {
     const bgData = jsonData['background'];
 
     jsonData['background'] = {
-      scripts: [bgData["service_worker"]],
-      type: "module"
-    }
+      scripts: [bgData['service_worker']],
+      type: 'module',
+    };
 
     // All Manifest V3 extensions need an add-on ID in their manifest.json when submitted to AMO.
     // https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/browser_specific_settings#description
@@ -79,7 +85,7 @@ export default function packageExtensions(): PluginOption {
     fs.writeFileSync(
       path.join(inDir, 'manifest.json'),
       JSON.stringify(jsonData, null, 2),
-      { encoding: 'utf-8' }
+      { encoding: 'utf-8' },
     );
 
     return data;
@@ -92,11 +98,11 @@ export default function packageExtensions(): PluginOption {
       try {
         gherSay(`Let's build v${version}`);
         console.log(
-          '  %s \x1b[42m\x1b[30m\033[1m %s \x1b[0m\x1b[32m\033[1m %s \x1b[0m%s',
+          '  %s \x1b[42m\x1b[30m\x1B[1m %s \x1b[0m\x1b[32m\x1B[1m %s \x1b[0m%s',
           '🧩',
           'PERT WITH WINGS',
           `v${version}`,
-          `started packaging extensions:`
+          `started packaging extensions:`,
         );
         console.log(' ');
 
@@ -112,12 +118,12 @@ export default function packageExtensions(): PluginOption {
           console.log('  - Creating Chrome extension package.');
           createZipArchive(
             chromeZip,
-            `chrome-PERT-with-wings-package-${version}.zip`
+            `chrome-PERT-with-wings-package-${version}.zip`,
           );
 
           console.log(
-            '\x1b[32m\033[1m%s\x1b[0m',
-            '  ✓ Chrome extension packaged.'
+            '\x1b[32m\x1B[1m%s\x1b[0m',
+            '  ✓ Chrome extension packaged.',
           );
 
           const firefoxZip = new JSZip();
@@ -129,47 +135,46 @@ export default function packageExtensions(): PluginOption {
           console.log('  - Creating Firefox extension package.');
           createZipArchive(
             firefoxZip,
-            `firefox-PERT-with-wings-package-${version}.zip`
+            `firefox-PERT-with-wings-package-${version}.zip`,
           );
           console.log(
-            '\x1b[32m\033[1m%s\x1b[0m',
-            '  ✓ Firefox extension packaged.'
+            '\x1b[32m\x1B[1m%s\x1b[0m',
+            '  ✓ Firefox extension packaged.',
           );
 
           console.log('  - Creating source code zip file.');
           const gitArchive = childProcess.exec(
-            `git archive --format zip --output extensions/pert-extension-source-code-${version}.zip ${baseBranch}`
+            `git archive --format zip --output extensions/pert-extension-source-code-${version}.zip ${baseBranch}`,
           );
 
-          gitArchive.stdout.on('close', () => {
+          // Listen for the child process to exit. Using the child process 'close' event is
+          // simpler and avoids accessing stdout which can be null in some environments.
+          gitArchive.on('close', () => {
             console.log(
-              '\x1b[32m\033[1m%s\x1b[0m',
-              '  ✓ Source code zip file created.'
+              '\x1b[32m\x1B[1m%s\x1b[0m',
+              '  \u2713 Source code zip file created.',
             );
             console.log(' ');
 
             console.log(
               '\x1b[36m%s\x1b[0m',
-              '  Packages successfully created in /extensions'
+              '  Packages successfully created in /extensions',
             );
 
             console.log(' ');
 
-            console.log(
-              '  - Reverting manifest to original.'
-            );
+            console.log('  - Reverting manifest to original.');
 
             fs.writeFileSync(
               path.join(inDir, 'manifest.json'),
               originalManifestData,
-              { encoding: 'utf-8' }
+              { encoding: 'utf-8' },
             );
 
             console.log(
-              '\x1b[32m\033[1m%s\x1b[0m',
-              '  ✓ Reverted manifest to original.'
+              '\x1b[32m\x1B[1m%s\x1b[0m',
+              '  \u2713 Reverted manifest to original.',
             );
-            
 
             console.log(' ');
             console.log(' ');
@@ -177,13 +182,13 @@ export default function packageExtensions(): PluginOption {
         } else {
           console.log(
             '\x1b[31m%s\x1b[0m',
-            `  × "${inDir}" folder does not exist!`
+            `  × "${inDir}" folder does not exist!`,
           );
         }
       } catch (error) {
         console.log(
           '\x1b[31m%s\x1b[0m',
-          '  × Something went wrong while building packages!'
+          '  × Something went wrong while building packages!',
         );
       }
     },
