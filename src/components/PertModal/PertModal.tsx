@@ -19,7 +19,7 @@ import {
 import ReactModal from 'react-modal';
 
 import { PertContextType } from '@/@types/pertData';
-import ActionButton from '@/components/ActionButton';
+// import ActionButton from '@/components/ActionButton';
 import AdvancedSettings from '@/components/AdvancedSettings';
 import Field from '@/components/Field';
 import Header from '@/components/Header';
@@ -152,9 +152,9 @@ const PertModal: FC = () => {
     setIsPertModalOpen(false);
   };
 
-  const handlePlanningPoker = () => {
-    setShowPlanningPoker(true);
-  };
+  // const handlePlanningPoker = () => {
+  //   setShowPlanningPoker(true);
+  // };
 
   useEffect(() => {
     const ticketModalSelector = IS_JIRA
@@ -172,7 +172,7 @@ const PertModal: FC = () => {
   return (
     <div className={classes.pert}>
       <div className={classes.pertButtons}>
-        {IS_JIRA && (
+        {/*IS_JIRA && (
           <dl className={classes.jiraWithWingsTools}>
             <dd className={classes.planningPokerButton}>
               <ActionButton
