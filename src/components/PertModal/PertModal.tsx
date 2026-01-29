@@ -185,7 +185,7 @@ const PertModal: FC = () => {
               />
             </dd>
           </dl>
-        )}
+        )*/}
         <button
           id={`pert-button-${IS_JIRA ? 'jira' : 'azure'}`}
           className={classnames(classes.openPertModalButton, {
