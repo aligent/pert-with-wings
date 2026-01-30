@@ -2552,10 +2552,6 @@ get-uri@^6.0.1:
     data-uri-to-buffer "^6.0.2"
     debug "^4.3.4"
 
-"ghersay@git+https://github.com/thilinaaligent/ghersay.git#main":
-  version "1.0.1"
-  resolved "git+ssh://git@github.com/thilinaaligent/ghersay.git#7aef4232edd7938bbf0a86fcf643709911cb66a8"
-
 glob-parent@^5.1.2:
   version "5.1.2"
   resolved "https://registry.npmjs.org/glob-parent/-/glob-parent-5.1.2.tgz"
@@ -4517,6 +4513,13 @@ uuid@^13.0.0:
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-13.0.0.tgz#263dc341b19b4d755eb8fe36b78d95a6b65707e8"
   integrity sha512-XQegIaBTVUjSHliKqcnFqYypAd4S+WCYt5NIeRs6w/UAry7z8Y9j5ZwRRL4kzq9U3sD6v+85er9FvkEaBpji2w==
+
+vite-plugin-zip-pack@^1.2.4:
+  version "1.2.4"
+  resolved "https://registry.yarnpkg.com/vite-plugin-zip-pack/-/vite-plugin-zip-pack-1.2.4.tgz#3e38e958b7da14a850113177e66a1e50bfa70b73"
+  integrity sha512-QgZEeiWayE2ZvMbkvcqWf94p/Z5YeNHZlkwXWIkkoISjePiWVXKRX2xCGmsURe9acGVdkobZ31dFJuCp3j1hMg==
+  dependencies:
+    jszip "^3.10.1"
 
 "vite@^6.0.0 || ^7.0.0", vite@^7.3.0:
   version "7.3.0"
