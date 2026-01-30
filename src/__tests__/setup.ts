@@ -10,7 +10,7 @@ export const setup = async (options: {
     headless: false,
     devtools,
     args: ['--disable-extensions-except=./dist', '--load-extension=./dist'],
-    ...(slowMo && { slowMo }),
+    ...(slowMo && { slowMo })
   });
 
   const appPage = await browser.newPage();
@@ -18,6 +18,6 @@ export const setup = async (options: {
 
   return {
     appPage,
-    browser,
+    browser
   };
 };

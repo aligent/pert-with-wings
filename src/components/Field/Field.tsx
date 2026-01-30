@@ -34,7 +34,7 @@ const Field: FC<Props> = ({
   values,
   disabled = false,
   pattern = '',
-  errorMessage = '',
+  errorMessage = ''
 }) => {
   const { pertData, updateField } = useContext(PertContext) as PertContextType;
 
@@ -43,7 +43,7 @@ const Field: FC<Props> = ({
       className={classnames(classes.field, {
         [classes.fieldCheckbox]: type === 'checkbox',
         [classes.fieldRange]: type === 'range',
-        [classes.fieldDisabled]: disabled,
+        [classes.fieldDisabled]: disabled
       })}
     >
       {type === 'select' ? (

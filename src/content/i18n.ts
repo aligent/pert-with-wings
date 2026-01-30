@@ -1,17 +1,17 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import en from './i18n/en.json';
-import pirate from './i18n/pirate.json';
-import { isPirateDay } from './utils';
+import en from '../i18n/en.json';
+import pirate from '../i18n/pirate.json';
+import { isPirateDay } from '../utils';
 
 const resources = {
   en: {
-    translation: en,
+    translation: en
   },
   pirate: {
-    translation: pirate,
-  },
+    translation: pirate
+  }
 };
 
 i18n.use(initReactI18next).init({
@@ -20,6 +20,6 @@ i18n.use(initReactI18next).init({
   fallbackLng: 'en',
 
   interpolation: {
-    escapeValue: false, // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
-  },
+    escapeValue: false // react already safes from xss => https://www.i18next.com/translation-function/interpolation#unescape
+  }
 });

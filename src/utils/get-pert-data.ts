@@ -46,10 +46,10 @@ export const updatePertStoredList = async (
       {
         ticketNo: ticketNo,
         details: {
-          ...pertData,
+          ...pertData
         },
-        expiry: getExpiryDate(pertData),
-      },
+        expiry: getExpiryDate(pertData)
+      }
     ];
   } else {
     const listItem = list.find((item) => item.ticketNo === ticketNo);
@@ -59,7 +59,7 @@ export const updatePertStoredList = async (
         if (item.ticketNo === listItem.ticketNo)
           return {
             ...item,
-            details: { ...listItem.details, ...pertData },
+            details: { ...listItem.details, ...pertData }
           };
 
         return item;
@@ -70,10 +70,10 @@ export const updatePertStoredList = async (
         {
           ticketNo: ticketNo,
           details: {
-            ...pertData,
+            ...pertData
           },
-          expiry: getExpiryDate(pertData),
-        },
+          expiry: getExpiryDate(pertData)
+        }
       ];
     }
   }

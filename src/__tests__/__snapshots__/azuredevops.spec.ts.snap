@@ -1,4 +1,4 @@
-// Vitest Snapshot v1
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
 exports[`test PERT with wings extension in Azure DevOps. > should post an accurate PERT estimate table in Azure DevOps ticket. 1`] = `
 "Task	Estimate

@@ -20,7 +20,7 @@ const PertTableRow: FC<Props> = ({ label, percent, pertMinutes, min = 0 }) => {
   const { pertData } = useContext(PertContext) as PertContextType;
   const { round_to_next_minutes } = pertData;
   const { timeString } = useTimeString({
-    round_to_next_minutes,
+    round_to_next_minutes
   });
 
   const { optimisticMinutes, likelyMinutes, pessimisticMinutes } = pertMinutes;

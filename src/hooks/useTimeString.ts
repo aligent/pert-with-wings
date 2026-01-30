@@ -2,7 +2,7 @@ import { IPertData } from '@/@types/pertData';
 import { getTimeString } from '@/utils';
 
 export const useTimeString = ({
-  round_to_next_minutes,
+  round_to_next_minutes
 }: {
   round_to_next_minutes: IPertData['round_to_next_minutes'];
 }) => {
@@ -11,6 +11,6 @@ export const useTimeString = ({
   };
 
   return {
-    timeString,
+    timeString
   };
 };

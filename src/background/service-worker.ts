@@ -4,6 +4,7 @@ const RECONNECT_REASON = 'TICKET_UPDATED';
 
 interface WSPayload {
   type: string;
+  /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
   payload: any;
 }
 
@@ -23,7 +24,7 @@ const closeExistingConnection = (tabId: number | undefined) => {
 const handleWSUpdate = (ticketNumber: string, tabId: number | undefined) => {
   if (!tabId) return;
   wsData[tabId].updateProperties({
-    room: ticketNumber,
+    room: ticketNumber
   });
   wsData[tabId].reconnect(undefined, RECONNECT_REASON);
 };
@@ -36,10 +37,12 @@ const handleWSMessageSend = (tabId: number | undefined, message: WSPayload) => {
 // Listens to any tab updates
 chrome.tabs.onUpdated.addListener((tabId, changeInfo) => {
   // Only send a message once the update has been completed and the tabid is present in the wsData
-  // We dont want to send multiple requests
+  // We don't want to send multiple requests
   if (tabId in wsData && changeInfo.status === 'complete') {
     chrome.tabs.sendMessage(tabId, { tabUpdate: true }).then((ticketNumber) => {
-      wsData[tabId] && handleWSUpdate(ticketNumber, tabId);
+      if (wsData[tabId]) {
+        handleWSUpdate(ticketNumber, tabId);
+      }
     });
   }
 });
@@ -78,7 +81,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           import.meta.env.MODE === 'development'
             ? 'localhost:1999'
             : 'https://pww.thilinaaligent.partykit.dev',
-        room: request.ticket,
+        room: request.ticket
       });
 
       closeExistingConnection(tabId);
@@ -91,27 +94,30 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
           type: 'add-user',
           payload: {
             ...request.currentUser,
-            score: null,
-          },
+            score: null
+          }
         };
         handleWSMessageSend(tabId, data);
-        tabId && chrome.tabs.sendMessage(tabId, { partykit: true, open: true });
+        if (tabId) {
+          chrome.tabs.sendMessage(tabId, { partykit: true, open: true });
+        }
       });
 
       ws.addEventListener('message', (message) => {
-        tabId &&
+        if (tabId) {
           chrome.tabs.sendMessage(tabId, {
             partykit: true,
             message: true,
-            data: message.data,
+            data: message.data
           });
+        }
       });
 
       ws.addEventListener('close', (close) => {
         // The close event comes in the following format:
         // {...reason: {code: 11, reason: <STRING PASSED WHEN RECONNECTING>}}
         // But the type identified/returned from close event is incorrect
-        // it identifies the first reason to be a string but its a json object *sigh*
+        // it identifies the first reason to be a string, but it is a JSON object *sigh*
         // So have done the below. If this is corrected in the furture then below can be removed/changed
         const reasonObj = JSON.parse(JSON.stringify(close.reason));
         if (

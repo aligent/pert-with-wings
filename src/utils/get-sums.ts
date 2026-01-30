@@ -21,7 +21,7 @@ export const getSums = (
         const newSum = {
           optimistic: prevSum.optimistic + getMinutes(current.optimistic),
           likely: prevSum.likely + getMinutes(current.likely),
-          pessimistic: prevSum.pessimistic + getMinutes(current.pessimistic),
+          pessimistic: prevSum.pessimistic + getMinutes(current.pessimistic)
         };
 
         return newSum;
@@ -29,7 +29,7 @@ export const getSums = (
       {
         optimistic: 0,
         likely: 0,
-        pessimistic: 0,
+        pessimistic: 0
       }
     );
 };

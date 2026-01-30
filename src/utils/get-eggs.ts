@@ -5,7 +5,7 @@ import { get, set } from './storage';
 const styles = [
   { inset: 'auto auto 20px 20px' },
   { inset: '20px auto auto 20px' },
-  { inset: 'auto 20px 20px auto' },
+  { inset: 'auto 20px 20px auto' }
 ];
 
 const APRILFOOLS_STORAGE_KEY = `PWWAprilFools${new Date().getFullYear()}`;

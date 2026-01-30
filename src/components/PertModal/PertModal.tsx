@@ -1,6 +1,6 @@
 import classnames from 'classnames';
+import * as React from 'react';
 import {
-  CSSProperties,
   FC,
   Fragment,
   SyntheticEvent,
@@ -8,13 +8,13 @@ import {
   useEffect,
   useMemo,
   useRef,
-  useState,
+  useState
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   MdCheckCircle,
   MdContentCopy,
-  MdOutlineSmsFailed,
+  MdOutlineSmsFailed
 } from 'react-icons/md';
 import ReactModal from 'react-modal';
 
@@ -35,18 +35,18 @@ import {
   getRandomTranslation,
   getTicketNo,
   handleMouseOver,
-  waitFor,
+  waitFor
 } from '@/utils';
 
 import classes from './PertModal.module.css';
 
-const pertModalStyles = {
+const pertModalStyles: ReactModal.Styles = {
   overlay: {
     zIndex: 401287331 + 1,
     overflow: 'auto',
     padding: 40,
-    backgroundColor: 'var(--pert-modal-backdrop)',
-  } as CSSProperties,
+    backgroundColor: 'var(--pert-modal-backdrop)'
+  },
   content: {
     position: 'static',
     maxWidth: '860px',
@@ -54,8 +54,8 @@ const pertModalStyles = {
     padding: 0,
     border: 0,
     background: 'none',
-    overflow: 'visible',
-  } as CSSProperties,
+    overflow: 'visible'
+  }
 };
 
 const PertModal: FC = () => {
@@ -147,7 +147,7 @@ const PertModal: FC = () => {
 
     const blobInput = new Blob([html.innerHTML], { type: 'text/html' });
     const clipboardItemInput = new ClipboardItem({ 'text/html': blobInput });
-    navigator.clipboard.write([clipboardItemInput]);
+    await navigator.clipboard.write([clipboardItemInput]);
 
     setIsPertModalOpen(false);
   };
@@ -189,15 +189,15 @@ const PertModal: FC = () => {
         <button
           id={`pert-button-${IS_JIRA ? 'jira' : 'azure'}`}
           className={classnames(classes.openPertModalButton, {
-            [classes.IDAHOBIT]: getIsIDAHOBIT(),
+            [classes.IDAHOBIT]: getIsIDAHOBIT()
           })}
           onClick={handleOpen}
           onMouseOver={handleMouseOver}
         >
           {getRandomTranslation(
             t('pert', {
-              returnObjects: true,
-            })
+              returnObjects: true
+            }) as []
           )}
         </button>
       </div>

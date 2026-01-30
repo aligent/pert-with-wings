@@ -7,7 +7,7 @@ export const getConfig = async (): Promise<IPertData> => {
   const savedConfig = (await get<IPertData>(PERT_STORAGE_KEY)) || {};
   const config = {
     ...TICKET_DEFAULTS,
-    ...savedConfig,
+    ...savedConfig
   };
 
   return config;

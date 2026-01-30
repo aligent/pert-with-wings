@@ -17,7 +17,7 @@ const ActionButton: FC<ActionButtonProps> = (props) => {
     actionLabel,
     progressLabel = '',
     className = '',
-    disabled = false,
+    disabled = false
   } = props;
   const [inProgress, setInProgress] = useState(false);
 

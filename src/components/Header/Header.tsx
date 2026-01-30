@@ -9,7 +9,7 @@ import { PertContext } from '@/context/pertContext';
 import classes from './Header.module.css';
 
 const Header: FC = () => {
-  const { setIsPertModalOpen, resetPertData, pertData } = useContext(
+  const { setIsPertModalOpen, pertData } = useContext(
     PertContext
   ) as PertContextType;
   const { t } = useTranslation();
@@ -21,7 +21,7 @@ const Header: FC = () => {
         message={t('headerNote', {
           roundToNextMinutes: round_to_next_minutes
             ? `Totals will be rounded to next ${round_to_next_minutes} minutes. `
-            : '',
+            : ''
         })}
         type="info"
         isSlim={true}
