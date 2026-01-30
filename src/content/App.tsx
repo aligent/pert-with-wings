@@ -1,11 +1,11 @@
 import { FC, useEffect, useState } from 'react';
 
+import { IPertData } from '@/@types/pertData';
 import PertModal from '@/components/PertModal';
-import PertContextProvider from '@/context/pertContext';
+import PertContextProvider from '@/context/pertContext.tsx';
+import { getConfig } from '@/utils';
 
-import { IPertData } from './@types/pertData';
 import classes from './App.module.css';
-import { getConfig } from './utils';
 
 const App: FC = () => {
   const [pertData, setPertData] = useState<IPertData>();

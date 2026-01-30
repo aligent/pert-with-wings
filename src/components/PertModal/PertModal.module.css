@@ -49,8 +49,15 @@
   pointer-events: auto;
 }
 
+:global([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]) {
+  z-index: 401287331 !important;
+}
+
 :global([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]) .pertButtons {
-  position: static;
+  position: relative;
+  left: auto;
+  right: auto;
+  bottom: auto;
 }
 
 .pertButtons button {

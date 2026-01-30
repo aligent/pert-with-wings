@@ -12,29 +12,30 @@ export default defineManifest(async (env) => ({
   action: {},
   content_scripts: [
     {
-      run_at: 'document_end',
-      js: ['src/content.tsx'],
+      // run_at: 'document_end',
+      js: ['src/content/main.tsx'],
       matches: [
         'https://dev.azure.com/*', // AzureDevOps
         'https://*.atlassian.net/*', // JIRA tickets
-        'https://*/browse/*', // JIRA tickets
-      ],
-    },
+        'https://*/browse/*' // JIRA tickets
+      ]
+      // world: 'MAIN'
+    }
   ],
-  background: isFirefox()
-    ? {
-        scripts: ['src/background/service-worker.ts'],
-        type: 'module',
-      }
-    : {
-        service_worker: 'src/background/service-worker.ts',
-        type: 'module',
-      },
   permissions: ['storage'],
   icons: {
     '16': 'icon16.png',
     '32': 'icon32.png',
     '48': 'icon48.png',
-    '128': 'icon128.png',
+    '128': 'icon128.png'
   },
+  background: isFirefox()
+    ? {
+        scripts: ['src/background/service-worker.ts'],
+        type: 'module'
+      }
+    : {
+        service_worker: 'src/background/service-worker.ts',
+        type: 'module'
+      }
 }));
