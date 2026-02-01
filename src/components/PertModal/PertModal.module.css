@@ -16,6 +16,7 @@
   --pert-modal-shadow: 0px 8px 12px #091e4226, 0px 0px 1px #091e424f;
   --pert-secondary-button-hover: rgba(9, 30, 66, 0.08);
   --pert-gutter: 24px;
+  --pert-base-zindex: 401287331;
 }
 
 :root[data-color-mode='dark'],
@@ -41,23 +42,11 @@
   position: fixed;
   left: var(--pert-gutter);
   bottom: var(--pert-gutter);
-  z-index: 401287331;
+  z-index: var(--pert-base-zindex);
   display: flex;
   align-items: flex-end;
   flex-direction: row-reverse;
   gap: 1rem;
-  pointer-events: auto;
-}
-
-:global([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]) {
-  z-index: 401287331 !important;
-}
-
-:global([data-testid="layout-controller.ui.bottom-right-corner.container.styled-container"]) .pertButtons {
-  position: relative;
-  left: auto;
-  right: auto;
-  bottom: auto;
 }
 
 .pertButtons button {
@@ -80,6 +69,7 @@
   transition: all ease-in-out 0.3s;
   position: relative;
   z-index: 1;
+  pointer-events: auto;
 }
 
 .pertButtons button sup {
