@@ -19,7 +19,10 @@ export default defineConfig({
   plugins: [
     react(),
     crx({ manifest, browser: isFirefox() ? 'firefox' : 'chrome' }),
-    zip({ outDir: 'extensions', outFileName: 'release.zip' })
+    zip({
+      outDir: 'extensions',
+      outFileName: isFirefox() ? 'release-firefox.zip' : 'release-chrome.zip'
+    })
   ],
   test: {
     include: ['**/?(*.)+(spec|test).[jt]s?(x)'],
