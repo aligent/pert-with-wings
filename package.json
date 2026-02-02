@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:firefox": "vite --https -- --browser=firefox",
+    "dev:firefox": "vite -- --browser=firefox",
     "build:watch": "vite build --watch",
     "build": "tsc -b && vite build",
+    "build:firefox": "tsc -b && vite build -- --browser=firefox",
     "deploy": "yarn test && yarn clean:extensions && tsc && vite build",
     "preview": "vite preview",
     "test": "vitest --run",

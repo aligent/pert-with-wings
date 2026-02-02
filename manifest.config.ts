@@ -1,4 +1,5 @@
 import { defineManifest } from '@crxjs/vite-plugin';
+import getUuid from 'uuid-by-string';
 
 import packageJson from './package.json';
 import { isFirefox } from './vite-utils';
@@ -37,5 +38,13 @@ export default defineManifest(async (env) => ({
     : {
         service_worker: 'src/background/service-worker.ts',
         type: 'module'
+      },
+  ...(isFirefox() && {
+    browser_specific_settings: {
+      gecko: {
+        id: `{${getUuid('pert-with-wings')}}`,
+        strict_min_version: '58.0'
       }
+    }
+  })
 }));
