@@ -1,4 +1,11 @@
-import { FC, ReactNode, createContext, useEffect, useState } from 'react';
+import {
+  ChangeEvent,
+  FC,
+  ReactNode,
+  createContext,
+  useEffect,
+  useState
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { IPertData, IPertRow, PertContextType } from '@/@types/pertData';
@@ -8,7 +15,7 @@ import {
   pertListType,
   removePertTicketFromList,
   saveConfig,
-  updatePertStoredList,
+  updatePertStoredList
 } from '@/utils';
 
 export const PertContext = createContext<PertContextType | null>(null);
@@ -27,7 +34,7 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
     qa_testing_min,
     qa_testing_percent,
     round_to_next_minutes,
-    expiry_days,
+    expiry_days
   } = config;
 
   const initialPertRow: IPertRow = {
@@ -38,7 +45,7 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
     id: uuidv4(),
     error: '',
     warning: '',
-    isQATask: false,
+    isQATask: false
   };
 
   const initialPertData: IPertData = {
@@ -52,7 +59,7 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
     qa_testing_min,
     qa_testing_percent,
     round_to_next_minutes,
-    expiry_days,
+    expiry_days
   };
 
   const [isPertModalOpen, setIsPertModalOpen] = useState(false);
@@ -95,11 +102,11 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
       ...initialPertRow,
       ...(isQATask && { task: 'Quality Assurance Testing' }),
       id: uuidv4(),
-      isQATask,
+      isQATask
     });
     setPertData({
       ...pertData,
-      pertRows: _pertRows,
+      pertRows: _pertRows
     });
   };
 
@@ -110,7 +117,7 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
 
     setPertData({
       ...pertData,
-      pertRows: _pertRows,
+      pertRows: _pertRows
     });
   };
 
@@ -128,7 +135,7 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
 
   const updatePertRow = async (
     id: string,
-    event: React.ChangeEvent<HTMLInputElement>
+    event: ChangeEvent<HTMLInputElement>
   ) => {
     const rowIdx = pertData.pertRows.findIndex((row) => row.id === id);
     const _pertRows = [...pertData.pertRows];
@@ -139,9 +146,9 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
 
     setPertData({
       ...pertData,
-      pertRows: _pertRows,
+      pertRows: _pertRows
     });
-    updatePertStoredList(ticketNo, pertData);
+    await updatePertStoredList(ticketNo, pertData);
   };
 
   const updatePertMessage = (
@@ -156,7 +163,7 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
 
     setPertData({
       ...pertData,
-      pertRows: _pertRows,
+      pertRows: _pertRows
     });
   };
 
@@ -165,7 +172,7 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
   };
 
   const updateField = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     if (!isValidPertData(event.target.name)) return;
 
@@ -177,7 +184,7 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
           ? (event.target as HTMLInputElement).checked
           : fieldType === 'number'
             ? Number(event.target.value)
-            : event.target.value,
+            : event.target.value
     };
 
     const { ...savablePertData } = fieldData;
@@ -204,7 +211,7 @@ const PertContextProvider: FC<Props> = ({ children, config }) => {
         resetPertData,
         isValidPertData,
         ticketNo,
-        setTicketNo,
+        setTicketNo
       }}
     >
       {children}

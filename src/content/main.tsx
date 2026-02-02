@@ -1,18 +1,16 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import './i18n';
+import './i18n.ts';
 
-import App from './App';
-import styles from './index.css?inline';
+import App from './App.tsx';
 
 const root = document.createElement('div');
 root.id = 'crx-root';
 
 document.body.append(root);
 
-createRoot(document.getElementById('crx-root') as Element).render(
+createRoot(root).render(
   <StrictMode>
-    <style type="text/css">{styles}</style>
     <App />
   </StrictMode>
 );

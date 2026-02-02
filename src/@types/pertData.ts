@@ -1,3 +1,5 @@
+import { ChangeEvent } from 'react';
+
 export interface IPertRow {
   task: string;
   optimistic: string;
@@ -27,12 +29,9 @@ export type PertContextType = {
   pertData: IPertData;
   addPertRow: (isQATask?: boolean) => void;
   removePertRow: (id: string) => void;
-  updatePertRow: (
-    id: string,
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => void;
+  updatePertRow: (id: string, event: ChangeEvent<HTMLInputElement>) => void;
   updateField: (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => void;
   isPertModalOpen: boolean;
   setIsPertModalOpen: (value: boolean) => void;

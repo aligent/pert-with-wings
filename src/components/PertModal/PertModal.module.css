@@ -16,6 +16,7 @@
   --pert-modal-shadow: 0px 8px 12px #091e4226, 0px 0px 1px #091e424f;
   --pert-secondary-button-hover: rgba(9, 30, 66, 0.08);
   --pert-gutter: 24px;
+  --pert-base-zindex: 401287331;
 }
 
 :root[data-color-mode='dark'],
@@ -39,11 +40,12 @@
 
 .pertButtons {
   position: fixed;
-  right: var(--pert-gutter);
+  left: var(--pert-gutter);
   bottom: var(--pert-gutter);
-  z-index: 401287331;
+  z-index: var(--pert-base-zindex);
   display: flex;
   align-items: flex-end;
+  flex-direction: row-reverse;
   gap: 1rem;
 }
 
@@ -67,6 +69,7 @@
   transition: all ease-in-out 0.3s;
   position: relative;
   z-index: 1;
+  pointer-events: auto;
 }
 
 .pertButtons button sup {
@@ -84,7 +87,7 @@
   margin: 0;
   padding: 0;
   position: relative;
-  left: 100%;
+  right: 100%;
   opacity: 0;
   transition: all 0.3s ease-in-out;
   z-index: 0;
@@ -98,7 +101,7 @@
 }
 
 .pertButtons:hover .jiraWithWingsTools {
-  left: 0;
+  right: 0;
   opacity: 1;
   width: auto;
   height: auto;
@@ -123,6 +126,7 @@
 
 .planningPokerButton {
   display: block;
+  margin: 0;
 }
 
 :global(body:not(:has([contenteditable='true']))) .planningPokerButton {

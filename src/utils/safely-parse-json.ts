@@ -3,7 +3,7 @@ export const safelyParseJson = (maybeJson: string) => {
 
   try {
     parsed = JSON.parse(maybeJson);
-  } catch (e) {
+  } catch {
     parsed = maybeJson;
   }
 

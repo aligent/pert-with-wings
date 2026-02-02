@@ -23,29 +23,29 @@ const CARD_BACKGROUNDS = [
   {
     background: `linear-gradient(135deg,#0000 18.75%,#47d3ff 0 31.25%,#0000 0),
 repeating-linear-gradient(45deg,#47d3ff -6.25% 6.25%,#474bff 0 18.75%)`,
-    backgroundSize: `64px 64px`,
+    backgroundSize: `64px 64px`
   },
   {
     background: `repeating-conic-gradient(from 45deg, #474bff 0% 25%, #47d3ff 0% 50%)`,
     backgroundSize: `32px 32px`,
-    backgroundColor: `#47d3ff`,
+    backgroundColor: `#47d3ff`
   },
   {
     backgroundImage: `repeating-conic-gradient(from 30deg, #474bff 0% 60deg, #47d3ff 0% 120deg)`,
     backgroundSize: `32px 55px`,
-    backgroundColor: `#47d3ff`,
+    backgroundColor: `#47d3ff`
   },
   {
     background: `conic-gradient(from 116.56deg at calc(100%/3) 0, #0000 90deg,#47d3ff 0),
     conic-gradient(from -63.44deg at calc(200%/3) 100%, #0000 90deg,#47d3ff 0)
 #474bff`,
-    backgroundSize: `32px 32px`,
+    backgroundSize: `32px 32px`
   },
   {
     background: `linear-gradient(135deg, #474bff 25%, transparent 25%) -32px 0, linear-gradient(225deg, #474bff 25%, transparent 25%) -32px 0, linear-gradient(315deg, #474bff 25%, transparent 25%), linear-gradient(45deg, #474bff 25%, transparent 25%)`,
     backgroundSize: `64px 64px`,
-    backgroundColor: `#47d3ff`,
-  },
+    backgroundColor: `#47d3ff`
+  }
 ];
 
 const CARDS = [1, 2, 3, 5, 8, 13, 21, '☕'] as const;
@@ -63,13 +63,17 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
     chrome.runtime.sendMessage({
       init: true,
       ticket: getTicketNo(),
-      currentUser,
+      currentUser
     });
 
     // Handles all background script messages
     const handleBgEvents = (
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
       request: any,
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-expect-error
       sender: chrome.runtime.MessageSender,
+      /* eslint-disable-next-line @typescript-eslint/no-explicit-any */
       sendResponse: (response?: any) => void
     ) => {
       // on tabupdate message from bg script, new ticket number is sent back to reconnect with updated ticket number
@@ -106,10 +110,11 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
     const pingSW = () => {
       try {
         chrome.runtime.sendMessage({
-          ping: true,
+          ping: true
         });
-      } catch (ex) {
+      } catch (e) {
         /** Error */
+        console.error(e);
       }
     };
 
@@ -131,9 +136,9 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
         type: 'set-score',
         payload: {
           ...currentUser,
-          score: null,
-        },
-      },
+          score: null
+        }
+      }
     });
     setShowCards(true);
   };
@@ -145,9 +150,9 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
         type: 'set-score',
         payload: {
           ...currentUser,
-          score: card,
-        },
-      },
+          score: card
+        }
+      }
     });
     setShowCards(false);
   };
@@ -156,8 +161,8 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
     chrome.runtime.sendMessage({
       wsm: true,
       payload: {
-        type: 'reveal-cards',
-      },
+        type: 'reveal-cards'
+      }
     });
     setCardsRevealed(true);
   };
@@ -185,7 +190,7 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
               className={classnames(classes.player, {
                 [classes.playerReady]: score,
                 [classes.myCard]: currentUser.name === name,
-                [classes.cardFlipped]: cardsRevealed,
+                [classes.cardFlipped]: cardsRevealed
               })}
               disabled={
                 !canChooseCards || cardsRevealed || currentUser.name !== name
@@ -239,7 +244,7 @@ const PlanningPoker: FC<PlanningPokerProps> = (props) => {
                 </button>
                 <ul
                   className={classnames(classes.cards, {
-                    [classes.cardsShow]: showCards,
+                    [classes.cardsShow]: showCards
                   })}
                 >
                   {CARDS.map((card, index) => (

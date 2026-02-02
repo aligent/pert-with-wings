@@ -8,6 +8,6 @@ export const saveConfig = async (data: Partial<IPertData>) => {
 
   await set(PERT_STORAGE_KEY, {
     ...savedConfig,
-    ...data,
+    ...data
   });
 };

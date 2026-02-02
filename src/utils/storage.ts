@@ -5,7 +5,7 @@
  */
 export const get = async <T>(key: string): Promise<T> => {
   const dataResult = await chrome.storage.local.get([key]);
-  return dataResult[key];
+  return dataResult[key] as T;
 };
 
 /**
@@ -25,6 +25,6 @@ export const getAll = async () => {
  */
 export const set = <T>(key: string, value: T) => {
   chrome.storage.local.set({
-    [key]: value,
+    [key]: value
   });
 };

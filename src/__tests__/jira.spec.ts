@@ -12,7 +12,7 @@ describe('test PERT with wings extension in JIRA', async () => {
 
   beforeAll(async () => {
     const context = await setup({
-      appUrl: 'https://pert-with-wings.atlassian.net/browse/PWW-1',
+      appUrl: 'https://pert-with-wings.atlassian.net/browse/PWW-1'
     });
 
     browser = context.browser;
@@ -22,23 +22,23 @@ describe('test PERT with wings extension in JIRA', async () => {
 
     await page.waitForSelector('#username', {
       visible: true,
-      timeout,
+      timeout
     });
     await page.type('#username', JIRA_USER);
     await page.waitForSelector('#login-submit', {
       visible: true,
-      timeout,
+      timeout
     });
     await page.click('#login-submit');
     await page.waitForSelector('#password', {
       visible: true,
-      timeout,
+      timeout
     });
 
     await page.type('#password', JIRA_PASSWORD);
     await page.waitForSelector('#login-submit', {
       visible: true,
-      timeout,
+      timeout
     });
     await page.click('#login-submit');
   }, timeout);
@@ -47,7 +47,7 @@ describe('test PERT with wings extension in JIRA', async () => {
     await page.waitForFunction("window.location.pathname == '/browse/PWW-1'");
     const btn = await page.waitForSelector("[id^='pert-button-']", {
       visible: true,
-      timeout,
+      timeout
     });
     // const btn = await btn?.evaluate((e) => (e as HTMLElement).innerText);
     //expect(btnText).toEqual('PERT');
@@ -59,12 +59,12 @@ describe('test PERT with wings extension in JIRA', async () => {
     await delay(1000);
     const pertButton = await page.waitForSelector('#pert-button-jira', {
       visible: true,
-      timeout,
+      timeout
     });
     await pertButton?.click();
     const addPertBtn = await page.waitForSelector('#add-pert-estimate', {
       visible: true,
-      timeout,
+      timeout
     });
     const addPertBtnTxt = await addPertBtn?.evaluate(
       (e) => (e as HTMLElement).innerText
@@ -76,41 +76,41 @@ describe('test PERT with wings extension in JIRA', async () => {
     // fill the PERT form
     await page.waitForSelector("[id^='task-']", {
       visible: true,
-      timeout,
+      timeout
     });
     await page.type("[id^='task-']", 'My task');
     await page.waitForSelector("[id^='optimistic-']", {
       visible: true,
-      timeout,
+      timeout
     });
     await page.type("[id^='optimistic-']", '1');
     await page.waitForSelector("[id^='likely-']", {
       visible: true,
-      timeout,
+      timeout
     });
     await page.type("[id^='likely-']", '2');
     await page.waitForSelector("[id^='pessimistic-']", {
       visible: true,
-      timeout,
+      timeout
     });
     await page.type("[id^='pessimistic-']", '6');
     await page.waitForSelector('#scoping', {
       visible: true,
-      timeout,
+      timeout
     });
     await page.type('#scoping', '1');
 
     // Click submit button
     await page.waitForSelector('#add-pert-estimate', {
       visible: true,
-      timeout,
+      timeout
     });
     await page.click('#add-pert-estimate');
 
     // get content in comment
     const pertComment = await page.waitForSelector('[contenteditable="true"]', {
       visible: true,
-      timeout,
+      timeout
     });
     const pertCommentText = await pertComment?.evaluate(
       (e) => (e as HTMLElement).innerText

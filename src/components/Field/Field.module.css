@@ -10,7 +10,8 @@
   grid-template-columns: 3fr 1fr 3rem;
   gap: 1rem;
   align-items: center;
-  accent-color: var(--button-bg);
+  /*noinspection CssUnresolvedCustomProperty*/
+  accent-color: var(--button-bg); /* JIRA CSS variable */
 }
 
 .label {
@@ -109,7 +110,8 @@
 }
 
 .field:has([type='checkbox']:focus) i {
-  box-shadow: 0 0 0 2px var(--ds-border-focused, #4c9aff);
+  /*noinspection CssUnresolvedCustomProperty*/
+  box-shadow: 0 0 0 2px var(--ds-border-focused, #4c9aff); /* JIRA CSS variable */
 }
 
 .rangeOutput {

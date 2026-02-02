@@ -11,6 +11,6 @@ export const getUserData = () => {
         document.querySelector(
           '[data-test-id="ak-spotlight-target-profile-spotlight"] img'
         ) as HTMLImageElement
-      )?.src || '',
+      )?.src || ''
   };
 };

@@ -7,7 +7,7 @@ import { useTimeString } from '@/hooks';
 import { getMinutes } from '@/utils';
 
 interface Props {
-  forwardRef: RefObject<HTMLDivElement>;
+  forwardRef: RefObject<HTMLDivElement | null>;
 }
 
 const PertTable: FC<Props> = ({ forwardRef }) => {
@@ -22,11 +22,11 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
     automatedTests,
     automated_tests_percent,
     risk,
-    round_to_next_minutes,
+    round_to_next_minutes
   } = pertData;
 
   const { timeString } = useTimeString({
-    round_to_next_minutes,
+    round_to_next_minutes
   });
 
   const pertMinutes = useMemo(
@@ -46,12 +46,12 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
               prevSum.optimisticMinutes + getMinutes(current.optimistic),
             likelyMinutes: prevSum.likelyMinutes + getMinutes(current.likely),
             pessimisticMinutes:
-              prevSum.pessimisticMinutes + getMinutes(current.pessimistic),
+              prevSum.pessimisticMinutes + getMinutes(current.pessimistic)
           }),
           {
             optimisticMinutes: 0,
             likelyMinutes: 0,
-            pessimisticMinutes: 0,
+            pessimisticMinutes: 0
           }
         ),
     [pertRows]
@@ -70,7 +70,7 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
         (getMinutes(optimistic) +
           getMinutes(likely) * 4 +
           getMinutes(pessimistic)) /
-        6,
+        6
     };
   }, [pertRows]);
 
@@ -83,8 +83,8 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
       qAExactMinutes !== null || qa_testing_percent === 0
         ? 0
         : Math.floor((segment * qa_testing_percent) / 100) > qa_testing_min
-        ? Math.floor((segment * qa_testing_percent) / 100)
-        : qa_testing_min;
+          ? Math.floor((segment * qa_testing_percent) / 100)
+          : qa_testing_min;
     const automatedTestsPercentMinutes = Math.floor(
       (segment * (automatedTests ? automated_tests_percent : 0)) / 100
     );
@@ -252,7 +252,7 @@ const PertTable: FC<Props> = ({ forwardRef }) => {
                   pertMinutes={{
                     optimisticMinutes: qAExactMinutes.optimistic,
                     likelyMinutes: qAExactMinutes.likely,
-                    pessimisticMinutes: qAExactMinutes.pessimistic,
+                    pessimisticMinutes: qAExactMinutes.pessimistic
                   }}
                 />
               )}

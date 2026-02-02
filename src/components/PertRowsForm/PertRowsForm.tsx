@@ -9,7 +9,7 @@ import {
   VALIDATE_HOUR_MINUTES,
   getMinutes,
   getSums,
-  getTimeString,
+  getTimeString
 } from '@/utils';
 
 import classes from './PertRowsForm.module.css';
@@ -25,7 +25,7 @@ const PertRowsForm: FC = () => {
     updatePertRow,
     addPertRow,
     removePertRow,
-    updatePertMessage,
+    updatePertMessage
   } = useContext(PertContext) as PertContextType;
 
   const { likely } = useMemo(() => getSums(pertData), [pertData]);
@@ -43,7 +43,7 @@ const PertRowsForm: FC = () => {
     return {
       optimisticMinutes: getMinutes(rowData.optimistic),
       likelyMinutes: getMinutes(rowData.likely),
-      pessimisticMinutes: getMinutes(rowData.pessimistic),
+      pessimisticMinutes: getMinutes(rowData.pessimistic)
     };
   };
 
@@ -83,7 +83,7 @@ const PertRowsForm: FC = () => {
     const fieldsToValidate = [
       optimisticMinutes,
       likelyMinutes,
-      pessimisticMinutes,
+      pessimisticMinutes
     ];
 
     if (!fieldsToValidate.every((field) => !isNaN(field) && field > 0)) {
